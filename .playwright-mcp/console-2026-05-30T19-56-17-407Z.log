@@ -1,0 +1,8 @@
+[     472ms] [ERROR] Base UI: A component that acts as a button expected a native <button> because the `nativeButton` prop is true. Rendering a non-<button> removes native button semantics, which can impact forms and accessibility. Use a real <button> in the `render` prop, or set `nativeButton` to `false`.
+    at Button (http://localhost:3100/_next/static/chunks/src_0zijxyh._.js:431:214)
+    at http://localhost:3100/_next/static/chunks/_0kkf1bb._.js:751:243
+    at Array.map (<anonymous>)
+    at http://localhost:3100/_next/static/chunks/_0kkf1bb._.js:651:46
+    at Array.map (<anonymous>)
+    at DecksList (http://localhost:3100/_next/static/chunks/_0kkf1bb._.js:621:11)
+    at DecksPage (about://React/Server/D:%5C02_PROJECT%5C11_english%5C.next%5Cdev%5Cserver%5Cchunks%5Cssr%5C%5Broot-of-the-server%5D__0u01vvl._.js?9:78:263) @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_115brz8._.js:3318

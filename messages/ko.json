@@ -1,0 +1,96 @@
+{
+  "app": {
+    "name": "Vibe English",
+    "tagline": "매일 10분, 잊을 만할 때 다시 만나는 생활 영어"
+  },
+  "nav": {
+    "home": "홈",
+    "study": "학습",
+    "decks": "주제",
+    "conversation": "AI 회화",
+    "progress": "진도",
+    "settings": "설정",
+    "signIn": "로그인",
+    "signUp": "회원가입",
+    "signOut": "로그아웃"
+  },
+  "landing": {
+    "hero": {
+      "title": "기억력 곡선에 맞춰 잊을 만할 때 다시 만나는 생활 영어",
+      "subtitle": "초보부터 전문가까지, FSRS 알고리즘이 당신의 복습 타이밍을 자동으로 계산합니다.",
+      "ctaPrimary": "지금 시작하기",
+      "ctaSecondary": "어떻게 작동하나요?"
+    },
+    "features": {
+      "srs": {
+        "title": "SRS 간격 반복 학습",
+        "desc": "에빙하우스 망각곡선 기반 FSRS 알고리즘으로 효율 극대화"
+      },
+      "pronunciation": {
+        "title": "발음기호 + 한국어 발음",
+        "desc": "모든 표현에 IPA와 한국어 발음 병기. 부담 없이 익힙니다"
+      },
+      "levels": {
+        "title": "단계별 커리큘럼",
+        "desc": "A1 입문부터 C2 전문가까지 6단계로 차근차근"
+      },
+      "ai": {
+        "title": "AI 회화 시뮬레이션",
+        "desc": "배운 표현을 실전 상황에서 바로 써보는 롤플레잉"
+      }
+    },
+    "howItWorks": {
+      "title": "이렇게 학습합니다",
+      "step1": "오늘 복습할 카드를 받습니다",
+      "step2": "표현 + 발음 + 예문을 학습합니다",
+      "step3": "체감 난이도를 평가하면 다음 복습일이 자동 계산됩니다",
+      "step4": "단계 마스터 시 다음 레벨이 열립니다"
+    }
+  },
+  "common": {
+    "loading": "불러오는 중...",
+    "error": "오류가 발생했습니다",
+    "retry": "다시 시도",
+    "save": "저장",
+    "cancel": "취소",
+    "confirm": "확인"
+  },
+  "decks": {
+    "progressLabel": "{learned}/{total} 학습",
+    "dueLabel": "복습 {n}장",
+    "study": "학습하기",
+    "startAll": "전체 학습 시작",
+    "notStarted": "시작 전",
+    "completed": "한 바퀴 완료"
+  },
+  "study": {
+    "rate": {
+      "again": "다시",
+      "hard": "어려움",
+      "good": "보통",
+      "easy": "쉬움"
+    },
+    "today": "오늘의 학습",
+    "new": "신규",
+    "review": "복습",
+    "tapToFlip": "탭하면 뜻이 보여요",
+    "showAnswer": "정답 보기",
+    "example": "예문",
+    "listen": "듣기",
+    "slow": "느리게",
+    "ttsUnsupported": "이 브라우저는 음성 재생을 지원하지 않아요.",
+    "loading": "학습 카드를 준비하고 있어요...",
+    "emptyTitle": "지금은 학습할 카드가 없어요",
+    "emptyDesc": "복습 시점이 된 카드가 없어요. 잠시 후 다시 오거나 새 주제를 시작해보세요.",
+    "goDecks": "주제 둘러보기",
+    "doneTitle": "오늘 학습 완료 🎉",
+    "doneDesc": "{count}장을 학습했어요. 꾸준함이 실력이 됩니다!",
+    "backHome": "홈으로",
+    "progress": "{current} / {total}",
+    "interval": {
+      "min": "{n}분",
+      "hour": "{n}시간",
+      "day": "{n}일"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd \"D:/02_PROJECT/11_english\" && rm src/app/page.tsx src/app/layout.tsx && mkdir -p \"src/app/[locale]\")",
+      "PowerShell(\"Cleared .next cache\")",
+      "Bash(PORT=3100 npm run dev)",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_evaluate",
+      "mcp__playwright__browser_click",
+      "mcp__playwright__browser_console_messages",
+      "Bash(mv src/app/sw.ts src/app/sw.ts.phase6)",
+      "Bash(ls src/app/*.ts*)"
+    ]
+  }
+}

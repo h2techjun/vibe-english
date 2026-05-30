@@ -1,0 +1,96 @@
+{
+  "app": {
+    "name": "Vibe English",
+    "tagline": "10 minutes a day, meet expressions right before you forget"
+  },
+  "nav": {
+    "home": "Home",
+    "study": "Study",
+    "decks": "Decks",
+    "conversation": "AI Chat",
+    "progress": "Progress",
+    "settings": "Settings",
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "signOut": "Sign out"
+  },
+  "landing": {
+    "hero": {
+      "title": "Everyday English, timed to your memory curve",
+      "subtitle": "From beginner to expert. FSRS algorithm schedules your reviews automatically.",
+      "ctaPrimary": "Get started",
+      "ctaSecondary": "How it works"
+    },
+    "features": {
+      "srs": {
+        "title": "Spaced repetition (SRS)",
+        "desc": "Powered by FSRS — the modern successor to Anki's algorithm"
+      },
+      "pronunciation": {
+        "title": "IPA + phonetic guide",
+        "desc": "Every card shows IPA and a Korean phonetic hint for effortless learning"
+      },
+      "levels": {
+        "title": "Level-by-level curriculum",
+        "desc": "From A1 beginner to C2 expert across six CEFR-aligned levels"
+      },
+      "ai": {
+        "title": "AI conversation practice",
+        "desc": "Roleplay real situations using the expressions you've just learned"
+      }
+    },
+    "howItWorks": {
+      "title": "How it works",
+      "step1": "Receive today's review queue",
+      "step2": "Study the expression with pronunciation and examples",
+      "step3": "Rate your recall — next review is scheduled automatically",
+      "step4": "Master a level to unlock the next one"
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Retry",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
+  },
+  "decks": {
+    "progressLabel": "{learned}/{total} learned",
+    "dueLabel": "{n} due",
+    "study": "Study",
+    "startAll": "Start studying all",
+    "notStarted": "Not started",
+    "completed": "Completed once"
+  },
+  "study": {
+    "rate": {
+      "again": "Again",
+      "hard": "Hard",
+      "good": "Good",
+      "easy": "Easy"
+    },
+    "today": "Today's Study",
+    "new": "New",
+    "review": "Review",
+    "tapToFlip": "Tap to see the meaning",
+    "showAnswer": "Show answer",
+    "example": "Example",
+    "listen": "Listen",
+    "slow": "Slow",
+    "ttsUnsupported": "This browser doesn't support speech playback.",
+    "loading": "Preparing your cards...",
+    "emptyTitle": "No cards to study right now",
+    "emptyDesc": "Nothing is due for review. Come back soon or start a new topic.",
+    "goDecks": "Browse topics",
+    "doneTitle": "All done for today 🎉",
+    "doneDesc": "You studied {count} cards. Consistency builds fluency!",
+    "backHome": "Home",
+    "progress": "{current} / {total}",
+    "interval": {
+      "min": "{n}m",
+      "hour": "{n}h",
+      "day": "{n}d"
+    }
+  }
+}
