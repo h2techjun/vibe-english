@@ -54,3 +54,6 @@ releases/
 !.vscode/settings.json
 !.vscode/extensions.json
 
+
+# Playwright MCP 검증 아티팩트
+.playwright-mcp/
