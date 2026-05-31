@@ -1,11 +1,10 @@
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
+import { withSerwist } from "@serwist/turbopack";
 
-// PWA 서비스 워커(오프라인 캐싱 + 푸시 알림)는 Phase 6 에서 활성화한다.
-// Next.js 16 + Turbopack 은 현재 @serwist/next(webpack 기반)와 호환되지 않아
-// (serwist GitHub #54), Phase 6 에서 @serwist/turbopack 으로 전환 예정.
-// 지금은 manifest.json 기반 "설치형 PWA"(홈 화면 추가)만 제공한다.
-// 서비스 워커 소스는 src/app/sw.ts 에 보존되어 있다.
+// PWA 서비스 워커: @serwist/turbopack (Next.js 16 Turbopack 호환).
+// /serwist/sw.js 로 서비스 워커를 서빙 (app/serwist/[path]/route.ts).
+// 서비스 워커 소스: src/app/sw.ts
 
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
@@ -13,4 +12,4 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
 };
 
-export default withNextIntl(nextConfig);
+export default withSerwist(withNextIntl(nextConfig));

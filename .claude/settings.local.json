@@ -10,7 +10,8 @@
       "mcp__playwright__browser_click",
       "mcp__playwright__browser_console_messages",
       "Bash(mv src/app/sw.ts src/app/sw.ts.phase6)",
-      "Bash(ls src/app/*.ts*)"
+      "Bash(ls src/app/*.ts*)",
+      "Bash(printf '/__TRACKED_VAR__: ')"
     ]
   }
 }

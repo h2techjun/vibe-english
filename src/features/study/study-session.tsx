@@ -11,9 +11,14 @@ import { Progress } from "@/components/ui/progress";
 import { Loader2, PartyPopper, Coffee } from "lucide-react";
 import { buildStudyQueue, getProgressMap, applyGrade } from "@/features/srs/repository";
 import { previewIntervalsMin, REVIEW_GRADES } from "@/features/srs/scheduler";
+import { db } from "@/lib/db";
 import { Flashcard } from "./flashcard";
+import { ClozeCard } from "./cloze-card";
+import { buildWordPool } from "./cloze";
+import { cn } from "@/lib/utils";
 
 type Status = "loading" | "studying" | "empty" | "done";
+type StudyMode = "flashcard" | "cloze";
 
 const GRADE_STYLES: Record<ReviewGrade, string> = {
   [Rating.Again]: "bg-rose-600 hover:bg-rose-600/90 text-white",
@@ -40,24 +45,56 @@ export function StudySession({ deckId }: { deckId?: string }) {
   const [revealed, setRevealed] = useState(false);
   const [studied, setStudied] = useState(0);
   const [busy, setBusy] = useState(false);
+  const [mode, setMode] = useState<StudyMode>("flashcard");
+  const [wordPool, setWordPool] = useState<string[]>([]);
 
   useEffect(() => {
     let mounted = true;
     (async () => {
       const now = new Date();
-      const [q, pm] = await Promise.all([
+      const [q, pm, allCards] = await Promise.all([
         buildStudyQueue(now, deckId),
         getProgressMap(),
+        db.cards.toArray(),
       ]);
       if (!mounted) return;
       setQueue(q.cards);
       setProgressMap(pm);
+      setWordPool(buildWordPool(allCards));
       setStatus(q.cards.length === 0 ? "empty" : "studying");
     })();
     return () => {
       mounted = false;
     };
   }, [deckId]);
+
+  function switchMode(next: StudyMode) {
+    if (next === mode) return;
+    setRevealed(false);
+    setMode(next);
+  }
+
+  function advance() {
+    const next = index + 1;
+    setStudied((s) => s + 1);
+    if (next >= queue.length) {
+      setStatus("done");
+    } else {
+      setRevealed(false);
+      setIndex(next);
+    }
+  }
+
+  async function handleClozeAnswer(correct: boolean) {
+    if (!current || busy) return;
+    setBusy(true);
+    try {
+      await applyGrade(current.id, correct ? Rating.Good : Rating.Again);
+      advance();
+    } finally {
+      setBusy(false);
+    }
+  }
 
   const current = queue[index];
   const isNew = current ? !progressMap.has(current.id) : false;
@@ -80,14 +117,7 @@ export function StudySession({ deckId }: { deckId?: string }) {
     setBusy(true);
     try {
       await applyGrade(current.id, grade);
-      const next = index + 1;
-      setStudied((s) => s + 1);
-      if (next >= queue.length) {
-        setStatus("done");
-      } else {
-        setRevealed(false);
-        setIndex(next);
-      }
+      advance();
     } finally {
       setBusy(false);
     }
@@ -133,6 +163,24 @@ export function StudySession({ deckId }: { deckId?: string }) {
   // studying
   return (
     <div className="flex flex-1 flex-col">
+      {/* 모드 토글 */}
+      <div className="mb-3 flex gap-1 rounded-lg bg-muted p-1 text-sm">
+        {(["flashcard", "cloze"] as const).map((m) => (
+          <button
+            key={m}
+            onClick={() => switchMode(m)}
+            className={cn(
+              "flex-1 rounded-md py-1.5 font-medium transition-colors",
+              mode === m
+                ? "bg-background text-foreground shadow-sm"
+                : "text-muted-foreground hover:text-foreground",
+            )}
+          >
+            {m === "flashcard" ? t("modeFlashcard") : t("modeCloze")}
+          </button>
+        ))}
+      </div>
+
       <div className="mb-3 flex items-center gap-3">
         <Progress
           value={((index + (revealed ? 0.5 : 0)) / queue.length) * 100}
@@ -143,7 +191,7 @@ export function StudySession({ deckId }: { deckId?: string }) {
         </span>
       </div>
 
-      {current && (
+      {current && mode === "flashcard" && (
         <Flashcard
           card={current}
           revealed={revealed}
@@ -152,8 +200,18 @@ export function StudySession({ deckId }: { deckId?: string }) {
         />
       )}
 
-      {/* 평가 버튼 (공개 후 활성) */}
-      {revealed && preview && (
+      {current && mode === "cloze" && (
+        <ClozeCard
+          key={current.id}
+          card={current}
+          isNew={isNew}
+          wordPool={wordPool}
+          onAnswer={handleClozeAnswer}
+        />
+      )}
+
+      {/* 플래시카드 평가 버튼 (공개 후 활성) */}
+      {mode === "flashcard" && revealed && preview && (
         <div className="mt-4 grid grid-cols-4 gap-2">
           {REVIEW_GRADES.map((g) => (
             <button

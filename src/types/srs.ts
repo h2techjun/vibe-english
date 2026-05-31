@@ -55,7 +55,10 @@ export interface AppSettings {
   ttsRate: number;
   /** 선택된 TTS 보이스 이름 (선택) */
   ttsVoice?: string;
-  /** 현재 학습 중인 최고 레벨 잠금 해제 상태는 진도에서 계산 */
+  /** 복습 알림 사용 여부 */
+  notificationsEnabled?: boolean;
+  /** 마지막으로 알림을 보낸 날짜 키 (하루 1회 제한용) */
+  lastNotifiedDay?: string;
 }
 
 export const DEFAULT_SETTINGS: AppSettings = {
@@ -64,6 +67,7 @@ export const DEFAULT_SETTINGS: AppSettings = {
   dailyReviewLimit: 0,
   seedVersion: 0,
   ttsRate: 0.95,
+  notificationsEnabled: false,
 };
 
 /** ts-fsrs Card → 저장용 CardProgress 변환 */

@@ -1,4 +1,5 @@
 import { setRequestLocale } from "next-intl/server";
+import { SettingsView } from "@/features/settings/settings-view";
 
 export default async function SettingsPage({
   params,
@@ -8,9 +9,5 @@ export default async function SettingsPage({
   const { locale } = await params;
   setRequestLocale(locale);
 
-  return (
-    <div className="flex flex-col gap-4">
-      <p className="text-sm text-muted-foreground">설정 (추후 구현)</p>
-    </div>
-  );
+  return <SettingsView />;
 }

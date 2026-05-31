@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { SerwistProvider } from "@serwist/turbopack/react";
 import { routing } from "@/i18n/routing";
 import { Toaster } from "@/components/ui/sonner";
 import "../globals.css";
@@ -76,10 +77,12 @@ export default async function LocaleLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        <NextIntlClientProvider>
-          {children}
-          <Toaster richColors position="top-center" />
-        </NextIntlClientProvider>
+        <SerwistProvider swUrl="/serwist/sw.js">
+          <NextIntlClientProvider>
+            {children}
+            <Toaster richColors position="top-center" />
+          </NextIntlClientProvider>
+        </SerwistProvider>
       </body>
     </html>
   );
