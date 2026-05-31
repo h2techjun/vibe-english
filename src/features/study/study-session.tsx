@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import type { VocabCard } from "@/types/card";
 import type { CardProgress, ReviewGrade } from "@/types/srs";
@@ -34,8 +35,10 @@ const GRADE_KEY: Record<ReviewGrade, "again" | "hard" | "good" | "easy"> = {
   [Rating.Easy]: "easy",
 };
 
-export function StudySession({ deckId }: { deckId?: string }) {
+export function StudySession() {
   const t = useTranslations("study");
+  const searchParams = useSearchParams();
+  const deckId = searchParams.get("deck") ?? undefined;
   const [status, setStatus] = useState<Status>("loading");
   const [queue, setQueue] = useState<VocabCard[]>([]);
   const [progressMap, setProgressMap] = useState<Map<string, CardProgress>>(
@@ -139,7 +142,7 @@ export function StudySession({ deckId }: { deckId?: string }) {
         title={t("emptyTitle")}
         desc={t("emptyDesc")}
       >
-        <Button nativeButton={false} render={<Link href="/decks" />}>
+        <Button nativeButton={false} render={<Link href="/decks" prefetch={false} />}>
           {t("goDecks")}
         </Button>
       </CenteredCard>
@@ -153,7 +156,7 @@ export function StudySession({ deckId }: { deckId?: string }) {
         title={t("doneTitle")}
         desc={t("doneDesc", { count: studied })}
       >
-        <Button nativeButton={false} render={<Link href="/" />}>
+        <Button nativeButton={false} render={<Link href="/" prefetch={false} />}>
           {t("backHome")}
         </Button>
       </CenteredCard>

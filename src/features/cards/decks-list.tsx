@@ -112,7 +112,7 @@ export function DecksList() {
                       size="sm"
                       className="shrink-0"
                       nativeButton={false}
-                      render={<Link href={`/study?deck=${deck.id}`} />}
+                      render={<Link href={`/study?deck=${deck.id}`} prefetch={false} />}
                     >
                       {t("study")}
                     </Button>

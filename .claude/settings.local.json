@@ -11,7 +11,9 @@
       "mcp__playwright__browser_console_messages",
       "Bash(mv src/app/sw.ts src/app/sw.ts.phase6)",
       "Bash(ls src/app/*.ts*)",
-      "Bash(printf '/__TRACKED_VAR__: ')"
+      "Bash(printf '/__TRACKED_VAR__: ')",
+      "Bash(NEXT_PUBLIC_BASE_PATH=/english npm run build)",
+      "PowerShell(cd \"D:\\\\02_PROJECT\\\\11_english\"; $env:NEXT_PUBLIC_BASE_PATH=\"/english\"; npm run build 2>&1 | Select-String -Pattern \"Compiled|Finished TypeScript|error|Error|Generating static\" | Select-Object -First 8; \"=== out 구조 ===\"; Get-ChildItem out\\\\ko\\\\study\\\\ -Name | Select-Object -First 5)"
     ]
   }
 }

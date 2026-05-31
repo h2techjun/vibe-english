@@ -35,8 +35,8 @@
         "desc": "From A1 beginner to C2 expert across six CEFR-aligned levels"
       },
       "ai": {
-        "title": "AI conversation practice",
-        "desc": "Roleplay real situations using the expressions you've just learned"
+        "title": "Fill-in-the-blank quiz",
+        "desc": "Pick the missing word from choices to learn actively"
       }
     },
     "howItWorks": {
@@ -44,7 +44,7 @@
       "step1": "Receive today's review queue",
       "step2": "Study the expression with pronunciation and examples",
       "step3": "Rate your recall — next review is scheduled automatically",
-      "step4": "Master a level to unlock the next one"
+      "step4": "Track progress by level and move to the next stage"
     }
   },
   "common": {

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { LanguageToggle } from "@/components/language-toggle";
-import { Brain, Mic2, GraduationCap, Sparkles, ArrowRight } from "lucide-react";
+import { Brain, Mic2, GraduationCap, PencilLine, ArrowRight } from "lucide-react";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -21,7 +21,7 @@ export default async function LandingPage({ params }: Props) {
     { icon: Brain, key: "srs" as const },
     { icon: Mic2, key: "pronunciation" as const },
     { icon: GraduationCap, key: "levels" as const },
-    { icon: Sparkles, key: "ai" as const },
+    { icon: PencilLine, key: "ai" as const },
   ];
 
   const steps = ["step1", "step2", "step3", "step4"] as const;
@@ -30,7 +30,7 @@ export default async function LandingPage({ params }: Props) {
     <div className="flex flex-col flex-1">
       <header className="sticky top-0 z-10 border-b border-border/40 bg-background/80 backdrop-blur">
         <div className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between px-4">
-          <Link href="/" className="flex items-center gap-2 font-semibold">
+          <Link href="/" prefetch={false} className="flex items-center gap-2 font-semibold">
             <span className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-slate-900 to-blue-900 text-sm font-bold text-white">
               VE
             </span>
@@ -62,7 +62,7 @@ export default async function LandingPage({ params }: Props) {
                 size="lg"
                 className="gap-2"
                 nativeButton={false}
-                render={<Link href="/study" />}
+                render={<Link href="/study" prefetch={false} />}
               >
                 {t("hero.ctaPrimary")} <ArrowRight className="h-4 w-4" />
               </Button>
@@ -70,7 +70,7 @@ export default async function LandingPage({ params }: Props) {
                 size="lg"
                 variant="outline"
                 nativeButton={false}
-                render={<Link href="/decks" />}
+                render={<Link href="/decks" prefetch={false} />}
               >
                 {t("hero.ctaSecondary")}
               </Button>
