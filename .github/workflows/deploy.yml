@@ -23,7 +23,8 @@ jobs:
         with:
           node-version: 20
           cache: npm
-      - run: npm ci
+      # npm ci 대신 install: 로컬/CI npm 버전 차이로 인한 lock 불일치 허용
+      - run: npm install
       - run: npm run build
         env:
           # 프로젝트 사이트: https://h2techjun.github.io/vibe-english/
