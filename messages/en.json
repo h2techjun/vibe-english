@@ -47,6 +47,19 @@
       "step4": "Track progress by level and move to the next stage"
     }
   },
+  "onboarding": {
+    "title": "What's your level?",
+    "subtitle": "You'll learn conversation phrases from this level. Change it anytime in settings.",
+    "unsureHint": "Not sure? Start from Beginner (A1).",
+    "levels": {
+      "A1": "Brand new to English — start with greetings & basics",
+      "A2": "I know simple everyday phrases",
+      "B1": "I can hold basic conversations, want them smoother",
+      "B2": "I want to express opinions and feelings in English",
+      "C1": "Fluent in work and professional situations",
+      "C2": "Up to native-level nuance"
+    }
+  },
   "common": {
     "loading": "Loading...",
     "error": "Something went wrong",
@@ -56,6 +69,8 @@
     "confirm": "Confirm"
   },
   "decks": {
+    "conversation": "Phrases",
+    "vocab": "Vocabulary",
     "progressLabel": "{learned}/{total} learned",
     "dueLabel": "{n} due",
     "study": "Study",
@@ -76,6 +91,9 @@
     "empty": "No study history yet. Start from the Study tab!"
   },
   "settings": {
+    "level": "Start level",
+    "startLevel": "My level",
+    "startLevelDesc": "New conversation phrases begin from this level",
     "study": "Study load",
     "dailyNew": "New cards per day",
     "dailyNewDesc": "How many new cards to learn each day",

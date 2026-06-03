@@ -1,11 +1,12 @@
 "use client";
 
 import { useLiveQuery } from "dexie-react-hooks";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { useState } from "react";
 import { db } from "@/lib/db";
 import { DEFAULT_SETTINGS, type AppSettings } from "@/types/srs";
+import { CEFR_LEVELS, CEFR_LABELS } from "@/types/card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
@@ -34,6 +35,8 @@ const SPEEDS = [
 
 export function SettingsView() {
   const t = useTranslations("settings");
+  const locale = useLocale();
+  const lang = locale === "ko" ? "ko" : "en";
   const settings = useLiveQuery(() => db.settings.get("main"));
   const s: AppSettings = settings ?? DEFAULT_SETTINGS;
 
@@ -44,6 +47,34 @@ export function SettingsView() {
 
   return (
     <div className="flex flex-col gap-6">
+      {/* 시작 레벨 */}
+      <Section title={t("level")}>
+        <div className="p-4">
+          <p className="mb-3 text-xs text-muted-foreground">
+            {t("startLevelDesc")}
+          </p>
+          <div className="grid grid-cols-3 gap-2">
+            {CEFR_LEVELS.map((level) => (
+              <button
+                key={level}
+                onClick={() => update({ startLevel: level })}
+                className={cn(
+                  "flex flex-col items-center gap-0.5 rounded-lg border p-2.5 text-center transition-colors",
+                  s.startLevel === level
+                    ? "border-blue-500 bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300"
+                    : "border-border/60 hover:border-blue-300",
+                )}
+              >
+                <span className="text-sm font-bold">{level}</span>
+                <span className="text-[10px] text-muted-foreground">
+                  {CEFR_LABELS[level][lang]}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </Section>
+
       {/* 학습량 */}
       <Section title={t("study")}>
         <Row label={t("dailyNew")} desc={t("dailyNewDesc")}>

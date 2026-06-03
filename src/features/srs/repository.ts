@@ -4,6 +4,7 @@
  */
 import { db } from "@/lib/db";
 import type { VocabCard, CefrLevel } from "@/types/card";
+import { isVocabDeck, isLevelAtLeast } from "@/types/card";
 import type { CardProgress, ReviewGrade } from "@/types/srs";
 import { State } from "@/types/srs";
 import { gradeCard } from "./scheduler";
@@ -24,7 +25,11 @@ export async function getProgressMap(): Promise<Map<string, CardProgress>> {
 /**
  * 오늘 학습할 큐를 만든다.
  * 복습 대상(due <= now) 먼저 → 신규 카드(레벨·덱 순) 한도까지.
- * @param deckId 특정 덱만 학습할 때 (없으면 전체)
+ *
+ * - deckId 없음(학습 탭): **회화 표현만**(단어 제외) + 신규는 startLevel 이상 레벨만.
+ * - deckId 있음(특정 덱): 그 덱만(회화/단어 무관), 신규는 레벨 무관 전부.
+ *
+ * @param deckId 특정 덱만 학습할 때 (없으면 회화 표현 전체)
  */
 export async function buildStudyQueue(
   now: Date = new Date(),
@@ -41,13 +46,24 @@ export async function buildStudyQueue(
   const progressMap = new Map(progressList.map((p) => [p.cardId, p]));
   const deckOrder = new Map(decks.map((d) => [d.id, d.order]));
   const nowMs = now.getTime();
+  const startLevel = settings.startLevel;
 
   const due: { card: VocabCard; due: number }[] = [];
   const fresh: VocabCard[] = [];
   for (const card of allCards) {
+    // 학습 탭(deckId 없음)에서는 단어 덱 제외 → 회화 표현만
+    if (!deckId && isVocabDeck(card.deck)) continue;
+
     const p = progressMap.get(card.id);
-    if (!p) fresh.push(card);
-    else if (p.due <= nowMs) due.push({ card, due: p.due });
+    if (!p) {
+      // 신규: 학습 탭이면 시작 레벨 이상만 도입 (그 아래는 안다고 가정)
+      if (!deckId && startLevel && !isLevelAtLeast(card.level, startLevel)) {
+        continue;
+      }
+      fresh.push(card);
+    } else if (p.due <= nowMs) {
+      due.push({ card, due: p.due });
+    }
   }
 
   // 복습: 마감 임박 순

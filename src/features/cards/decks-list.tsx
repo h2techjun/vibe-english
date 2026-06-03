@@ -1,75 +1,91 @@
 "use client";
 
+import { useState } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { db } from "@/lib/db";
 import { getDeckStats } from "@/features/srs/repository";
-import { CEFR_LABELS, type CefrLevel } from "@/types/card";
+import { CEFR_LABELS, CEFR_LEVELS, isVocabDeck, type CefrLevel } from "@/types/card";
 import type { Locale } from "@/i18n/routing";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  Hand,
-  UserRound,
-  Hash,
-  Clock,
-  UtensilsCrossed,
-  ShoppingBag,
-  MapPin,
-  MessageCircle,
-  Smile,
-  HelpCircle,
-  Layers,
-  type LucideIcon,
-} from "lucide-react";
+import { cn } from "@/lib/utils";
+import * as LucideIcons from "lucide-react";
+import { Layers, BookText, type LucideIcon } from "lucide-react";
 
-const ICONS: Record<string, LucideIcon> = {
-  Hand,
-  UserRound,
-  Hash,
-  Clock,
-  UtensilsCrossed,
-  ShoppingBag,
-  MapPin,
-  MessageCircle,
-  Smile,
-  HelpCircle,
-};
+type DeckView = "conversation" | "vocab";
+
+/** deck.icon 문자열을 lucide 컴포넌트로 (단어 덱은 BookText 통일) */
+function iconFor(deckId: string, iconName?: string): LucideIcon {
+  if (isVocabDeck(deckId)) return BookText;
+  if (iconName) {
+    const found = (LucideIcons as Record<string, unknown>)[iconName];
+    if (found) return found as LucideIcon;
+  }
+  return Layers;
+}
 
 export function DecksList() {
   const t = useTranslations("decks");
   const locale = useLocale() as Locale;
+  const lang = locale === "ko" ? "ko" : "en";
+  const [view, setView] = useState<DeckView>("conversation");
 
   const decks = useLiveQuery(() => db.decks.orderBy("order").toArray());
   const stats = useLiveQuery(() => getDeckStats());
 
   if (!decks) return null;
 
-  // 레벨별 그룹핑 (레벨 순서 유지)
+  // 회화/단어 필터
+  const visible = decks.filter((d) =>
+    view === "vocab" ? isVocabDeck(d.id) : !isVocabDeck(d.id),
+  );
+
+  // 레벨별 그룹핑
   const byLevel = new Map<CefrLevel, typeof decks>();
-  for (const d of decks) {
+  for (const d of visible) {
     const arr = byLevel.get(d.level) ?? [];
     arr.push(d);
     byLevel.set(d.level, arr);
   }
 
   return (
-    <div className="flex flex-col gap-6">
-      {[...byLevel.entries()].map(([level, levelDecks]) => (
+    <div className="flex flex-col gap-5">
+      {/* 회화/단어 토글 */}
+      <div className="flex gap-1 rounded-lg bg-muted p-1 text-sm">
+        {(["conversation", "vocab"] as const).map((v) => (
+          <button
+            key={v}
+            onClick={() => setView(v)}
+            className={cn(
+              "flex-1 rounded-md py-1.5 font-medium transition-colors",
+              view === v
+                ? "bg-background text-foreground shadow-sm"
+                : "text-muted-foreground hover:text-foreground",
+            )}
+          >
+            {t(v)}
+          </button>
+        ))}
+      </div>
+
+      {CEFR_LEVELS.filter((l) => byLevel.has(l)).map((level) => {
+        const levelDecks = byLevel.get(level)!;
+        return (
         <section key={level} className="flex flex-col gap-3">
           <div className="flex items-baseline gap-2">
             <Badge variant="secondary">{level}</Badge>
             <h2 className="text-sm font-semibold text-muted-foreground">
-              {CEFR_LABELS[level][locale === "ko" ? "ko" : "en"]}
+              {CEFR_LABELS[level][lang]}
             </h2>
           </div>
 
           <div className="grid gap-3">
             {levelDecks.map((deck) => {
-              const Icon = deck.icon ? (ICONS[deck.icon] ?? Layers) : Layers;
+              const Icon = iconFor(deck.id, deck.icon);
               const s = stats?.get(deck.id) ?? { total: 0, learned: 0, due: 0 };
               const pct = s.total > 0 ? (s.learned / s.total) * 100 : 0;
 
@@ -83,7 +99,7 @@ export function DecksList() {
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2">
                         <h3 className="truncate font-semibold">
-                          {deck.title[locale === "ko" ? "ko" : "en"]}
+                          {deck.title[lang]}
                         </h3>
                         {s.due > 0 && (
                           <Badge
@@ -95,7 +111,7 @@ export function DecksList() {
                         )}
                       </div>
                       <p className="truncate text-xs text-muted-foreground">
-                        {deck.description[locale === "ko" ? "ko" : "en"]}
+                        {deck.description[lang]}
                       </p>
                       <div className="mt-2 flex items-center gap-2">
                         <Progress value={pct} className="h-1.5" />
@@ -112,7 +128,9 @@ export function DecksList() {
                       size="sm"
                       className="shrink-0"
                       nativeButton={false}
-                      render={<Link href={`/study?deck=${deck.id}`} prefetch={false} />}
+                      render={
+                        <Link href={`/study?deck=${deck.id}`} prefetch={false} />
+                      }
                     >
                       {t("study")}
                     </Button>
@@ -122,7 +140,8 @@ export function DecksList() {
             })}
           </div>
         </section>
-      ))}
+        );
+      })}
     </div>
   );
 }

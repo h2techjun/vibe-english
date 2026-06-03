@@ -4,6 +4,7 @@
  */
 import type { Card as FsrsCard } from "ts-fsrs";
 import { Rating, State } from "ts-fsrs";
+import type { CefrLevel } from "./card";
 
 export { Rating, State };
 
@@ -59,6 +60,8 @@ export interface AppSettings {
   notificationsEnabled?: boolean;
   /** 마지막으로 알림을 보낸 날짜 키 (하루 1회 제한용) */
   lastNotifiedDay?: string;
+  /** 사용자가 선택한 시작 레벨. 미설정(undefined)이면 온보딩 레벨 선택을 띄운다. */
+  startLevel?: CefrLevel;
 }
 
 export const DEFAULT_SETTINGS: AppSettings = {
