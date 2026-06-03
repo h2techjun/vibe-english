@@ -62,6 +62,8 @@ export interface AppSettings {
   lastNotifiedDay?: string;
   /** 사용자가 선택한 시작 레벨. 미설정(undefined)이면 온보딩 레벨 선택을 띄운다. */
   startLevel?: CefrLevel;
+  /** 한국어 뜻을 항상 표시할지. false(기본)면 가렸다 탭해야 표시(능동 회상). */
+  alwaysShowKorean?: boolean;
 }
 
 export const DEFAULT_SETTINGS: AppSettings = {

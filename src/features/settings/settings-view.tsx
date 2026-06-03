@@ -121,6 +121,16 @@ export function SettingsView() {
         </Row>
       </Section>
 
+      {/* 한국어 뜻 표시 (능동 회상) */}
+      <Section title={t("meanings")}>
+        <Row label={t("alwaysShowLabel")} desc={t("alwaysShowDesc")}>
+          <Switch
+            checked={!!s.alwaysShowKorean}
+            onCheckedChange={(v) => update({ alwaysShowKorean: v })}
+          />
+        </Row>
+      </Section>
+
       {/* 복습 알림 */}
       <Section title={t("notifications")}>
         <Row label={t("notificationsLabel")} desc={t("notificationsDesc")}>

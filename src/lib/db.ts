@@ -7,13 +7,16 @@
 import Dexie, { type EntityTable } from "dexie";
 import type { VocabCard, Deck } from "@/types/card";
 import type { CardProgress, StudyLogEntry, AppSettings } from "@/types/srs";
+import type { Dialogue } from "@/types/dialogue";
 
 export class VibeEnglishDB extends Dexie {
   /** 학습 콘텐츠 (시드, 읽기 전용) */
   cards!: EntityTable<VocabCard, "id">;
   /** 덱(주제) 메타 */
   decks!: EntityTable<Deck, "id">;
-  /** 카드별 FSRS 진도 */
+  /** 대화 응답 카드 (시드, 읽기 전용) */
+  dialogues!: EntityTable<Dialogue, "id">;
+  /** 카드/대화별 FSRS 진도 (progress.cardId 에 dialogue id 도 공유) */
   progress!: EntityTable<CardProgress, "cardId">;
   /** 학습 기록 (통계/스트릭) */
   studyLog!: EntityTable<StudyLogEntry, "id">;
@@ -29,6 +32,10 @@ export class VibeEnglishDB extends Dexie {
       progress: "cardId, due, state",
       studyLog: "++id, cardId, reviewedAt",
       settings: "key",
+    });
+    // v2: 대화 응답 카드 테이블 추가
+    this.version(2).stores({
+      dialogues: "id, level, situation",
     });
   }
 }

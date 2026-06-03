@@ -5,6 +5,7 @@
 import { db } from "@/lib/db";
 import type { VocabCard, CefrLevel } from "@/types/card";
 import { isVocabDeck, isLevelAtLeast } from "@/types/card";
+import type { Dialogue } from "@/types/dialogue";
 import type { CardProgress, ReviewGrade } from "@/types/srs";
 import { State } from "@/types/srs";
 import { gradeCard } from "./scheduler";
@@ -110,6 +111,43 @@ export async function applyGrade(
     });
   });
   return progress;
+}
+
+/**
+ * 대화 학습 큐 — 복습 대상(due) 먼저 → 신규(시작 레벨 이상) 한도까지.
+ * progress 테이블을 카드와 공유한다 (dialogue id 로 저장).
+ */
+export async function buildDialogueQueue(
+  now: Date = new Date(),
+): Promise<Dialogue[]> {
+  const settings = await getSettings();
+  const [all, progressList] = await Promise.all([
+    db.dialogues.toArray(),
+    db.progress.toArray(),
+  ]);
+  const progMap = new Map(progressList.map((p) => [p.cardId, p]));
+  const startLevel = settings.startLevel;
+  const nowMs = now.getTime();
+
+  const due: { d: Dialogue; due: number }[] = [];
+  const fresh: Dialogue[] = [];
+  for (const d of all) {
+    const p = progMap.get(d.id);
+    if (!p) {
+      if (startLevel && !isLevelAtLeast(d.level, startLevel)) continue;
+      fresh.push(d);
+    } else if (p.due <= nowMs) {
+      due.push({ d, due: p.due });
+    }
+  }
+  due.sort((a, b) => a.due - b.due);
+  fresh.sort(
+    (a, b) => a.level.localeCompare(b.level) || a.id.localeCompare(b.id),
+  );
+
+  // 대화는 한 장이 무거우니 신규 한도를 카드의 절반 수준으로
+  const newLimit = Math.max(4, Math.round(settings.dailyNewLimit / 2));
+  return [...due.map((x) => x.d), ...fresh.slice(0, newLimit)];
 }
 
 /** 덱별 진도 통계 */

@@ -15,11 +15,12 @@ import { previewIntervalsMin, REVIEW_GRADES } from "@/features/srs/scheduler";
 import { db } from "@/lib/db";
 import { Flashcard } from "./flashcard";
 import { ClozeCard } from "./cloze-card";
+import { DialogueSession } from "./dialogue-session";
 import { buildWordPool } from "./cloze";
 import { cn } from "@/lib/utils";
 
 type Status = "loading" | "studying" | "empty" | "done";
-type StudyMode = "flashcard" | "cloze";
+type StudyMode = "flashcard" | "cloze" | "dialogue";
 
 const GRADE_STYLES: Record<ReviewGrade, string> = {
   [Rating.Again]: "bg-rose-600 hover:bg-rose-600/90 text-white",
@@ -126,6 +127,40 @@ export function StudySession() {
     }
   }
 
+  // 모드 토글 (플래시카드 / 빈칸 / 대화) — 모든 화면 상단에 공통
+  const modeToggle = (
+    <div className="mb-3 flex gap-1 rounded-lg bg-muted p-1 text-sm">
+      {(["flashcard", "cloze", "dialogue"] as const).map((m) => (
+        <button
+          key={m}
+          onClick={() => switchMode(m)}
+          className={cn(
+            "flex-1 rounded-md py-1.5 font-medium transition-colors",
+            mode === m
+              ? "bg-background text-foreground shadow-sm"
+              : "text-muted-foreground hover:text-foreground",
+          )}
+        >
+          {m === "flashcard"
+            ? t("modeFlashcard")
+            : m === "cloze"
+              ? t("modeCloze")
+              : t("modeDialogue")}
+        </button>
+      ))}
+    </div>
+  );
+
+  // 대화 모드는 별도 큐(dialogues)라 카드 상태(status)와 무관
+  if (mode === "dialogue") {
+    return (
+      <div className="flex flex-1 flex-col">
+        {modeToggle}
+        <DialogueSession />
+      </div>
+    );
+  }
+
   if (status === "loading") {
     return (
       <div className="flex flex-1 flex-col items-center justify-center gap-3 text-muted-foreground">
@@ -166,23 +201,7 @@ export function StudySession() {
   // studying
   return (
     <div className="flex flex-1 flex-col">
-      {/* 모드 토글 */}
-      <div className="mb-3 flex gap-1 rounded-lg bg-muted p-1 text-sm">
-        {(["flashcard", "cloze"] as const).map((m) => (
-          <button
-            key={m}
-            onClick={() => switchMode(m)}
-            className={cn(
-              "flex-1 rounded-md py-1.5 font-medium transition-colors",
-              mode === m
-                ? "bg-background text-foreground shadow-sm"
-                : "text-muted-foreground hover:text-foreground",
-            )}
-          >
-            {m === "flashcard" ? t("modeFlashcard") : t("modeCloze")}
-          </button>
-        ))}
-      </div>
+      {modeToggle}
 
       <div className="mb-3 flex items-center gap-3">
         <Progress

@@ -14,7 +14,8 @@
       "Bash(printf '/__TRACKED_VAR__: ')",
       "Bash(NEXT_PUBLIC_BASE_PATH=/english npm run build)",
       "PowerShell(cd \"D:\\\\02_PROJECT\\\\11_english\"; $env:NEXT_PUBLIC_BASE_PATH=\"/english\"; npm run build 2>&1 | Select-String -Pattern \"Compiled|Finished TypeScript|error|Error|Generating static\" | Select-Object -First 8; \"=== out 구조 ===\"; Get-ChildItem out\\\\ko\\\\study\\\\ -Name | Select-Object -First 5)",
-      "Bash(cd \"D:/02_PROJECT/10_worktool\" && echo \"=== TAB_ORDER 사용처 ===\" && grep -rln \"TAB_ORDER\\\\|PROJECTS_CATALOG\" app/ components/ lib/ 2>/dev/null | head; echo \"=== 탭 하드코딩 여부 \\(games/stories/tests 문자열 직접\\) ===\" && grep -rn '\"games\"\\\\|\"stories\"\\\\|\"tests\"' app/ components/ 2>/dev/null | grep -v projectsCatalog | head -5)"
+      "Bash(cd \"D:/02_PROJECT/10_worktool\" && echo \"=== TAB_ORDER 사용처 ===\" && grep -rln \"TAB_ORDER\\\\|PROJECTS_CATALOG\" app/ components/ lib/ 2>/dev/null | head; echo \"=== 탭 하드코딩 여부 \\(games/stories/tests 문자열 직접\\) ===\" && grep -rn '\"games\"\\\\|\"stories\"\\\\|\"tests\"' app/ components/ 2>/dev/null | grep -v projectsCatalog | head -5)",
+      "Bash(tee /tmp/dlg.txt)"
     ]
   }
 }
