@@ -170,6 +170,7 @@
     "dialogueScenario": "시나리오",
     "dialoguePrompt": "이렇게 답해보세요",
     "dialogueComplete": "이렇게도 말할 수 있어요",
+    "expressionNotes": "표현 노트 · 언제 어떤 느낌으로",
     "checkAnswer": "정답 확인",
     "emptyTitle": "지금은 학습할 카드가 없어요",
     "emptyDesc": "복습 시점이 된 카드가 없어요. 잠시 후 다시 오거나 새 주제를 시작해보세요.",

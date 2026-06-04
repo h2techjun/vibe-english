@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import type { Scenario } from "@/types/scenario";
 import type { ReviewGrade } from "@/types/srs";
@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { RevealableMeaning } from "@/components/revealable-meaning";
 import { useTts } from "./use-tts";
-import { Volume2 } from "lucide-react";
+import { Volume2, Lightbulb } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type Part = { text: string } | { blank: number };
@@ -61,11 +61,6 @@ export function ScenarioCard({ scenario, isNew, busy, onGrade }: Props) {
 
   const turn = scenario.turns[turnIndex];
   const parts = useMemo(() => parseTemplate(turn.template), [turn.template]);
-
-  useEffect(() => {
-    if (supported && !finished) speak(turn.prompt.en);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [turnIndex, scenario.id]);
 
   const allFilled = selected.every((s) => s !== null);
   const built = parts
@@ -145,13 +140,14 @@ export function ScenarioCard({ scenario, isNew, busy, onGrade }: Props) {
             <div className="flex items-center gap-2">
               <p className="text-sm font-medium">{turn.prompt.en}</p>
               <Button
-                variant="ghost"
-                size="icon-xs"
+                variant="outline"
+                size="sm"
+                className="ml-auto shrink-0 gap-1"
                 disabled={!supported}
                 onClick={() => speak(turn.prompt.en)}
-                aria-label={t("listen")}
               >
                 <Volume2 className="h-3.5 w-3.5" />
+                {t("listen")}
               </Button>
             </div>
             <RevealableMeaning ko={turn.prompt.ko} className="text-xs" />
@@ -219,6 +215,40 @@ export function ScenarioCard({ scenario, isNew, busy, onGrade }: Props) {
           <p className="text-center text-sm font-medium text-emerald-600">
             {t("listenCorrect")}
           </p>
+
+          {/* 표현 노트 — 모든 턴 선택지의 뉘앙스 */}
+          {scenario.turns.some((tn) =>
+            tn.blanks.some((opts) => opts.some((o) => o.note)),
+          ) && (
+            <div className="rounded-lg bg-amber-50 p-3 dark:bg-amber-950/30">
+              <p className="flex items-center gap-1.5 text-xs font-medium text-amber-700 dark:text-amber-400">
+                <Lightbulb className="h-3.5 w-3.5" />
+                {t("expressionNotes")}
+              </p>
+              <div className="mt-2 flex flex-col gap-1.5">
+                {scenario.turns.flatMap((tn, ti) =>
+                  tn.blanks.flatMap((opts, bi) =>
+                    opts
+                      .filter((o) => o.note)
+                      .map((o, oi) => (
+                        <div
+                          key={`${ti}-${bi}-${oi}`}
+                          className="flex items-baseline gap-2"
+                        >
+                          <span className="shrink-0 text-sm font-medium text-blue-600 dark:text-blue-400">
+                            {o.en}
+                          </span>
+                          <span className="text-xs text-muted-foreground">
+                            {o.note}
+                          </span>
+                        </div>
+                      )),
+                  ),
+                )}
+              </div>
+            </div>
+          )}
+
           <div className="grid grid-cols-4 gap-2">
             {REVIEW_GRADES.map((g) => (
               <button

@@ -14,20 +14,20 @@ export const B1_DIALOGUES: Dialogue[] = [
     template: "It's going {0}, but we still need to {1} a few things.",
     blanks: [
       [
-        { en: "well", ko: "잘" },
-        { en: "smoothly", ko: "순조롭게" },
-        { en: "fine", ko: "괜찮게" },
+        { en: "well", ko: "잘", note: "무난하고 일반적인 긍정" },
+        { en: "smoothly", ko: "순조롭게", note: "막힘없이 잘 풀린다는 뉘앙스" },
+        { en: "fine", ko: "괜찮게", note: "그저 그럭저럭, 담백한 톤" },
       ],
       [
-        { en: "sort out", ko: "정리하다" },
-        { en: "finalize", ko: "마무리하다" },
-        { en: "double-check", ko: "재확인하다" },
+        { en: "sort out", ko: "정리하다", note: "문제를 풀어 정돈하는 일상 표현" },
+        { en: "finalize", ko: "마무리하다", note: "최종 확정짓는 격식 있는 말" },
+        { en: "double-check", ko: "재확인하다", note: "꼼꼼히 다시 점검하는 느낌" },
       ],
     ],
     example: { en: "It's going well, but we still need to sort out a few things.", ko: "잘 돼 가는데, 아직 몇 가지 정리할 게 있어요." },
     alternatives: [
-      { en: "We're on track, more or less.", ko: "대체로 일정대로 가고 있어요." },
-      { en: "There's a lot left, but we're getting there.", ko: "남은 게 많지만 점점 나아지고 있어요." },
+      { en: "We're on track, more or less.", ko: "대체로 일정대로 가고 있어요.", note: "대략 순조롭다는 가벼운 보고" },
+      { en: "There's a lot left, but we're getting there.", ko: "남은 게 많지만 점점 나아지고 있어요.", note: "솔직하면서 긍정적인 마무리" },
     ],
   },
   {
@@ -39,25 +39,25 @@ export const B1_DIALOGUES: Dialogue[] = [
     template: "Honestly, I thought it was {0}, mainly because the {1} was so {2}.",
     blanks: [
       [
-        { en: "great", ko: "훌륭했다" },
-        { en: "impressive", ko: "인상적이었다" },
-        { en: "disappointing", ko: "실망스러웠다" },
+        { en: "great", ko: "훌륭했다", note: "무난하게 강한 칭찬" },
+        { en: "impressive", ko: "인상적이었다", note: "완성도에 감탄하는 뉘앙스" },
+        { en: "disappointing", ko: "실망스러웠다", note: "기대에 못 미쳤다는 부정 평가" },
       ],
       [
-        { en: "story", ko: "이야기" },
-        { en: "acting", ko: "연기" },
-        { en: "ending", ko: "결말" },
+        { en: "story", ko: "이야기", note: "줄거리·각본을 가리킴" },
+        { en: "acting", ko: "연기", note: "배우의 연기에 초점" },
+        { en: "ending", ko: "결말", note: "마지막 장면·결말에 초점" },
       ],
       [
-        { en: "moving", ko: "감동적인" },
-        { en: "predictable", ko: "뻔한" },
-        { en: "well done", ko: "잘 만들어진" },
+        { en: "moving", ko: "감동적인", note: "마음을 울리는 긍정 평가" },
+        { en: "predictable", ko: "뻔한", note: "예상대로라 아쉽다는 부정" },
+        { en: "well done", ko: "잘 만들어진", note: "솜씨 좋다는 담백한 칭찬" },
       ],
     ],
     example: { en: "Honestly, I thought it was great, mainly because the story was so moving.", ko: "솔직히 훌륭하다고 생각했어. 이야기가 정말 감동적이었거든." },
     alternatives: [
-      { en: "It wasn't really my kind of thing.", ko: "내 취향은 아니었어." },
-      { en: "I'd definitely watch it again.", ko: "또 볼 만한 영화였어." },
+      { en: "It wasn't really my kind of thing.", ko: "내 취향은 아니었어.", note: "직접 비판은 피하며 완곡하게" },
+      { en: "I'd definitely watch it again.", ko: "또 볼 만한 영화였어.", note: "재관람 의향으로 강한 호평" },
     ],
   },
   {
@@ -69,20 +69,20 @@ export const B1_DIALOGUES: Dialogue[] = [
     template: "I'd love to, but I {0} today, so maybe we could {1} instead.",
     blanks: [
       [
-        { en: "have plans", ko: "약속이 있다" },
-        { en: "'m a bit busy", ko: "좀 바쁘다" },
-        { en: "promised to help a friend", ko: "친구를 돕기로 했다" },
+        { en: "have plans", ko: "약속이 있다", note: "구체적 이유 없이 정중한 거절" },
+        { en: "'m a bit busy", ko: "좀 바쁘다", note: "가볍게 둘러대는 캐주얼" },
+        { en: "promised to help a friend", ko: "친구를 돕기로 했다", note: "이유를 분명히 밝혀 미안함 전달" },
       ],
       [
-        { en: "do it tomorrow", ko: "내일 하다" },
-        { en: "meet next week", ko: "다음 주에 만나다" },
-        { en: "grab a quick coffee now", ko: "지금 커피만 빨리 마시다" },
+        { en: "do it tomorrow", ko: "내일 하다", note: "바로 다음 날로 미루는 적극 제안" },
+        { en: "meet next week", ko: "다음 주에 만나다", note: "여유 있게 미루는 느낌" },
+        { en: "grab a quick coffee now", ko: "지금 커피만 빨리 마시다", note: "짧게라도 보려는 절충안" },
       ],
     ],
     example: { en: "I'd love to, but I have plans today, so maybe we could do it tomorrow instead.", ko: "그러고 싶은데 오늘은 약속이 있어요. 대신 내일 하는 건 어때요?" },
     alternatives: [
-      { en: "Can we take a rain check?", ko: "다음으로 미뤄도 될까요?" },
-      { en: "Let's set something up for later this week.", ko: "이번 주 후반에 약속 잡아요." },
+      { en: "Can we take a rain check?", ko: "다음으로 미뤄도 될까요?", note: "다음을 기약하는 친근한 관용구" },
+      { en: "Let's set something up for later this week.", ko: "이번 주 후반에 약속 잡아요.", note: "대안을 먼저 내미는 적극적 톤" },
     ],
   },
   {
@@ -94,20 +94,20 @@ export const B1_DIALOGUES: Dialogue[] = [
     template: "Not really, I've been {0} lately, and I'm not sure how to {1} it.",
     blanks: [
       [
-        { en: "overwhelmed", ko: "벅찬" },
-        { en: "under a lot of pressure", ko: "압박을 많이 받는" },
-        { en: "struggling with work", ko: "일 때문에 힘든" },
+        { en: "overwhelmed", ko: "벅찬", note: "감정에 압도된 솔직한 토로" },
+        { en: "under a lot of pressure", ko: "압박을 많이 받는", note: "외부 압박을 강조하는 표현" },
+        { en: "struggling with work", ko: "일 때문에 힘든", note: "원인을 일로 콕 집어 말함" },
       ],
       [
-        { en: "deal with", ko: "감당하다" },
-        { en: "handle", ko: "처리하다" },
-        { en: "get on top of", ko: "통제하다" },
+        { en: "deal with", ko: "감당하다", note: "두루 쓰는 일반적인 대처" },
+        { en: "handle", ko: "처리하다", note: "차분히 다룬다는 담백한 톤" },
+        { en: "get on top of", ko: "통제하다", note: "상황을 다잡으려는 구어체" },
       ],
     ],
     example: { en: "Not really, I've been overwhelmed lately, and I'm not sure how to deal with it.", ko: "사실 아니야. 요즘 좀 벅차서 어떻게 감당해야 할지 모르겠어." },
     alternatives: [
-      { en: "It's a lot to take in right now.", ko: "지금 감당할 게 너무 많아." },
-      { en: "I just need to clear my head.", ko: "머리를 좀 식혀야 할 것 같아." },
+      { en: "It's a lot to take in right now.", ko: "지금 감당할 게 너무 많아.", note: "벅참을 완곡하게 표현" },
+      { en: "I just need to clear my head.", ko: "머리를 좀 식혀야 할 것 같아.", note: "혼자 정리할 시간이 필요한 뉘앙스" },
     ],
   },
   {
@@ -119,25 +119,25 @@ export const B1_DIALOGUES: Dialogue[] = [
     template: "It's {0}, thank you, though the {1} could be a little {2}.",
     blanks: [
       [
-        { en: "delicious", ko: "맛있다" },
-        { en: "really good", ko: "정말 좋다" },
-        { en: "lovely", ko: "훌륭하다" },
+        { en: "delicious", ko: "맛있다", note: "맛 자체를 콕 집은 칭찬" },
+        { en: "really good", ko: "정말 좋다", note: "편하게 만족을 전하는 캐주얼" },
+        { en: "lovely", ko: "훌륭하다", note: "은근히 격식 있는 영국식 칭찬" },
       ],
       [
-        { en: "soup", ko: "수프" },
-        { en: "sauce", ko: "소스" },
-        { en: "main dish", ko: "메인 요리" },
+        { en: "soup", ko: "수프", note: "수프 요리를 가리킴" },
+        { en: "sauce", ko: "소스", note: "곁들인 소스에 초점" },
+        { en: "main dish", ko: "메인 요리", note: "메인 요리 전체를 가리킴" },
       ],
       [
-        { en: "warmer", ko: "더 따뜻한" },
-        { en: "saltier", ko: "더 짠" },
-        { en: "spicier", ko: "더 매운" },
+        { en: "warmer", ko: "더 따뜻한", note: "온도에 대한 부드러운 요청" },
+        { en: "saltier", ko: "더 짠", note: "간을 더 해달라는 뉘앙스" },
+        { en: "spicier", ko: "더 매운", note: "매운맛을 더 원할 때" },
       ],
     ],
     example: { en: "It's delicious, thank you, though the soup could be a little warmer.", ko: "맛있어요, 감사합니다. 다만 수프는 조금 더 따뜻하면 좋겠어요." },
     alternatives: [
-      { en: "Everything's perfect, thanks.", ko: "다 완벽해요, 고맙습니다." },
-      { en: "Could we get a bit more bread?", ko: "빵 조금만 더 주시겠어요?" },
+      { en: "Everything's perfect, thanks.", ko: "다 완벽해요, 고맙습니다.", note: "불만 없이 깔끔하게 만족 표현" },
+      { en: "Could we get a bit more bread?", ko: "빵 조금만 더 주시겠어요?", note: "정중하게 추가를 부탁하는 표현" },
     ],
   },
   {
@@ -149,25 +149,25 @@ export const B1_DIALOGUES: Dialogue[] = [
     template: "If I were you, I'd {0} it carefully and {1} the pros and cons before you {2}.",
     blanks: [
       [
-        { en: "think about", ko: "생각해 보다" },
-        { en: "look at", ko: "살펴보다" },
-        { en: "consider", ko: "고려하다" },
+        { en: "think about", ko: "생각해 보다", note: "두루 쓰는 일상 표현" },
+        { en: "look at", ko: "살펴보다", note: "찬찬히 들여다보는 뉘앙스" },
+        { en: "consider", ko: "고려하다", note: "진지하게 검토하는 격식체" },
       ],
       [
-        { en: "weigh up", ko: "따져 보다" },
-        { en: "list", ko: "적어 보다" },
-        { en: "compare", ko: "비교하다" },
+        { en: "weigh up", ko: "따져 보다", note: "장단점을 저울질하는 구어체" },
+        { en: "list", ko: "적어 보다", note: "목록으로 정리하는 실용적 방법" },
+        { en: "compare", ko: "비교하다", note: "양쪽을 견주어 보는 표현" },
       ],
       [
-        { en: "decide", ko: "결정하다" },
-        { en: "commit", ko: "확정하다" },
-        { en: "say yes", ko: "수락하다" },
+        { en: "decide", ko: "결정하다", note: "가장 무난한 일반 동사" },
+        { en: "commit", ko: "확정하다", note: "되돌리기 어려운 확약 뉘앙스" },
+        { en: "say yes", ko: "수락하다", note: "수락에 한정한 캐주얼 표현" },
       ],
     ],
     example: { en: "If I were you, I'd think about it carefully and weigh up the pros and cons before you decide.", ko: "나라면 신중히 생각해 보고, 결정하기 전에 장단점을 따져 볼 거야." },
     alternatives: [
-      { en: "Trust your gut on this one.", ko: "이건 네 직감을 믿어." },
-      { en: "Maybe sleep on it before deciding.", ko: "결정하기 전에 하룻밤 자면서 생각해 봐." },
+      { en: "Trust your gut on this one.", ko: "이건 네 직감을 믿어.", note: "직감을 믿으라는 친근한 조언" },
+      { en: "Maybe sleep on it before deciding.", ko: "결정하기 전에 하룻밤 자면서 생각해 봐.", note: "서두르지 말라는 부드러운 권유" },
     ],
   },
   {
@@ -179,20 +179,20 @@ export const B1_DIALOGUES: Dialogue[] = [
     template: "Yes, it is, and I was hoping you could {0} a good place to {1} nearby.",
     blanks: [
       [
-        { en: "recommend", ko: "추천하다" },
-        { en: "suggest", ko: "제안하다" },
-        { en: "point me to", ko: "알려 주다" },
+        { en: "recommend", ko: "추천하다", note: "가장 자연스러운 추천 동사" },
+        { en: "suggest", ko: "제안하다", note: "넌지시 권하는 부드러운 톤" },
+        { en: "point me to", ko: "알려 주다", note: "위치를 짚어달라는 구어체" },
       ],
       [
-        { en: "eat", ko: "식사하다" },
-        { en: "visit", ko: "방문하다" },
-        { en: "go for a walk", ko: "산책하다" },
+        { en: "eat", ko: "식사하다", note: "식당을 찾는 가장 흔한 표현" },
+        { en: "visit", ko: "방문하다", note: "가볼 만한 곳을 두루 가리킴" },
+        { en: "go for a walk", ko: "산책하다", note: "걷기 좋은 곳에 초점" },
       ],
     ],
     example: { en: "Yes, it is, and I was hoping you could recommend a good place to eat nearby.", ko: "네, 처음이에요. 근처에 식사하기 좋은 곳을 추천해 주실 수 있을까요?" },
     alternatives: [
-      { en: "What's worth seeing around here?", ko: "이 근처에 볼 만한 곳이 있나요?" },
-      { en: "Are there any local spots you'd suggest?", ko: "추천할 만한 현지 명소가 있나요?" },
+      { en: "What's worth seeing around here?", ko: "이 근처에 볼 만한 곳이 있나요?", note: "볼거리를 묻는 캐주얼한 질문" },
+      { en: "Are there any local spots you'd suggest?", ko: "추천할 만한 현지 명소가 있나요?", note: "현지인 추천을 청하는 정중한 톤" },
     ],
   },
   {
@@ -204,25 +204,25 @@ export const B1_DIALOGUES: Dialogue[] = [
     template: "It was {0}! The best part was when we {1}, and I'd really {2} going there.",
     blanks: [
       [
-        { en: "amazing", ko: "놀라웠다" },
-        { en: "unforgettable", ko: "잊지 못할 만큼 좋았다" },
-        { en: "exhausting but fun", ko: "힘들었지만 재밌었다" },
+        { en: "amazing", ko: "놀라웠다", note: "흔하게 쓰는 강한 감탄" },
+        { en: "unforgettable", ko: "잊지 못할 만큼 좋았다", note: "오래 기억에 남는다는 강조" },
+        { en: "exhausting but fun", ko: "힘들었지만 재밌었다", note: "솔직하게 양면을 다 전하는 톤" },
       ],
       [
-        { en: "hiked up the mountain", ko: "산을 오르다" },
-        { en: "tried the local food", ko: "현지 음식을 먹어 보다" },
-        { en: "watched the sunset", ko: "노을을 보다" },
+        { en: "hiked up the mountain", ko: "산을 오르다", note: "활동적인 하이라이트" },
+        { en: "tried the local food", ko: "현지 음식을 먹어 보다", note: "음식 경험에 초점" },
+        { en: "watched the sunset", ko: "노을을 보다", note: "감성적인 순간에 초점" },
       ],
       [
-        { en: "recommend", ko: "추천하다" },
-        { en: "suggest", ko: "권하다" },
-        { en: "encourage", ko: "권장하다" },
+        { en: "recommend", ko: "추천하다", note: "가장 자연스러운 추천" },
+        { en: "suggest", ko: "권하다", note: "넌지시 권하는 부드러운 톤" },
+        { en: "encourage", ko: "권장하다", note: "적극적으로 떠미는 느낌" },
       ],
     ],
     example: { en: "It was amazing! The best part was when we hiked up the mountain, and I'd really recommend going there.", ko: "정말 놀라웠어! 산에 올랐을 때가 제일 좋았고, 거기 꼭 가보길 추천해." },
     alternatives: [
-      { en: "I can't wait to go back.", ko: "다시 가고 싶어 죽겠어." },
-      { en: "I took way too many photos!", ko: "사진을 너무 많이 찍었어!" },
+      { en: "I can't wait to go back.", ko: "다시 가고 싶어 죽겠어.", note: "재방문 욕구로 강한 만족 표현" },
+      { en: "I took way too many photos!", ko: "사진을 너무 많이 찍었어!", note: "유쾌하게 즐거움을 전하는 톤" },
     ],
   },
   {
@@ -234,20 +234,20 @@ export const B1_DIALOGUES: Dialogue[] = [
     template: "Hi, I'm calling {0} my order, which {1}, and I'd like to know what's going on.",
     blanks: [
       [
-        { en: "about", ko: "~에 대해" },
-        { en: "regarding", ko: "~에 관하여" },
-        { en: "to ask about", ko: "~에 대해 물으려고" },
+        { en: "about", ko: "~에 대해", note: "가장 일상적인 전치사" },
+        { en: "regarding", ko: "~에 관하여", note: "전화·이메일의 격식체" },
+        { en: "to ask about", ko: "~에 대해 물으려고", note: "목적을 분명히 밝히는 표현" },
       ],
       [
-        { en: "hasn't arrived yet", ko: "아직 도착하지 않았다" },
-        { en: "is two weeks late", ko: "2주째 늦고 있다" },
-        { en: "seems to be lost", ko: "분실된 것 같다" },
+        { en: "hasn't arrived yet", ko: "아직 도착하지 않았다", note: "사실만 담담히 전달" },
+        { en: "is two weeks late", ko: "2주째 늦고 있다", note: "구체적 지연으로 불만 강조" },
+        { en: "seems to be lost", ko: "분실된 것 같다", note: "단정 대신 추측으로 완곡하게" },
       ],
     ],
     example: { en: "Hi, I'm calling about my order, which hasn't arrived yet, and I'd like to know what's going on.", ko: "안녕하세요, 아직 도착하지 않은 제 주문 건으로 전화드렸는데요, 어떻게 된 건지 알고 싶어요." },
     alternatives: [
-      { en: "Could you check the status for me, please?", ko: "상태 좀 확인해 주시겠어요?" },
-      { en: "I'd appreciate an update on this.", ko: "이 건에 대한 안내를 받을 수 있으면 좋겠어요." },
+      { en: "Could you check the status for me, please?", ko: "상태 좀 확인해 주시겠어요?", note: "정중하게 확인을 부탁하는 표현" },
+      { en: "I'd appreciate an update on this.", ko: "이 건에 대한 안내를 받을 수 있으면 좋겠어요.", note: "공손하게 후속 안내를 청함" },
     ],
   },
   {
@@ -259,20 +259,20 @@ export const B1_DIALOGUES: Dialogue[] = [
     template: "Actually, something came up, so could we {0} it to {1} if that's possible?",
     blanks: [
       [
-        { en: "move", ko: "옮기다" },
-        { en: "reschedule", ko: "변경하다" },
-        { en: "push", ko: "미루다" },
+        { en: "move", ko: "옮기다", note: "쉽고 무난한 일상 표현" },
+        { en: "reschedule", ko: "변경하다", note: "예약 변경의 격식 있는 말" },
+        { en: "push", ko: "미루다", note: "뒤로 미룬다는 구어체" },
       ],
       [
-        { en: "Monday morning", ko: "월요일 오전" },
-        { en: "next week", ko: "다음 주" },
-        { en: "later that afternoon", ko: "그날 오후 늦게" },
+        { en: "Monday morning", ko: "월요일 오전", note: "구체적 시간대를 콕 집음" },
+        { en: "next week", ko: "다음 주", note: "여유 있게 다음 주로" },
+        { en: "later that afternoon", ko: "그날 오후 늦게", note: "같은 날 안에서 조정" },
       ],
     ],
     example: { en: "Actually, something came up, so could we move it to Monday morning if that's possible?", ko: "사실 일이 생겨서요, 가능하다면 월요일 오전으로 옮길 수 있을까요?" },
     alternatives: [
-      { en: "Is there any availability earlier in the week?", ko: "주 초반에 가능한 시간이 있나요?" },
-      { en: "Whatever slot works best for you is fine.", ko: "되는 시간 아무 때나 괜찮아요." },
+      { en: "Is there any availability earlier in the week?", ko: "주 초반에 가능한 시간이 있나요?", note: "앞당길 수 있는지 묻는 정중한 질문" },
+      { en: "Whatever slot works best for you is fine.", ko: "되는 시간 아무 때나 괜찮아요.", note: "상대에 맞춰주는 유연한 태도" },
     ],
   },
 ];

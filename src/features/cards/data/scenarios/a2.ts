@@ -23,9 +23,9 @@ export const A2_SCENARIOS: Scenario[] = [
         template: "A table for {0}, please.",
         blanks: [
           [
-            { en: "two", ko: "두 명" },
-            { en: "three", ko: "세 명" },
-            { en: "four", ko: "네 명" },
+            { en: "two", ko: "두 명", note: "둘이 갈 때" },
+            { en: "three", ko: "세 명", note: "셋이 갈 때" },
+            { en: "four", ko: "네 명", note: "넷이 갈 때" },
           ],
         ],
         example: { en: "A table for two, please.", ko: "두 명 자리 부탁해요." },
@@ -38,9 +38,9 @@ export const A2_SCENARIOS: Scenario[] = [
         template: "I'll have the {0}, please.",
         blanks: [
           [
-            { en: "steak", ko: "스테이크" },
-            { en: "pasta", ko: "파스타" },
-            { en: "grilled chicken", ko: "구운 치킨" },
+            { en: "steak", ko: "스테이크", note: "든든한 고기 요리" },
+            { en: "pasta", ko: "파스타", note: "가볍게 즐기는 면 요리" },
+            { en: "grilled chicken", ko: "구운 치킨", note: "담백한 닭고기 요리" },
           ],
         ],
         example: { en: "I'll have the steak, please.", ko: "스테이크로 할게요." },
@@ -53,9 +53,9 @@ export const A2_SCENARIOS: Scenario[] = [
         template: "Yes, a {0}, please.",
         blanks: [
           [
-            { en: "glass of water", ko: "물 한 잔" },
-            { en: "Coke", ko: "콜라" },
-            { en: "glass of wine", ko: "와인 한 잔" },
+            { en: "glass of water", ko: "물 한 잔", note: "무난하고 부담 없는 선택" },
+            { en: "Coke", ko: "콜라", note: "달콤한 탄산음료" },
+            { en: "glass of wine", ko: "와인 한 잔", note: "분위기를 내는 술 한 잔" },
           ],
         ],
         example: { en: "Yes, a glass of water, please.", ko: "네, 물 한 잔 주세요." },
@@ -68,12 +68,12 @@ export const A2_SCENARIOS: Scenario[] = [
         template: "It was {0}. Can I have the {1}, please?",
         blanks: [
           [
-            { en: "great", ko: "훌륭했어요" },
-            { en: "delicious", ko: "맛있었어요" },
+            { en: "great", ko: "훌륭했어요", note: "전반적으로 만족스러웠다는 느낌" },
+            { en: "delicious", ko: "맛있었어요", note: "음식 맛을 콕 집어 칭찬" },
           ],
           [
-            { en: "bill", ko: "계산서" },
-            { en: "check", ko: "계산서" },
+            { en: "bill", ko: "계산서", note: "영국식에서 흔한 표현" },
+            { en: "check", ko: "계산서", note: "미국식에서 흔한 표현" },
           ],
         ],
         example: {
@@ -101,9 +101,9 @@ export const A2_SCENARIOS: Scenario[] = [
         template: "Yes, I have a reservation under {0}.",
         blanks: [
           [
-            { en: "Kim", ko: "김" },
-            { en: "Lee", ko: "이" },
-            { en: "Park", ko: "박" },
+            { en: "Kim", ko: "김", note: "예약자 성이 김 씨일 때" },
+            { en: "Lee", ko: "이", note: "예약자 성이 이 씨일 때" },
+            { en: "Park", ko: "박", note: "예약자 성이 박 씨일 때" },
           ],
         ],
         example: {
@@ -119,9 +119,9 @@ export const A2_SCENARIOS: Scenario[] = [
         template: "For {0} nights, please.",
         blanks: [
           [
-            { en: "two", ko: "이" },
-            { en: "three", ko: "삼" },
-            { en: "five", ko: "오" },
+            { en: "two", ko: "이", note: "2박 묵을 때" },
+            { en: "three", ko: "삼", note: "3박 묵을 때" },
+            { en: "five", ko: "오", note: "5박 묵을 때" },
           ],
         ],
         example: { en: "For two nights, please.", ko: "2박이요." },
@@ -134,8 +134,8 @@ export const A2_SCENARIOS: Scenario[] = [
         template: "What time is {0}?",
         blanks: [
           [
-            { en: "breakfast", ko: "조식" },
-            { en: "check-out", ko: "체크아웃" },
+            { en: "breakfast", ko: "조식", note: "아침 식사 시간을 물을 때" },
+            { en: "check-out", ko: "체크아웃", note: "퇴실 시간을 물을 때" },
           ],
         ],
         example: { en: "What time is breakfast?", ko: "조식은 몇 시인가요?" },
@@ -148,8 +148,8 @@ export const A2_SCENARIOS: Scenario[] = [
         template: "Thank you. Which {0} is the room on?",
         blanks: [
           [
-            { en: "floor", ko: "층" },
-            { en: "way", ko: "쪽" },
+            { en: "floor", ko: "층", note: "몇 층인지 물을 때 자연스러운 표현" },
+            { en: "way", ko: "쪽", note: "어느 방향인지 물을 때" },
           ],
         ],
         example: {
@@ -177,9 +177,9 @@ export const A2_SCENARIOS: Scenario[] = [
         template: "Yes, I'm looking for a {0}.",
         blanks: [
           [
-            { en: "shirt", ko: "셔츠" },
-            { en: "jacket", ko: "재킷" },
-            { en: "pair of jeans", ko: "청바지" },
+            { en: "shirt", ko: "셔츠", note: "상의 셔츠를 찾을 때" },
+            { en: "jacket", ko: "재킷", note: "겉옷을 찾을 때" },
+            { en: "pair of jeans", ko: "청바지", note: "바지라 a pair of를 쓸 때" },
           ],
         ],
         example: { en: "Yes, I'm looking for a shirt.", ko: "네, 셔츠를 찾고 있어요." },
@@ -192,9 +192,9 @@ export const A2_SCENARIOS: Scenario[] = [
         template: "I think I need a {0} one.",
         blanks: [
           [
-            { en: "small", ko: "스몰" },
-            { en: "medium", ko: "미디엄" },
-            { en: "large", ko: "라지" },
+            { en: "small", ko: "스몰", note: "작은 사이즈가 필요할 때" },
+            { en: "medium", ko: "미디엄", note: "중간 사이즈가 필요할 때" },
+            { en: "large", ko: "라지", note: "큰 사이즈가 필요할 때" },
           ],
         ],
         example: { en: "I think I need a medium one.", ko: "미디엄이 필요할 것 같아요." },
@@ -207,8 +207,8 @@ export const A2_SCENARIOS: Scenario[] = [
         template: "Yes, where is the {0}?",
         blanks: [
           [
-            { en: "fitting room", ko: "탈의실" },
-            { en: "mirror", ko: "거울" },
+            { en: "fitting room", ko: "탈의실", note: "옷을 갈아입을 곳을 물을 때" },
+            { en: "mirror", ko: "거울", note: "비춰볼 거울을 찾을 때" },
           ],
         ],
         example: { en: "Yes, where is the fitting room?", ko: "네, 탈의실은 어디예요?" },
@@ -221,8 +221,8 @@ export const A2_SCENARIOS: Scenario[] = [
         template: "Yes, I'll take it. Can I pay by {0}?",
         blanks: [
           [
-            { en: "card", ko: "카드" },
-            { en: "cash", ko: "현금" },
+            { en: "card", ko: "카드", note: "신용·체크카드로 결제할 때" },
+            { en: "cash", ko: "현금", note: "현금으로 결제할 때" },
           ],
         ],
         example: {
@@ -250,9 +250,9 @@ export const A2_SCENARIOS: Scenario[] = [
         template: "I have a {0}.",
         blanks: [
           [
-            { en: "headache", ko: "두통" },
-            { en: "sore throat", ko: "인후통" },
-            { en: "fever", ko: "열" },
+            { en: "headache", ko: "두통", note: "머리가 아플 때" },
+            { en: "sore throat", ko: "인후통", note: "목이 따갑고 아플 때" },
+            { en: "fever", ko: "열", note: "몸에 열이 날 때" },
           ],
         ],
         example: { en: "I have a headache.", ko: "머리가 아파요." },
@@ -265,9 +265,9 @@ export const A2_SCENARIOS: Scenario[] = [
         template: "Since {0}.",
         blanks: [
           [
-            { en: "yesterday", ko: "어제" },
-            { en: "two days ago", ko: "이틀 전" },
-            { en: "this morning", ko: "오늘 아침" },
+            { en: "yesterday", ko: "어제", note: "하루 전부터 아팠을 때" },
+            { en: "two days ago", ko: "이틀 전", note: "며칠 됐을 때" },
+            { en: "this morning", ko: "오늘 아침", note: "오늘 막 시작됐을 때" },
           ],
         ],
         example: { en: "Since yesterday.", ko: "어제부터요." },
@@ -280,8 +280,8 @@ export const A2_SCENARIOS: Scenario[] = [
         template: "No, I don't. How long should I {0} it?",
         blanks: [
           [
-            { en: "take", ko: "복용해야" },
-            { en: "use", ko: "사용해야" },
+            { en: "take", ko: "복용해야", note: "먹는 약에 쓰는 동사" },
+            { en: "use", ko: "사용해야", note: "연고·물약 등 바르거나 쓸 때" },
           ],
         ],
         example: {
@@ -309,8 +309,8 @@ export const A2_SCENARIOS: Scenario[] = [
         template: "Hi, this is {0}. Is Sam there?",
         blanks: [
           [
-            { en: "Jun", ko: "준" },
-            { en: "Mina", ko: "미나" },
+            { en: "Jun", ko: "준", note: "본인 이름이 준일 때" },
+            { en: "Mina", ko: "미나", note: "본인 이름이 미나일 때" },
           ],
         ],
         example: { en: "Hi, this is Jun. Is Sam there?", ko: "안녕하세요, 저 준이에요. 샘 있나요?" },
@@ -323,8 +323,8 @@ export const A2_SCENARIOS: Scenario[] = [
         template: "Oh, can I {0} a message?",
         blanks: [
           [
-            { en: "leave", ko: "남겨도" },
-            { en: "take", ko: "전해도" },
+            { en: "leave", ko: "남겨도", note: "내가 메시지를 남길 때 쓰는 동사" },
+            { en: "take", ko: "전해도", note: "메시지를 받아 전달한다는 뉘앙스" },
           ],
         ],
         example: { en: "Oh, can I leave a message?", ko: "아, 메시지를 남겨도 될까요?" },
@@ -337,8 +337,8 @@ export const A2_SCENARIOS: Scenario[] = [
         template: "Please tell him to {0} me back tonight.",
         blanks: [
           [
-            { en: "call", ko: "전화해" },
-            { en: "text", ko: "문자해" },
+            { en: "call", ko: "전화해", note: "직접 통화로 연락 달라 할 때" },
+            { en: "text", ko: "문자해", note: "문자 메시지로 연락 달라 할 때" },
           ],
         ],
         example: {
@@ -354,8 +354,8 @@ export const A2_SCENARIOS: Scenario[] = [
         template: "No, that's all. {0} very much!",
         blanks: [
           [
-            { en: "Thank you", ko: "감사합니다" },
-            { en: "Thanks", ko: "고마워요" },
+            { en: "Thank you", ko: "감사합니다", note: "조금 더 정중한 인사" },
+            { en: "Thanks", ko: "고마워요", note: "가볍고 캐주얼한 인사" },
           ],
         ],
         example: { en: "No, that's all. Thank you very much!", ko: "아니요, 그게 다예요. 정말 감사합니다!" },

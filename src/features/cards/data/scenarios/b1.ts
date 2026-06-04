@@ -23,17 +23,17 @@ export const B1_SCENARIOS: Scenario[] = [
         template: "Sure. I'm a {0} with about {1} of experience, and I really enjoy {2}.",
         blanks: [
           [
-            { en: "marketer", ko: "마케터" },
-            { en: "designer", ko: "디자이너" },
-            { en: "project manager", ko: "프로젝트 매니저" },
+            { en: "marketer", ko: "마케터", note: "마케팅 직무를 밝힘" },
+            { en: "designer", ko: "디자이너", note: "디자인 직무를 밝힘" },
+            { en: "project manager", ko: "프로젝트 매니저", note: "관리 직무를 밝힘" },
           ],
           [
-            { en: "three years", ko: "3년" },
-            { en: "five years", ko: "5년" },
+            { en: "three years", ko: "3년", note: "비교적 짧은 경력" },
+            { en: "five years", ko: "5년", note: "어느 정도 쌓인 경력" },
           ],
           [
-            { en: "working with teams", ko: "팀과 협업하는 것" },
-            { en: "solving problems", ko: "문제를 해결하는 것" },
+            { en: "working with teams", ko: "팀과 협업하는 것", note: "협업 성향을 어필" },
+            { en: "solving problems", ko: "문제를 해결하는 것", note: "문제 해결력을 어필" },
           ],
         ],
         example: {
@@ -49,13 +49,13 @@ export const B1_SCENARIOS: Scenario[] = [
         template: "I'm interested because your company is known for {0}, and I'd love to {1}.",
         blanks: [
           [
-            { en: "its creative culture", ko: "창의적인 문화" },
-            { en: "strong teamwork", ko: "탄탄한 팀워크" },
-            { en: "innovative products", ko: "혁신적인 제품" },
+            { en: "its creative culture", ko: "창의적인 문화", note: "조직 분위기를 칭찬" },
+            { en: "strong teamwork", ko: "탄탄한 팀워크", note: "협업 강점을 칭찬" },
+            { en: "innovative products", ko: "혁신적인 제품", note: "제품 경쟁력을 칭찬" },
           ],
           [
-            { en: "grow my skills here", ko: "여기서 제 역량을 키우다" },
-            { en: "contribute to that", ko: "거기에 기여하다" },
+            { en: "grow my skills here", ko: "여기서 제 역량을 키우다", note: "자기 성장에 초점" },
+            { en: "contribute to that", ko: "거기에 기여하다", note: "회사에 보탬이 되겠다는 초점" },
           ],
         ],
         example: {
@@ -71,13 +71,13 @@ export const B1_SCENARIOS: Scenario[] = [
         template: "I think my biggest strength is that I'm {0}, so I can usually {1} even when things get busy.",
         blanks: [
           [
-            { en: "well organized", ko: "체계적인" },
-            { en: "a good communicator", ko: "소통을 잘하는 사람" },
-            { en: "very reliable", ko: "매우 믿음직한" },
+            { en: "well organized", ko: "체계적인", note: "정리·관리 능력을 강조" },
+            { en: "a good communicator", ko: "소통을 잘하는 사람", note: "대인 소통력을 강조" },
+            { en: "very reliable", ko: "매우 믿음직한", note: "책임감·신뢰를 강조" },
           ],
           [
-            { en: "meet deadlines", ko: "마감을 지키다" },
-            { en: "keep the team on track", ko: "팀을 제 궤도에 두다" },
+            { en: "meet deadlines", ko: "마감을 지키다", note: "기한 엄수에 초점" },
+            { en: "keep the team on track", ko: "팀을 제 궤도에 두다", note: "팀 전체를 챙긴다는 초점" },
           ],
         ],
         example: {
@@ -93,13 +93,13 @@ export const B1_SCENARIOS: Scenario[] = [
         template: "Yes, I'd like to know more about {0}. When can I expect to hear back about {1}?",
         blanks: [
           [
-            { en: "the team I'd join", ko: "제가 합류할 팀" },
-            { en: "the daily responsibilities", ko: "일상적인 업무" },
-            { en: "opportunities to grow", ko: "성장 기회" },
+            { en: "the team I'd join", ko: "제가 합류할 팀", note: "함께 일할 팀을 궁금해함" },
+            { en: "the daily responsibilities", ko: "일상적인 업무", note: "실제 업무 내용을 궁금해함" },
+            { en: "opportunities to grow", ko: "성장 기회", note: "성장·발전 가능성을 궁금해함" },
           ],
           [
-            { en: "the next steps", ko: "다음 단계" },
-            { en: "your decision", ko: "결과" },
+            { en: "the next steps", ko: "다음 단계", note: "이후 절차를 부드럽게 물음" },
+            { en: "your decision", ko: "결과", note: "합격 여부를 직접적으로 물음" },
           ],
         ],
         example: {
@@ -127,13 +127,13 @@ export const B1_SCENARIOS: Scenario[] = [
         template: "Yes, I have a reservation under {0} for {1}.",
         blanks: [
           [
-            { en: "the name Kim", ko: "Kim이라는 이름" },
-            { en: "my last name", ko: "제 성" },
+            { en: "the name Kim", ko: "Kim이라는 이름", note: "이름을 구체적으로 댐" },
+            { en: "my last name", ko: "제 성", note: "성으로 두루뭉술하게 안내" },
           ],
           [
-            { en: "three nights", ko: "3박" },
-            { en: "two nights", ko: "2박" },
-            { en: "the weekend", ko: "주말" },
+            { en: "three nights", ko: "3박", note: "사흘 숙박" },
+            { en: "two nights", ko: "2박", note: "이틀 숙박" },
+            { en: "the weekend", ko: "주말", note: "주말 동안으로 가볍게 표현" },
           ],
         ],
         example: {
@@ -149,13 +149,13 @@ export const B1_SCENARIOS: Scenario[] = [
         template: "I'd prefer a {0} room if possible, because I {1}.",
         blanks: [
           [
-            { en: "city view", ko: "시티 뷰" },
-            { en: "garden view", ko: "가든 뷰" },
-            { en: "quiet", ko: "조용한" },
+            { en: "city view", ko: "시티 뷰", note: "도심 전망을 선택" },
+            { en: "garden view", ko: "가든 뷰", note: "정원 전망을 선택" },
+            { en: "quiet", ko: "조용한", note: "전망보다 정숙함을 우선" },
           ],
           [
-            { en: "love the night lights", ko: "야경을 좋아한다" },
-            { en: "sleep better with less noise", ko: "소음이 적을 때 더 잘 잔다" },
+            { en: "love the night lights", ko: "야경을 좋아한다", note: "취향을 이유로 댐" },
+            { en: "sleep better with less noise", ko: "소음이 적을 때 더 잘 잔다", note: "실용적 이유를 댐" },
           ],
         ],
         example: {
@@ -171,13 +171,13 @@ export const B1_SCENARIOS: Scenario[] = [
         template: "Around {0} would be perfect. Could you also tell me where {1} is?",
         blanks: [
           [
-            { en: "eight o'clock", ko: "8시" },
-            { en: "nine in the morning", ko: "아침 9시" },
+            { en: "eight o'clock", ko: "8시", note: "이른 아침 시간" },
+            { en: "nine in the morning", ko: "아침 9시", note: "조금 늦은 아침 시간" },
           ],
           [
-            { en: "the gym", ko: "헬스장" },
-            { en: "the breakfast room", ko: "조식 식당" },
-            { en: "the nearest subway", ko: "가장 가까운 지하철역" },
+            { en: "the gym", ko: "헬스장", note: "운동 시설 위치를 물음" },
+            { en: "the breakfast room", ko: "조식 식당", note: "식사 장소 위치를 물음" },
+            { en: "the nearest subway", ko: "가장 가까운 지하철역", note: "교통편 위치를 물음" },
           ],
         ],
         example: {
@@ -193,13 +193,13 @@ export const B1_SCENARIOS: Scenario[] = [
         template: "Thank you so much. By the way, is it okay to {0} if I need {1}?",
         blanks: [
           [
-            { en: "call the front desk", ko: "프런트에 전화하다" },
-            { en: "come back down", ko: "다시 내려오다" },
+            { en: "call the front desk", ko: "프런트에 전화하다", note: "전화로 요청하는 방법" },
+            { en: "come back down", ko: "다시 내려오다", note: "직접 내려와 묻는 방법" },
           ],
           [
-            { en: "extra towels", ko: "추가 수건" },
-            { en: "a late checkout", ko: "레이트 체크아웃" },
-            { en: "any help", ko: "도움" },
+            { en: "extra towels", ko: "추가 수건", note: "비품 요청" },
+            { en: "a late checkout", ko: "레이트 체크아웃", note: "퇴실 시간 연장 요청" },
+            { en: "any help", ko: "도움", note: "포괄적인 도움 요청" },
           ],
         ],
         example: {
@@ -227,13 +227,13 @@ export const B1_SCENARIOS: Scenario[] = [
         template: "Honestly, I think the schedule is a bit {0}, so we might need to {1}.",
         blanks: [
           [
-            { en: "tight", ko: "빠듯한" },
-            { en: "unrealistic", ko: "비현실적인" },
-            { en: "too relaxed", ko: "너무 느슨한" },
+            { en: "tight", ko: "빠듯한", note: "여유가 적다는 완곡한 지적" },
+            { en: "unrealistic", ko: "비현실적인", note: "아예 무리라는 강한 지적" },
+            { en: "too relaxed", ko: "너무 느슨한", note: "오히려 늘어졌다는 반대 지적" },
           ],
           [
-            { en: "push the deadline", ko: "마감을 미루다" },
-            { en: "add more people", ko: "인원을 늘리다" },
+            { en: "push the deadline", ko: "마감을 미루다", note: "기한 연장을 제안" },
+            { en: "add more people", ko: "인원을 늘리다", note: "인력 보강을 제안" },
           ],
         ],
         example: {
@@ -249,13 +249,13 @@ export const B1_SCENARIOS: Scenario[] = [
         template: "Yes. I suggest we {0} this week, and then {1} next week.",
         blanks: [
           [
-            { en: "focus on the design", ko: "디자인에 집중하다" },
-            { en: "finish the research", ko: "조사를 마무리하다" },
+            { en: "focus on the design", ko: "디자인에 집중하다", note: "디자인 작업을 우선" },
+            { en: "finish the research", ko: "조사를 마무리하다", note: "조사 작업을 우선" },
           ],
           [
-            { en: "start testing", ko: "테스트를 시작하다" },
-            { en: "review the results", ko: "결과를 검토하다" },
-            { en: "ask for feedback", ko: "피드백을 받다" },
+            { en: "start testing", ko: "테스트를 시작하다", note: "검증 단계로 넘어감" },
+            { en: "review the results", ko: "결과를 검토하다", note: "결과를 되짚어 봄" },
+            { en: "ask for feedback", ko: "피드백을 받다", note: "의견 수렴 단계로 넘어감" },
           ],
         ],
         example: {
@@ -271,12 +271,12 @@ export const B1_SCENARIOS: Scenario[] = [
         template: "I understand your concern, but I believe it's worth it because it would {0} and {1}.",
         blanks: [
           [
-            { en: "save time later", ko: "나중에 시간을 절약하다" },
-            { en: "reduce mistakes", ko: "실수를 줄이다" },
+            { en: "save time later", ko: "나중에 시간을 절약하다", note: "장기 효율을 근거로 듦" },
+            { en: "reduce mistakes", ko: "실수를 줄이다", note: "오류 방지를 근거로 듦" },
           ],
           [
-            { en: "improve the quality", ko: "품질을 높이다" },
-            { en: "keep the client happy", ko: "고객을 만족시키다" },
+            { en: "improve the quality", ko: "품질을 높이다", note: "결과물 완성도를 강조" },
+            { en: "keep the client happy", ko: "고객을 만족시키다", note: "고객 만족을 강조" },
           ],
         ],
         example: {
@@ -292,12 +292,12 @@ export const B1_SCENARIOS: Scenario[] = [
         template: "Of course. I'll send the summary by {0}, and I'll also {1} so everyone is on the same page.",
         blanks: [
           [
-            { en: "end of the day", ko: "오늘 퇴근 전" },
-            { en: "tomorrow morning", ko: "내일 아침" },
+            { en: "end of the day", ko: "오늘 퇴근 전", note: "오늘 안에 처리하겠다는 신속함" },
+            { en: "tomorrow morning", ko: "내일 아침", note: "다음 날로 여유를 두는 톤" },
           ],
           [
-            { en: "share the timeline", ko: "일정표를 공유하다" },
-            { en: "list the next steps", ko: "다음 단계를 정리하다" },
+            { en: "share the timeline", ko: "일정표를 공유하다", note: "전체 일정을 공유" },
+            { en: "list the next steps", ko: "다음 단계를 정리하다", note: "후속 할 일을 정리" },
           ],
         ],
         example: {
@@ -325,13 +325,13 @@ export const B1_SCENARIOS: Scenario[] = [
         template: "I'm free on {0}. I'd really like to {1} if you're up for it.",
         blanks: [
           [
-            { en: "Saturday afternoon", ko: "토요일 오후" },
-            { en: "Sunday", ko: "일요일" },
+            { en: "Saturday afternoon", ko: "토요일 오후", note: "구체적 시간대를 콕 집음" },
+            { en: "Sunday", ko: "일요일", note: "요일만 가볍게 제시" },
           ],
           [
-            { en: "go hiking", ko: "등산을 가다" },
-            { en: "check out a new cafe", ko: "새로운 카페에 가 보다" },
-            { en: "watch a movie", ko: "영화를 보다" },
+            { en: "go hiking", ko: "등산을 가다", note: "활동적인 제안" },
+            { en: "check out a new cafe", ko: "새로운 카페에 가 보다", note: "가볍게 탐방하는 제안" },
+            { en: "watch a movie", ko: "영화를 보다", note: "편안하게 즐기는 제안" },
           ],
         ],
         example: {
@@ -347,13 +347,13 @@ export const B1_SCENARIOS: Scenario[] = [
         template: "That's fair. We could {0} instead, since the weather is supposed to be {1}.",
         blanks: [
           [
-            { en: "visit a museum", ko: "박물관에 가다" },
-            { en: "have a picnic", ko: "피크닉을 하다" },
+            { en: "visit a museum", ko: "박물관에 가다", note: "실내에서 즐기는 대안" },
+            { en: "have a picnic", ko: "피크닉을 하다", note: "야외에서 즐기는 대안" },
           ],
           [
-            { en: "really nice", ko: "정말 좋은" },
-            { en: "a bit rainy", ko: "약간 비 오는" },
-            { en: "warm", ko: "따뜻한" },
+            { en: "really nice", ko: "정말 좋은", note: "맑은 날씨를 전제" },
+            { en: "a bit rainy", ko: "약간 비 오는", note: "궂은 날씨를 전제" },
+            { en: "warm", ko: "따뜻한", note: "포근한 날씨를 전제" },
           ],
         ],
         example: {
@@ -369,12 +369,12 @@ export const B1_SCENARIOS: Scenario[] = [
         template: "Let's meet at {0} around {1}. That way we'll have plenty of time.",
         blanks: [
           [
-            { en: "the park entrance", ko: "공원 입구" },
-            { en: "the subway station", ko: "지하철역" },
+            { en: "the park entrance", ko: "공원 입구", note: "목적지 근처에서 만남" },
+            { en: "the subway station", ko: "지하철역", note: "교통 거점에서 만남" },
           ],
           [
-            { en: "eleven", ko: "11시" },
-            { en: "noon", ko: "정오" },
+            { en: "eleven", ko: "11시", note: "오전 늦게" },
+            { en: "noon", ko: "정오", note: "정확히 점심 무렵" },
           ],
         ],
         example: {
@@ -390,13 +390,13 @@ export const B1_SCENARIOS: Scenario[] = [
         template: "If you could bring {0}, that would be great. I'll take care of {1}.",
         blanks: [
           [
-            { en: "some drinks", ko: "음료" },
-            { en: "a blanket", ko: "돗자리" },
-            { en: "some snacks", ko: "간식" },
+            { en: "some drinks", ko: "음료", note: "마실 거리를 부탁" },
+            { en: "a blanket", ko: "돗자리", note: "깔개를 부탁" },
+            { en: "some snacks", ko: "간식", note: "주전부리를 부탁" },
           ],
           [
-            { en: "the sandwiches", ko: "샌드위치" },
-            { en: "the rest", ko: "나머지" },
+            { en: "the sandwiches", ko: "샌드위치", note: "메인 음식을 맡음" },
+            { en: "the rest", ko: "나머지", note: "남은 것 전부를 맡음" },
           ],
         ],
         example: {
@@ -424,13 +424,13 @@ export const B1_SCENARIOS: Scenario[] = [
         template: "Hi. I bought {0} here last week, but unfortunately it {1}.",
         blanks: [
           [
-            { en: "these headphones", ko: "이 헤드폰" },
-            { en: "this kettle", ko: "이 주전자" },
-            { en: "this charger", ko: "이 충전기" },
+            { en: "these headphones", ko: "이 헤드폰", note: "구매한 품목을 지칭" },
+            { en: "this kettle", ko: "이 주전자", note: "구매한 품목을 지칭" },
+            { en: "this charger", ko: "이 충전기", note: "구매한 품목을 지칭" },
           ],
           [
-            { en: "stopped working", ko: "작동을 멈췄다" },
-            { en: "won't turn on", ko: "켜지지 않는다" },
+            { en: "stopped working", ko: "작동을 멈췄다", note: "쓰다가 멈춘 경우" },
+            { en: "won't turn on", ko: "켜지지 않는다", note: "아예 켜지지 않는 경우" },
           ],
         ],
         example: {
@@ -446,12 +446,12 @@ export const B1_SCENARIOS: Scenario[] = [
         template: "Yes, I have it right here. I'd like to {0} if that's possible, or at least {1}.",
         blanks: [
           [
-            { en: "get a refund", ko: "환불받다" },
-            { en: "exchange it", ko: "교환하다" },
+            { en: "get a refund", ko: "환불받다", note: "돈을 돌려받길 원함" },
+            { en: "exchange it", ko: "교환하다", note: "같은 물건으로 바꾸길 원함" },
           ],
           [
-            { en: "have it repaired", ko: "수리받다" },
-            { en: "get a replacement", ko: "교체품을 받다" },
+            { en: "have it repaired", ko: "수리받다", note: "고쳐서 쓰는 차선책" },
+            { en: "get a replacement", ko: "교체품을 받다", note: "새 제품으로 받는 차선책" },
           ],
         ],
         example: {
@@ -467,13 +467,13 @@ export const B1_SCENARIOS: Scenario[] = [
         template: "Sure. It worked fine at first, but after {0} it suddenly {1} for no reason.",
         blanks: [
           [
-            { en: "a couple of days", ko: "며칠" },
-            { en: "the first use", ko: "첫 사용" },
+            { en: "a couple of days", ko: "며칠", note: "며칠 쓴 뒤 발생" },
+            { en: "the first use", ko: "첫 사용", note: "처음 쓰자마자 발생" },
           ],
           [
-            { en: "stopped charging", ko: "충전이 안 됐다" },
-            { en: "made a strange noise", ko: "이상한 소리가 났다" },
-            { en: "shut down", ko: "꺼졌다" },
+            { en: "stopped charging", ko: "충전이 안 됐다", note: "충전 문제로 콕 집음" },
+            { en: "made a strange noise", ko: "이상한 소리가 났다", note: "소음 증상을 호소" },
+            { en: "shut down", ko: "꺼졌다", note: "갑자기 꺼지는 증상" },
           ],
         ],
         example: {
@@ -489,12 +489,12 @@ export const B1_SCENARIOS: Scenario[] = [
         template: "Thank you, I really appreciate it. How long will it take for {0} to {1}?",
         blanks: [
           [
-            { en: "the refund", ko: "환불금" },
-            { en: "the money", ko: "그 금액" },
+            { en: "the refund", ko: "환불금", note: "환불 건을 격식 있게 지칭" },
+            { en: "the money", ko: "그 금액", note: "돈을 편하게 지칭" },
           ],
           [
-            { en: "appear on my card", ko: "제 카드에 반영되다" },
-            { en: "be returned", ko: "돌아오다" },
+            { en: "appear on my card", ko: "제 카드에 반영되다", note: "카드 환급에 초점" },
+            { en: "be returned", ko: "돌아오다", note: "돌려받는 과정을 두루 표현" },
           ],
         ],
         example: {

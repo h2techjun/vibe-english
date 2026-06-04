@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
-import type { Dialogue } from "@/types/dialogue";
+import type { Dialogue, BlankOption } from "@/types/dialogue";
 import type { ReviewGrade } from "@/types/srs";
 import { Rating } from "@/types/srs";
 import { REVIEW_GRADES } from "@/features/srs/scheduler";
@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { RevealableMeaning } from "@/components/revealable-meaning";
 import { useTts } from "./use-tts";
-import { Volume2, MessageSquareQuote } from "lucide-react";
+import { Volume2, MessageSquareQuote, Lightbulb } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type Part = { text: string } | { blank: number };
@@ -63,12 +63,6 @@ export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
   );
   const [completed, setCompleted] = useState(false);
 
-  // 상대 말 자동 재생
-  useEffect(() => {
-    if (supported) speak(dialogue.prompt.en);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dialogue.id]);
-
   const allFilled = selected.every((s) => s !== null);
   const sentence = parts
     .map((p) =>
@@ -116,14 +110,14 @@ export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
             {dialogue.prompt.en}
           </p>
           <Button
-            variant="ghost"
-            size="icon-sm"
-            className="shrink-0"
+            variant="outline"
+            size="sm"
+            className="shrink-0 gap-1"
             disabled={!supported}
             onClick={() => speak(dialogue.prompt.en)}
-            aria-label={t("listen")}
           >
             <Volume2 className="h-4 w-4" />
+            {t("listen")}
           </Button>
         </div>
         <div className="mt-1 text-sm">
@@ -223,6 +217,35 @@ export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
             </Button>
           </div>
 
+          {/* 표현 노트 — 빈칸 선택지들의 뉘앙스(언제·어떤 느낌) */}
+          {dialogue.blanks.some((opts) => opts.some((o) => o.note)) && (
+            <div className="mt-4 rounded-lg bg-amber-50 p-3 dark:bg-amber-950/30">
+              <p className="flex items-center gap-1.5 text-xs font-medium text-amber-700 dark:text-amber-400">
+                <Lightbulb className="h-3.5 w-3.5" />
+                {t("expressionNotes")}
+              </p>
+              <div className="mt-2 flex flex-col gap-1.5">
+                {dialogue.blanks.flatMap((opts, bi) =>
+                  opts
+                    .filter((o) => o.note)
+                    .map((o, oi) => (
+                      <div
+                        key={`${bi}-${oi}`}
+                        className="flex items-baseline gap-2"
+                      >
+                        <span className="shrink-0 text-sm font-medium text-blue-600 dark:text-blue-400">
+                          {o.en}
+                        </span>
+                        <span className="text-xs text-muted-foreground">
+                          {o.note}
+                        </span>
+                      </div>
+                    )),
+                )}
+              </div>
+            </div>
+          )}
+
           {/* 모범답안 + 대체 표현 */}
           <div className="mt-4">
             <p className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
@@ -230,30 +253,37 @@ export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
               {t("dialogueComplete")}
             </p>
             <ul className="mt-2 flex flex-col gap-2">
-              {[dialogue.example, ...dialogue.alternatives].map((alt, i) => (
-                <li
-                  key={i}
-                  className="rounded-lg border border-border/60 p-2.5 text-sm"
-                >
-                  <div className="flex items-center gap-1.5">
-                    <span>{alt.en}</span>
-                    <Button
-                      variant="ghost"
-                      size="icon-xs"
-                      disabled={!supported}
-                      onClick={() => speak(alt.en)}
-                      aria-label={t("listen")}
-                    >
-                      <Volume2 className="h-3.5 w-3.5" />
-                    </Button>
-                  </div>
-                  <RevealableMeaning
-                    ko={alt.ko}
-                    className="text-xs"
-                    revealedClassName="text-muted-foreground"
-                  />
-                </li>
-              ))}
+              {([dialogue.example, ...dialogue.alternatives] as BlankOption[]).map(
+                (alt, i) => (
+                  <li
+                    key={i}
+                    className="rounded-lg border border-border/60 p-2.5 text-sm"
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span>{alt.en}</span>
+                      <Button
+                        variant="ghost"
+                        size="icon-xs"
+                        disabled={!supported}
+                        onClick={() => speak(alt.en)}
+                        aria-label={t("listen")}
+                      >
+                        <Volume2 className="h-3.5 w-3.5" />
+                      </Button>
+                    </div>
+                    <RevealableMeaning
+                      ko={alt.ko}
+                      className="text-xs"
+                      revealedClassName="text-muted-foreground"
+                    />
+                    {alt.note && (
+                      <p className="mt-0.5 text-[11px] text-muted-foreground/80">
+                        {alt.note}
+                      </p>
+                    )}
+                  </li>
+                ),
+              )}
             </ul>
           </div>
 

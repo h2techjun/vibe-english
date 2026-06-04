@@ -19,19 +19,19 @@ export const C1_SCENARIOS: Scenario[] = [
         template: "By all means. Before we {0}, I'd like to {1} the {2} we're working toward.",
         blanks: [
           [
-            { en: "dive into the numbers", ko: "수치를 파고들기" },
-            { en: "get into specifics", ko: "세부 사항으로 들어가기" },
-            { en: "talk price", ko: "가격을 논의하기" },
+            { en: "dive into the numbers", ko: "수치를 파고들기", note: "숫자를 본격적으로 파고든다는 표현" },
+            { en: "get into specifics", ko: "세부 사항으로 들어가기", note: "세부 논의로 넘어간다는 무난한 표현" },
+            { en: "talk price", ko: "가격을 논의하기", note: "가격만 콕 집어 말하는 직설적 표현" },
           ],
           [
-            { en: "align on", ko: "합의해 두다" },
-            { en: "clarify", ko: "명확히 하다" },
-            { en: "lay out", ko: "제시하다" },
+            { en: "align on", ko: "합의해 두다", note: "방향을 미리 맞춰 둔다는 협업 어법" },
+            { en: "clarify", ko: "명확히 하다", note: "모호한 부분을 분명히 한다는 뉘앙스" },
+            { en: "lay out", ko: "제시하다", note: "목표를 펼쳐 보여 준다는 표현" },
           ],
           [
-            { en: "shared outcome", ko: "공동의 목표" },
-            { en: "broader goals", ko: "큰 그림의 목표" },
-            { en: "end result", ko: "최종 결과" },
+            { en: "shared outcome", ko: "공동의 목표", note: "양측이 함께 바라는 결과를 강조" },
+            { en: "broader goals", ko: "큰 그림의 목표", note: "더 넓은 차원의 목표를 강조" },
+            { en: "end result", ko: "최종 결과", note: "최종 도달점에 초점을 둔 표현" },
           ],
         ],
         example: {
@@ -47,19 +47,19 @@ export const C1_SCENARIOS: Scenario[] = [
         template: "I appreciate the {0}, but at that price the margins would be {1}. Could we {2} for a longer commitment?",
         blanks: [
           [
-            { en: "transparency", ko: "투명함" },
-            { en: "candor", ko: "솔직함" },
-            { en: "opening offer", ko: "첫 제안" },
+            { en: "transparency", ko: "투명함", note: "솔직히 공개해 준 점을 치켜세움" },
+            { en: "candor", ko: "솔직함", note: "꾸밈없는 솔직함을 격식 있게 칭찬" },
+            { en: "opening offer", ko: "첫 제안", note: "첫 제시안임을 중립적으로 지칭" },
           ],
           [
-            { en: "razor-thin", ko: "아주 빠듯한" },
-            { en: "hard to justify", ko: "정당화하기 어려운" },
-            { en: "untenable", ko: "감당하기 힘든" },
+            { en: "razor-thin", ko: "아주 빠듯한", note: "마진이 종잇장처럼 얇다는 비유" },
+            { en: "hard to justify", ko: "정당화하기 어려운", note: "내부 설득이 어렵다는 우회 표현" },
+            { en: "untenable", ko: "감당하기 힘든", note: "지속 불가능함을 격식 있게 단언" },
           ],
           [
-            { en: "revisit that", ko: "그 부분을 재고하다" },
-            { en: "explore some flexibility", ko: "유연성을 검토하다" },
-            { en: "find middle ground", ko: "절충점을 찾다" },
+            { en: "revisit that", ko: "그 부분을 재고하다", note: "그 가격을 다시 보자는 부드러운 요청" },
+            { en: "explore some flexibility", ko: "유연성을 검토하다", note: "여지를 함께 찾아보자는 완곡 제안" },
+            { en: "find middle ground", ko: "절충점을 찾다", note: "절충안을 찾자는 직접적 제안" },
           ],
         ],
         example: {
@@ -75,19 +75,19 @@ export const C1_SCENARIOS: Scenario[] = [
         template: "If we {0} to a three-year term, I'd hope you could {1} closer to $42. That would let us {2}.",
         blanks: [
           [
-            { en: "commit", ko: "약정하다" },
-            { en: "lock ourselves in", ko: "확정하다" },
-            { en: "sign on", ko: "계약하다" },
+            { en: "commit", ko: "약정하다", note: "기간을 약속한다는 표준 표현" },
+            { en: "lock ourselves in", ko: "확정하다", note: "스스로 묶인다는 다소 부담 섞인 뉘앙스" },
+            { en: "sign on", ko: "계약하다", note: "계약에 서명·합류한다는 구어체" },
           ],
           [
-            { en: "come down", ko: "낮춰 주다" },
-            { en: "meet us", ko: "맞춰 주다" },
-            { en: "land somewhere", ko: "어느 선에서 합의하다" },
+            { en: "come down", ko: "낮춰 주다", note: "가격을 내려 달라는 직접 요청" },
+            { en: "meet us", ko: "맞춰 주다", note: "우리 쪽으로 맞춰 달라는 협상 어법" },
+            { en: "land somewhere", ko: "어느 선에서 합의하다", note: "적정선에 안착하자는 완곡 표현" },
           ],
           [
-            { en: "scale together", ko: "함께 성장하다" },
-            { en: "grow the volume", ko: "물량을 키우다" },
-            { en: "make the partnership worthwhile", ko: "제휴를 가치 있게 만들다" },
+            { en: "scale together", ko: "함께 성장하다", note: "동반 성장의 비전을 강조" },
+            { en: "grow the volume", ko: "물량을 키우다", note: "거래 물량 확대에 초점" },
+            { en: "make the partnership worthwhile", ko: "제휴를 가치 있게 만들다", note: "제휴의 실익을 강조" },
           ],
         ],
         example: {
@@ -103,19 +103,19 @@ export const C1_SCENARIOS: Scenario[] = [
         template: "That feels like a {0}. Let's {1} at $45 with quarterly reviews, and I'll {2} this week.",
         blanks: [
           [
-            { en: "reasonable compromise", ko: "합리적인 절충" },
-            { en: "deal we can both live with", ko: "서로 받아들일 만한 합의" },
-            { en: "fair place to land", ko: "타당한 합의점" },
+            { en: "reasonable compromise", ko: "합리적인 절충", note: "합당한 타협임을 담백하게 평가" },
+            { en: "deal we can both live with", ko: "서로 받아들일 만한 합의", note: "양측이 수용 가능함을 강조하는 관용구" },
+            { en: "fair place to land", ko: "타당한 합의점", note: "공정한 착지점이라는 비유 표현" },
           ],
           [
-            { en: "shake on it", ko: "악수로 마무리하다" },
-            { en: "put that in writing", ko: "서면으로 남기다" },
-            { en: "move forward", ko: "진행하다" },
+            { en: "shake on it", ko: "악수로 마무리하다", note: "악수로 합의를 매듭짓는 관용구" },
+            { en: "put that in writing", ko: "서면으로 남기다", note: "구두 합의를 문서로 못 박자는 표현" },
+            { en: "move forward", ko: "진행하다", note: "다음 단계로 나아가자는 무난한 표현" },
           ],
           [
-            { en: "draw up the contract", ko: "계약서를 작성하다" },
-            { en: "loop in our legal team", ko: "법무팀을 합류시키다" },
-            { en: "send over the paperwork", ko: "서류를 보내다" },
+            { en: "draw up the contract", ko: "계약서를 작성하다", note: "직접 계약서를 작성하겠다는 표현" },
+            { en: "loop in our legal team", ko: "법무팀을 합류시키다", note: "법무팀을 끌어들이겠다는 실무 표현" },
+            { en: "send over the paperwork", ko: "서류를 보내다", note: "서류를 보내겠다는 가벼운 구어체" },
           ],
         ],
         example: {
@@ -143,19 +143,19 @@ export const C1_SCENARIOS: Scenario[] = [
         template: "That's a {0} question. Our confidence {1} the fact that we've already {2} the riskiest phase.",
         blanks: [
           [
-            { en: "fair", ko: "타당한" },
-            { en: "valid", ko: "정당한" },
-            { en: "perfectly reasonable", ko: "충분히 합리적인" },
+            { en: "fair", ko: "타당한", note: "질문이 정당하다고 가볍게 인정" },
+            { en: "valid", ko: "정당한", note: "논리적 타당성을 인정하는 표현" },
+            { en: "perfectly reasonable", ko: "충분히 합리적인", note: "지극히 합당함을 한층 강조" },
           ],
           [
-            { en: "rests on", ko: "~에 근거하다" },
-            { en: "comes down to", ko: "~로 귀결되다" },
-            { en: "stems from", ko: "~에서 비롯되다" },
+            { en: "rests on", ko: "~에 근거하다", note: "근거 위에 놓여 있다는 정적 비유" },
+            { en: "comes down to", ko: "~로 귀결되다", note: "결국 한 가지로 압축된다는 표현" },
+            { en: "stems from", ko: "~에서 비롯되다", note: "원천에서 비롯됨을 강조" },
           ],
           [
-            { en: "de-risked", ko: "위험을 줄여 두다" },
-            { en: "validated", ko: "검증해 두다" },
-            { en: "prototyped", ko: "시제품화해 두다" },
+            { en: "de-risked", ko: "위험을 줄여 두다", note: "리스크를 미리 제거했다는 전문 용어" },
+            { en: "validated", ko: "검증해 두다", note: "타당성을 입증해 두었다는 표현" },
+            { en: "prototyped", ko: "시제품화해 두다", note: "시제품으로 미리 만들어 봤다는 표현" },
           ],
         ],
         example: {
@@ -171,19 +171,19 @@ export const C1_SCENARIOS: Scenario[] = [
         template: "I'd {0} that. What they shipped {1} the surface, whereas our approach {2} the underlying problem.",
         blanks: [
           [
-            { en: "push back on", ko: "반론을 제기하다" },
-            { en: "respectfully challenge", ko: "정중히 이의를 제기하다" },
-            { en: "see it differently from", ko: "달리 보다" },
+            { en: "push back on", ko: "반론을 제기하다", note: "직접 반박하겠다는 비즈니스 관용구" },
+            { en: "respectfully challenge", ko: "정중히 이의를 제기하다", note: "예의를 갖춰 반론하는 격식체" },
+            { en: "see it differently from", ko: "달리 보다", note: "견해 차이를 부드럽게 표현" },
           ],
           [
-            { en: "barely scratches", ko: "겉만 살짝 건드리다" },
-            { en: "only addresses", ko: "일부만 다루다" },
-            { en: "skims", ko: "겉핥기로 다루다" },
+            { en: "barely scratches", ko: "겉만 살짝 건드리다", note: "표면만 긁었다는 비유 관용구" },
+            { en: "only addresses", ko: "일부만 다루다", note: "일부만 손댔다는 담백한 지적" },
+            { en: "skims", ko: "겉핥기로 다루다", note: "수박 겉핥기식임을 강조" },
           ],
           [
-            { en: "gets at", ko: "정곡을 찌르다" },
-            { en: "tackles", ko: "정면으로 다루다" },
-            { en: "goes after", ko: "파고들다" },
+            { en: "gets at", ko: "정곡을 찌르다", note: "핵심을 파고든다는 표현" },
+            { en: "tackles", ko: "정면으로 다루다", note: "문제에 정면으로 맞선다는 표현" },
+            { en: "goes after", ko: "파고들다", note: "적극적으로 공략한다는 뉘앙스" },
           ],
         ],
         example: {
@@ -199,19 +199,19 @@ export const C1_SCENARIOS: Scenario[] = [
         template: "Good catch. We've {0} a buffer into Q3, so even if things {1}, the launch date {2}.",
         blanks: [
           [
-            { en: "built in", ko: "내장하다" },
-            { en: "baked", ko: "포함시키다" },
-            { en: "factored", ko: "감안하다" },
+            { en: "built in", ko: "내장하다", note: "처음부터 여유를 넣어 뒀다는 표현" },
+            { en: "baked", ko: "포함시키다", note: "baked in, 녹여 넣었다는 구어 관용구" },
+            { en: "factored", ko: "감안하다", note: "계산에 미리 반영했다는 표현" },
           ],
           [
-            { en: "slip a little", ko: "조금 밀리다" },
-            { en: "run long", ko: "예상보다 길어지다" },
-            { en: "hit a snag", ko: "차질이 생기다" },
+            { en: "slip a little", ko: "조금 밀리다", note: "일정이 살짝 지연됨을 가볍게" },
+            { en: "run long", ko: "예상보다 길어지다", note: "예상보다 오래 걸림을 표현" },
+            { en: "hit a snag", ko: "차질이 생기다", note: "예기치 않은 걸림돌을 만난다는 관용구" },
           ],
           [
-            { en: "holds", ko: "유지되다" },
-            { en: "stays intact", ko: "그대로 유지되다" },
-            { en: "won't budge", ko: "흔들리지 않다" },
+            { en: "holds", ko: "유지되다", note: "흔들림 없이 지켜진다는 간결한 표현" },
+            { en: "stays intact", ko: "그대로 유지되다", note: "온전히 그대로 보존됨을 강조" },
+            { en: "won't budge", ko: "흔들리지 않다", note: "꿈쩍도 않는다는 단호한 강조" },
           ],
         ],
         example: {
@@ -227,19 +227,19 @@ export const C1_SCENARIOS: Scenario[] = [
         template: "Absolutely. I'll {0} the full plan by Friday, and I'm happy to {1} offline if any of it {2}.",
         blanks: [
           [
-            { en: "circulate", ko: "회람시키다" },
-            { en: "walk you through", ko: "차근차근 설명하다" },
-            { en: "share", ko: "공유하다" },
+            { en: "circulate", ko: "회람시키다", note: "여러 사람에게 돌려 본다는 격식체" },
+            { en: "walk you through", ko: "차근차근 설명하다", note: "직접 단계별로 안내하겠다는 표현" },
+            { en: "share", ko: "공유하다", note: "가장 무난하게 전달한다는 표현" },
           ],
           [
-            { en: "dig deeper", ko: "더 깊이 파고들다" },
-            { en: "hash it out", ko: "충분히 논의하다" },
-            { en: "go point by point", ko: "항목별로 짚다" },
+            { en: "dig deeper", ko: "더 깊이 파고들다", note: "한층 깊이 파고들겠다는 표현" },
+            { en: "hash it out", ko: "충분히 논의하다", note: "끝까지 따져 정리한다는 구어 관용구" },
+            { en: "go point by point", ko: "항목별로 짚다", note: "하나씩 차례로 짚겠다는 표현" },
           ],
           [
-            { en: "needs clarifying", ko: "명확히 할 필요가 있다" },
-            { en: "raises further questions", ko: "추가 의문을 낳다" },
-            { en: "warrants a closer look", ko: "더 들여다볼 가치가 있다" },
+            { en: "needs clarifying", ko: "명확히 할 필요가 있다", note: "분명히 할 부분이 있다는 표현" },
+            { en: "raises further questions", ko: "추가 의문을 낳다", note: "또 다른 의문이 생긴다는 표현" },
+            { en: "warrants a closer look", ko: "더 들여다볼 가치가 있다", note: "정밀히 볼 가치가 있다는 격식체" },
           ],
         ],
         example: {
@@ -267,19 +267,19 @@ export const C1_SCENARIOS: Scenario[] = [
         template: "Thank you. I'd say I've {0} well beyond my role, particularly in {1} the launch that {2} the whole team.",
         blanks: [
           [
-            { en: "stepped up", ko: "한 단계 더 나아가다" },
-            { en: "stretched", ko: "역량을 펼치다" },
-            { en: "grown", ko: "성장하다" },
+            { en: "stepped up", ko: "한 단계 더 나아가다", note: "책임을 맡고 분발했다는 관용구" },
+            { en: "stretched", ko: "역량을 펼치다", note: "한계를 넘어 역량을 확장했다는 표현" },
+            { en: "grown", ko: "성장하다", note: "꾸준히 성장했다는 담백한 표현" },
           ],
           [
-            { en: "spearheading", ko: "주도하다" },
-            { en: "driving", ko: "이끌다" },
-            { en: "owning", ko: "전적으로 맡다" },
+            { en: "spearheading", ko: "주도하다", note: "선봉에서 이끌었다는 강한 주도성" },
+            { en: "driving", ko: "이끌다", note: "추진력 있게 끌고 갔다는 표현" },
+            { en: "owning", ko: "전적으로 맡다", note: "전적인 책임을 졌다는 표현" },
           ],
           [
-            { en: "unblocked", ko: "걸림돌을 해소하다" },
-            { en: "galvanized", ko: "활력을 불어넣다" },
-            { en: "carried", ko: "이끌어 가다" },
+            { en: "unblocked", ko: "걸림돌을 해소하다", note: "막힌 길을 뚫어 줬다는 표현" },
+            { en: "galvanized", ko: "활력을 불어넣다", note: "팀에 활력을 불어넣었다는 격식체" },
+            { en: "carried", ko: "이끌어 가다", note: "팀을 짊어지고 이끌었다는 뉘앙스" },
           ],
         ],
         example: {
@@ -295,19 +295,19 @@ export const C1_SCENARIOS: Scenario[] = [
         template: "I'd like to {0} a promotion to senior. I feel I've been {1} at that level for a while, and I'm ready to {2}.",
         blanks: [
           [
-            { en: "make the case for", ko: "~을 주장하다" },
-            { en: "put myself forward for", ko: "~에 스스로를 내세우다" },
-            { en: "formally request", ko: "공식적으로 요청하다" },
+            { en: "make the case for", ko: "~을 주장하다", note: "근거를 들어 설득하겠다는 표현" },
+            { en: "put myself forward for", ko: "~에 스스로를 내세우다", note: "스스로 후보로 나선다는 적극적 표현" },
+            { en: "formally request", ko: "공식적으로 요청하다", note: "절차에 따라 정식 요청하는 격식체" },
           ],
           [
-            { en: "operating", ko: "활동하다" },
-            { en: "performing", ko: "성과를 내다" },
-            { en: "delivering", ko: "결과를 내다" },
+            { en: "operating", ko: "활동하다", note: "그 수준에서 일해 왔다는 표현" },
+            { en: "performing", ko: "성과를 내다", note: "이미 성과를 내 왔다는 강조" },
+            { en: "delivering", ko: "결과를 내다", note: "결과물을 꾸준히 냈다는 표현" },
           ],
           [
-            { en: "take on more scope", ko: "더 넓은 범위를 맡다" },
-            { en: "lead from the front", ko: "앞장서서 이끌다" },
-            { en: "own bigger bets", ko: "더 큰 도전을 책임지다" },
+            { en: "take on more scope", ko: "더 넓은 범위를 맡다", note: "담당 범위 확대를 바란다는 표현" },
+            { en: "lead from the front", ko: "앞장서서 이끌다", note: "솔선수범해 이끌겠다는 관용구" },
+            { en: "own bigger bets", ko: "더 큰 도전을 책임지다", note: "더 큰 승부를 책임지겠다는 뉘앙스" },
           ],
         ],
         example: {
@@ -323,19 +323,19 @@ export const C1_SCENARIOS: Scenario[] = [
         template: "That's fair. To {0} that, I've started {1} two juniors and {2} the architecture decisions — happy to document it.",
         blanks: [
           [
-            { en: "get ahead of", ko: "선제적으로 대응하다" },
-            { en: "address", ko: "해소하다" },
-            { en: "preempt", ko: "미리 차단하다" },
+            { en: "get ahead of", ko: "선제적으로 대응하다", note: "문제를 앞질러 대비한다는 관용구" },
+            { en: "address", ko: "해소하다", note: "정면으로 다뤄 해결한다는 표현" },
+            { en: "preempt", ko: "미리 차단하다", note: "사전에 싹을 자른다는 강한 표현" },
           ],
           [
-            { en: "mentoring", ko: "멘토링하다" },
-            { en: "coaching", ko: "지도하다" },
-            { en: "onboarding", ko: "적응을 돕다" },
+            { en: "mentoring", ko: "멘토링하다", note: "장기적 성장을 이끄는 멘토 역할" },
+            { en: "coaching", ko: "지도하다", note: "실무 역량을 코칭한다는 표현" },
+            { en: "onboarding", ko: "적응을 돕다", note: "신규 인력의 안착을 돕는다는 표현" },
           ],
           [
-            { en: "owning", ko: "책임지다" },
-            { en: "driving", ko: "주도하다" },
-            { en: "anchoring", ko: "중심을 잡다" },
+            { en: "owning", ko: "책임지다", note: "전적인 책임을 진다는 표현" },
+            { en: "driving", ko: "주도하다", note: "추진력 있게 끌고 간다는 표현" },
+            { en: "anchoring", ko: "중심을 잡다", note: "흔들리지 않게 중심을 잡는다는 비유" },
           ],
         ],
         example: {
@@ -351,19 +351,19 @@ export const C1_SCENARIOS: Scenario[] = [
         template: "I really {0} your support. I'll {1} the doc with metrics by next week, and I'm {2} the outcome with you.",
         blanks: [
           [
-            { en: "appreciate", ko: "감사하게 여기다" },
-            { en: "value", ko: "소중히 여기다" },
-            { en: "am grateful for", ko: "고맙게 생각하다" },
+            { en: "appreciate", ko: "감사하게 여기다", note: "지원을 고맙게 여긴다는 표준 표현" },
+            { en: "value", ko: "소중히 여기다", note: "지지를 값지게 평가한다는 뉘앙스" },
+            { en: "am grateful for", ko: "고맙게 생각하다", note: "진심 어린 감사를 격식 있게" },
           ],
           [
-            { en: "pull together", ko: "정리해 모으다" },
-            { en: "put together", ko: "작성하다" },
-            { en: "compile", ko: "취합하다" },
+            { en: "pull together", ko: "정리해 모으다", note: "흩어진 자료를 그러모은다는 표현" },
+            { en: "put together", ko: "작성하다", note: "문서를 만들어 낸다는 무난한 표현" },
+            { en: "compile", ko: "취합하다", note: "체계적으로 취합한다는 격식체" },
           ],
           [
-            { en: "happy to share ownership of", ko: "기꺼이 함께 책임지다" },
-            { en: "fully invested in", ko: "전적으로 몰입한" },
-            { en: "in this together on", ko: "함께 헤쳐 나가는" },
+            { en: "happy to share ownership of", ko: "기꺼이 함께 책임지다", note: "결과를 함께 책임지겠다는 협업 어법" },
+            { en: "fully invested in", ko: "전적으로 몰입한", note: "결과에 온전히 헌신한다는 강조" },
+            { en: "in this together on", ko: "함께 헤쳐 나가는", note: "한배를 탔다는 동지애적 표현" },
           ],
         ],
         example: {
@@ -391,19 +391,19 @@ export const C1_SCENARIOS: Scenario[] = [
         template: "I can tell you're {0}, and that's completely understandable. Before we {1} blame, let's {2} what actually happened.",
         blanks: [
           [
-            { en: "frustrated", ko: "답답한" },
-            { en: "running on empty", ko: "지칠 대로 지친" },
-            { en: "at your wit's end", ko: "어찌할 바를 모르는" },
+            { en: "frustrated", ko: "답답한", note: "감정을 무난하게 짚어 주는 표현" },
+            { en: "running on empty", ko: "지칠 대로 지친", note: "연료가 바닥났다는 소진 비유" },
+            { en: "at your wit's end", ko: "어찌할 바를 모르는", note: "한계에 다다른 막막함을 강조" },
           ],
           [
-            { en: "assign", ko: "돌리다" },
-            { en: "point fingers about", ko: "탓을 돌리다" },
-            { en: "get into", ko: "따지다" },
+            { en: "assign", ko: "돌리다", note: "책임을 배정한다는 중립적 표현" },
+            { en: "point fingers about", ko: "탓을 돌리다", note: "손가락질하며 비난한다는 부정적 뉘앙스" },
+            { en: "get into", ko: "따지다", note: "시시비비를 파고든다는 구어체" },
           ],
           [
-            { en: "untangle", ko: "차근차근 풀다" },
-            { en: "piece together", ko: "조각을 맞추다" },
-            { en: "walk back through", ko: "되짚어 보다" },
+            { en: "untangle", ko: "차근차근 풀다", note: "얽힌 실타래를 푼다는 비유" },
+            { en: "piece together", ko: "조각을 맞추다", note: "흩어진 사실을 짜맞춘다는 표현" },
+            { en: "walk back through", ko: "되짚어 보다", note: "처음부터 되돌아 짚어 본다는 표현" },
           ],
         ],
         example: {
@@ -419,19 +419,19 @@ export const C1_SCENARIOS: Scenario[] = [
         template: "So it sounds like there was a {0} on both sides. Rather than {1}, can we focus on what each of you {2} going forward?",
         blanks: [
           [
-            { en: "breakdown in communication", ko: "의사소통 단절" },
-            { en: "genuine misunderstanding", ko: "진심 어린 오해" },
-            { en: "gap in expectations", ko: "기대치의 간극" },
+            { en: "breakdown in communication", ko: "의사소통 단절", note: "소통이 완전히 끊겼음을 진단" },
+            { en: "genuine misunderstanding", ko: "진심 어린 오해", note: "악의 없는 오해였음을 부각해 감싸 줌" },
+            { en: "gap in expectations", ko: "기대치의 간극", note: "서로의 기대 차이를 객관적으로 짚음" },
           ],
           [
-            { en: "rehashing the past", ko: "지난 일을 곱씹다" },
-            { en: "dwelling on it", ko: "거기에 집착하다" },
-            { en: "relitigating who's right", ko: "누가 옳은지 다시 따지다" },
+            { en: "rehashing the past", ko: "지난 일을 곱씹다", note: "지난 일을 되풀이해 들춘다는 표현" },
+            { en: "dwelling on it", ko: "거기에 집착하다", note: "한 곳에 매여 곱씹는다는 뉘앙스" },
+            { en: "relitigating who's right", ko: "누가 옳은지 다시 따지다", note: "잘잘못을 재차 가린다는 강한 표현" },
           ],
           [
-            { en: "needs from the other", ko: "상대에게 필요로 하는 것" },
-            { en: "can commit to", ko: "약속할 수 있는 것" },
-            { en: "will own", ko: "책임질 것" },
+            { en: "needs from the other", ko: "상대에게 필요로 하는 것", note: "상대에게 바라는 바에 초점" },
+            { en: "can commit to", ko: "약속할 수 있는 것", note: "각자 지킬 수 있는 약속에 초점" },
+            { en: "will own", ko: "책임질 것", note: "각자 책임질 몫에 초점" },
           ],
         ],
         example: {
@@ -447,19 +447,19 @@ export const C1_SCENARIOS: Scenario[] = [
         template: "Not at all — that's a {0} ask. What if we {1} a quick sync at each handoff so nothing {2}?",
         blanks: [
           [
-            { en: "perfectly reasonable", ko: "지극히 합리적인" },
-            { en: "completely fair", ko: "전적으로 타당한" },
-            { en: "low-cost", ko: "부담 없는" },
+            { en: "perfectly reasonable", ko: "지극히 합리적인", note: "지극히 당연한 요청임을 인정" },
+            { en: "completely fair", ko: "전적으로 타당한", note: "전적으로 공정하다고 지지" },
+            { en: "low-cost", ko: "부담 없는", note: "비용·수고가 거의 없음을 강조" },
           ],
           [
-            { en: "build in", ko: "정착시키다" },
-            { en: "agree to", ko: "합의하다" },
-            { en: "put in place", ko: "마련하다" },
+            { en: "build in", ko: "정착시키다", note: "절차로 아예 끼워 넣어 정착시킴" },
+            { en: "agree to", ko: "합의하다", note: "서로 합의로 정한다는 표현" },
+            { en: "put in place", ko: "마련하다", note: "장치·절차를 마련해 둔다는 표현" },
           ],
           [
-            { en: "falls through the cracks", ko: "사이로 빠져나가다" },
-            { en: "catches anyone off guard", ko: "누구를 당황시키다" },
-            { en: "slips by unnoticed", ko: "눈에 띄지 않게 지나가다" },
+            { en: "falls through the cracks", ko: "사이로 빠져나가다", note: "틈새로 누락되는 일을 막자는 관용구" },
+            { en: "catches anyone off guard", ko: "누구를 당황시키다", note: "허를 찔려 당황하는 일을 막자는 표현" },
+            { en: "slips by unnoticed", ko: "눈에 띄지 않게 지나가다", note: "모르게 지나치는 일을 막자는 표현" },
           ],
         ],
         example: {
@@ -475,19 +475,19 @@ export const C1_SCENARIOS: Scenario[] = [
         template: "I'm glad we could {0}. Let's {1} this conversation in writing so we both {2}, and we'll revisit in two weeks.",
         blanks: [
           [
-            { en: "clear the air", ko: "오해를 풀다" },
-            { en: "find common ground", ko: "공통분모를 찾다" },
-            { en: "talk it through", ko: "허심탄회하게 이야기하다" },
+            { en: "clear the air", ko: "오해를 풀다", note: "묵은 앙금을 걷어 낸다는 관용구" },
+            { en: "find common ground", ko: "공통분모를 찾다", note: "공통점을 찾아냈다는 표현" },
+            { en: "talk it through", ko: "허심탄회하게 이야기하다", note: "터놓고 끝까지 이야기했다는 표현" },
           ],
           [
-            { en: "capture", ko: "기록하다" },
-            { en: "write up", ko: "정리해 적다" },
-            { en: "document", ko: "문서화하다" },
+            { en: "capture", ko: "기록하다", note: "내용을 놓치지 않고 담아 둔다는 표현" },
+            { en: "write up", ko: "정리해 적다", note: "깔끔히 정리해 작성한다는 표현" },
+            { en: "document", ko: "문서화하다", note: "공식 문서로 남긴다는 격식체" },
           ],
           [
-            { en: "stay on the same page", ko: "같은 이해를 유지하다" },
-            { en: "hold ourselves accountable", ko: "스스로 책임을 지다" },
-            { en: "know where we stand", ko: "서로의 입장을 명확히 하다" },
+            { en: "stay on the same page", ko: "같은 이해를 유지하다", note: "인식을 일치시켜 둔다는 관용구" },
+            { en: "hold ourselves accountable", ko: "스스로 책임을 지다", note: "스스로에게 책임을 부여한다는 표현" },
+            { en: "know where we stand", ko: "서로의 입장을 명확히 하다", note: "각자 위치를 분명히 안다는 표현" },
           ],
         ],
         example: {
@@ -515,19 +515,19 @@ export const C1_SCENARIOS: Scenario[] = [
         template: "I won't {0} you with promises. Instead, I'd rather {1} a small win first and let the results {2}.",
         blanks: [
           [
-            { en: "bombard", ko: "퍼붓다" },
-            { en: "oversell", ko: "과장해 팔다" },
-            { en: "win over", ko: "구슬리다" },
+            { en: "bombard", ko: "퍼붓다", note: "약속을 쏟아붓지 않겠다는 비유" },
+            { en: "oversell", ko: "과장해 팔다", note: "과대 포장하지 않겠다는 솔직함" },
+            { en: "win over", ko: "구슬리다", note: "말로 환심을 사려 들지 않겠다는 뉘앙스" },
           ],
           [
-            { en: "prove out", ko: "실제로 입증하다" },
-            { en: "demonstrate", ko: "직접 보여 주다" },
-            { en: "earn", ko: "쟁취하다" },
+            { en: "prove out", ko: "실제로 입증하다", note: "실제 결과로 증명한다는 표현" },
+            { en: "demonstrate", ko: "직접 보여 주다", note: "눈앞에 직접 시연한다는 표현" },
+            { en: "earn", ko: "쟁취하다", note: "성과로 신뢰를 얻어 낸다는 뉘앙스" },
           ],
           [
-            { en: "speak for themselves", ko: "스스로 말하게 하다" },
-            { en: "do the talking", ko: "결과로 증명하다" },
-            { en: "build the trust", ko: "신뢰를 쌓다" },
+            { en: "speak for themselves", ko: "스스로 말하게 하다", note: "결과가 알아서 증명한다는 관용구" },
+            { en: "do the talking", ko: "결과로 증명하다", note: "말 대신 결과가 대변한다는 표현" },
+            { en: "build the trust", ko: "신뢰를 쌓다", note: "차근차근 신뢰를 구축한다는 표현" },
           ],
         ],
         example: {
@@ -543,19 +543,19 @@ export const C1_SCENARIOS: Scenario[] = [
         template: "I share that concern, which is why we'd {0} it to thirty days with a {1} success metric you {2} upfront.",
         blanks: [
           [
-            { en: "box", ko: "한정하다" },
-            { en: "time-box", ko: "기간을 못 박다" },
-            { en: "cap", ko: "상한을 두다" },
+            { en: "box", ko: "한정하다", note: "범위를 가둬 제한한다는 비유" },
+            { en: "time-box", ko: "기간을 못 박다", note: "기한을 못 박는다는 실무 용어" },
+            { en: "cap", ko: "상한을 두다", note: "상한선을 둔다는 표현" },
           ],
           [
-            { en: "single", ko: "단일한" },
-            { en: "clear-cut", ko: "명확한" },
-            { en: "agreed-upon", ko: "합의된" },
+            { en: "single", ko: "단일한", note: "딱 하나로 좁힌다는 강조" },
+            { en: "clear-cut", ko: "명확한", note: "군더더기 없이 명료하다는 표현" },
+            { en: "agreed-upon", ko: "합의된", note: "사전에 합의된 것임을 강조" },
           ],
           [
-            { en: "define", ko: "정의하다" },
-            { en: "sign off on", ko: "승인하다" },
-            { en: "set", ko: "정하다" },
+            { en: "define", ko: "정의하다", note: "기준을 직접 규정한다는 표현" },
+            { en: "sign off on", ko: "승인하다", note: "최종 결재·승인한다는 표현" },
+            { en: "set", ko: "정하다", note: "가장 간결하게 정한다는 표현" },
           ],
         ],
         example: {
@@ -571,19 +571,19 @@ export const C1_SCENARIOS: Scenario[] = [
         template: "Then you {0} us nothing — we only {1} once we've {2}. The risk sits squarely with us.",
         blanks: [
           [
-            { en: "owe", ko: "지불할 의무가 있다" },
-            { en: "pay", ko: "지불하다" },
-            { en: "are on the hook for", ko: "부담하다" },
+            { en: "owe", ko: "지불할 의무가 있다", note: "지불 의무가 발생한다는 표현" },
+            { en: "pay", ko: "지불하다", note: "가장 단순하게 지불한다는 표현" },
+            { en: "are on the hook for", ko: "부담하다", note: "책임지고 떠안는다는 구어 관용구" },
           ],
           [
-            { en: "get paid", ko: "보수를 받다" },
-            { en: "invoice", ko: "청구하다" },
-            { en: "collect", ko: "수금하다" },
+            { en: "get paid", ko: "보수를 받다", note: "대가를 받는다는 일반적 표현" },
+            { en: "invoice", ko: "청구하다", note: "청구서를 발행한다는 실무 용어" },
+            { en: "collect", ko: "수금하다", note: "대금을 거둬들인다는 표현" },
           ],
           [
-            { en: "earned it", ko: "그만한 자격을 갖추다" },
-            { en: "moved the needle", ko: "실질적 변화를 만들다" },
-            { en: "delivered", ko: "약속을 이행하다" },
+            { en: "earned it", ko: "그만한 자격을 갖추다", note: "받을 자격을 입증했을 때를 강조" },
+            { en: "moved the needle", ko: "실질적 변화를 만들다", note: "눈에 띄는 변화를 냈다는 관용구" },
+            { en: "delivered", ko: "약속을 이행하다", note: "약속한 결과를 내놓았다는 표현" },
           ],
         ],
         example: {
@@ -599,19 +599,19 @@ export const C1_SCENARIOS: Scenario[] = [
         template: "I'm glad it {0}. Let me {1} a one-page scope today, and we can {2} as soon as you're comfortable.",
         blanks: [
           [
-            { en: "resonates", ko: "공감을 얻다" },
-            { en: "lands", ko: "와닿다" },
-            { en: "strikes a chord", ko: "마음을 움직이다" },
+            { en: "resonates", ko: "공감을 얻다", note: "마음에 울림을 준다는 표현" },
+            { en: "lands", ko: "와닿다", note: "메시지가 제대로 꽂혔다는 구어체" },
+            { en: "strikes a chord", ko: "마음을 움직이다", note: "심금을 울린다는 관용구" },
           ],
           [
-            { en: "draft", ko: "초안을 작성하다" },
-            { en: "put together", ko: "마련하다" },
-            { en: "send over", ko: "보내 드리다" },
+            { en: "draft", ko: "초안을 작성하다", note: "초안을 직접 잡아 보겠다는 표현" },
+            { en: "put together", ko: "마련하다", note: "문서를 만들어 내겠다는 무난한 표현" },
+            { en: "send over", ko: "보내 드리다", note: "곧장 보내 주겠다는 가벼운 표현" },
           ],
           [
-            { en: "kick things off", ko: "착수하다" },
-            { en: "get the ball rolling", ko: "일을 시작하다" },
-            { en: "hit the ground running", ko: "곧바로 본격 가동하다" },
+            { en: "kick things off", ko: "착수하다", note: "본격적으로 시작한다는 관용구" },
+            { en: "get the ball rolling", ko: "일을 시작하다", note: "일에 시동을 건다는 비유 관용구" },
+            { en: "hit the ground running", ko: "곧바로 본격 가동하다", note: "시작하자마자 전력 질주한다는 관용구" },
           ],
         ],
         example: {

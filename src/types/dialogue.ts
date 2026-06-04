@@ -14,8 +14,17 @@ export interface Bilingual {
   ko: string;
 }
 
-/** 빈칸 하나에 들어갈 수 있는 선택지 (어느 것을 골라도 자연스러움) */
-export type DialogueBlank = Bilingual[];
+/**
+ * 빈칸 선택지 (어느 것을 골라도 자연스러움).
+ * note = 이 표현의 뉘앙스: 언제·어떤 느낌으로 쓰는지 (격식/친근/강조 등, 한국어).
+ * 완성 후 "표현 노트"로 보여줘 차이를 학습한다.
+ */
+export interface BlankOption extends Bilingual {
+  note?: string;
+}
+
+/** 빈칸 하나에 들어갈 수 있는 선택지들 */
+export type DialogueBlank = BlankOption[];
 
 export interface Dialogue {
   /** 안정적 고유 ID. 예: "dlg-a1-greetings-001" */
@@ -36,6 +45,6 @@ export interface Dialogue {
   blanks: DialogueBlank[];
   /** 완성 예시 응답 (한/영) — 한 가지 자연스러운 조합 */
   example: Bilingual;
-  /** 같은 상황에서 쓸 수 있는 다른 표현 2~3개 (한/영) */
-  alternatives: Bilingual[];
+  /** 같은 상황에서 쓸 수 있는 다른 표현 2~3개 (한/영 + 뉘앙스 note) */
+  alternatives: BlankOption[];
 }

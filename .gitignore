@@ -57,3 +57,6 @@ releases/
 
 # Playwright MCP 검증 아티팩트
 .playwright-mcp/
+
+# Python (임시 검증 스크립트)
+__pycache__/
