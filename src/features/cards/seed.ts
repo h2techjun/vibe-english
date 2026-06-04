@@ -6,6 +6,7 @@ import { db } from "@/lib/db";
 import { DEFAULT_SETTINGS } from "@/types/srs";
 import { ALL_CARDS, ALL_DECKS, SEED_VERSION } from "./data";
 import { ALL_DIALOGUES } from "./data/dialogues";
+import { ALL_SCENARIOS } from "./data/scenarios";
 
 /**
  * 콘텐츠가 최신 버전으로 적재되어 있는지 보장한다.
@@ -19,18 +20,17 @@ export async function ensureSeeded(): Promise<void> {
 
     await db.transaction(
     "rw",
-    db.cards,
-    db.decks,
-    db.dialogues,
-    db.settings,
+    [db.cards, db.decks, db.dialogues, db.scenarios, db.settings],
     async () => {
       // 콘텐츠는 통째로 교체 (id 안정 → progress 는 별도 테이블이라 보존됨)
       await db.cards.clear();
       await db.decks.clear();
       await db.dialogues.clear();
+      await db.scenarios.clear();
       await db.cards.bulkPut(ALL_CARDS);
       await db.decks.bulkPut(ALL_DECKS);
       await db.dialogues.bulkPut(ALL_DIALOGUES);
+      await db.scenarios.bulkPut(ALL_SCENARIOS);
 
       if (settings) {
         await db.settings.update("main", { seedVersion: SEED_VERSION });

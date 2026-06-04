@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import type { VocabCard } from "@/types/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useTts } from "./use-tts";
-import { Volume2, Turtle, Eye } from "lucide-react";
+import { Volume2, Turtle, Eye, Mic } from "lucide-react";
 
 interface Props {
   card: VocabCard;
@@ -19,9 +19,11 @@ interface Props {
 export function Flashcard({ card, revealed, isNew, onReveal }: Props) {
   const t = useTranslations("study");
   const { speak, supported } = useTts();
+  const [shadowing, setShadowing] = useState(false);
 
   // 앞면이 새로 보일 때 표현을 한 번 자동 재생
   useEffect(() => {
+    setShadowing(false);
     if (supported) speak(card.en);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [card.id]);
@@ -74,7 +76,24 @@ export function Flashcard({ card, revealed, isNew, onReveal }: Props) {
           >
             <Turtle className="h-4 w-4" /> {t("slow")}
           </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-1.5"
+            disabled={!supported}
+            onClick={() => {
+              speak(card.en, { rate: 0.7 });
+              setShadowing(true);
+            }}
+          >
+            <Mic className="h-4 w-4" /> {t("shadow")}
+          </Button>
         </div>
+        {shadowing && (
+          <p className="mt-2 text-center text-xs font-medium text-blue-500">
+            🗣️ {t("shadowHint")}
+          </p>
+        )}
         {!supported && (
           <p className="mt-2 text-center text-xs text-muted-foreground">
             {t("ttsUnsupported")}

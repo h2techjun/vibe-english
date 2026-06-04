@@ -168,11 +168,19 @@ export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
                 </span>
                 <div className="flex flex-wrap gap-2">
                   {options.map((opt, oi) => (
-                    <button
+                    <div
                       key={oi}
+                      role="button"
+                      tabIndex={0}
                       onClick={() => pick(bi, oi)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          pick(bi, oi);
+                        }
+                      }}
                       className={cn(
-                        "flex items-center gap-1.5 rounded-lg border px-3 py-2 text-sm transition-colors",
+                        "flex cursor-pointer items-center gap-1.5 rounded-lg border px-3 py-2 text-sm transition-colors",
                         selected[bi] === oi
                           ? "border-blue-500 bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300"
                           : "border-border hover:border-blue-300",
@@ -184,7 +192,7 @@ export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
                         className="text-[11px]"
                         revealedClassName="text-muted-foreground"
                       />
-                    </button>
+                    </div>
                   ))}
                 </div>
               </div>

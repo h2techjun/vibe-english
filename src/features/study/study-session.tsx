@@ -10,17 +10,31 @@ import { Rating } from "@/types/srs";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Loader2, PartyPopper, Coffee } from "lucide-react";
-import { buildStudyQueue, getProgressMap, applyGrade } from "@/features/srs/repository";
+import {
+  buildStudyQueue,
+  getProgressMap,
+  applyGrade,
+  getWeakCards,
+} from "@/features/srs/repository";
 import { previewIntervalsMin, REVIEW_GRADES } from "@/features/srs/scheduler";
 import { db } from "@/lib/db";
 import { Flashcard } from "./flashcard";
 import { ClozeCard } from "./cloze-card";
+import { ListenCard } from "./listen-card";
 import { DialogueSession } from "./dialogue-session";
+import { ScenarioSession } from "./scenario-session";
 import { buildWordPool } from "./cloze";
 import { cn } from "@/lib/utils";
 
 type Status = "loading" | "studying" | "empty" | "done";
-type StudyMode = "flashcard" | "cloze" | "dialogue";
+type StudyMode = "flashcard" | "cloze" | "listen" | "dialogue";
+
+const MODE_LABEL: Record<StudyMode, string> = {
+  flashcard: "modeFlashcard",
+  cloze: "modeCloze",
+  listen: "modeListen",
+  dialogue: "modeDialogue",
+};
 
 const GRADE_STYLES: Record<ReviewGrade, string> = {
   [Rating.Again]: "bg-rose-600 hover:bg-rose-600/90 text-white",
@@ -40,6 +54,7 @@ export function StudySession() {
   const t = useTranslations("study");
   const searchParams = useSearchParams();
   const deckId = searchParams.get("deck") ?? undefined;
+  const weak = searchParams.get("weak") === "1";
   const [status, setStatus] = useState<Status>("loading");
   const [queue, setQueue] = useState<VocabCard[]>([]);
   const [progressMap, setProgressMap] = useState<Map<string, CardProgress>>(
@@ -50,6 +65,7 @@ export function StudySession() {
   const [studied, setStudied] = useState(0);
   const [busy, setBusy] = useState(false);
   const [mode, setMode] = useState<StudyMode>("flashcard");
+  const [dlgSub, setDlgSub] = useState<"single" | "scenario">("single");
   const [wordPool, setWordPool] = useState<string[]>([]);
 
   useEffect(() => {
@@ -57,7 +73,9 @@ export function StudySession() {
     (async () => {
       const now = new Date();
       const [q, pm, allCards] = await Promise.all([
-        buildStudyQueue(now, deckId),
+        weak
+          ? getWeakCards().then((r) => ({ cards: r.cards }))
+          : buildStudyQueue(now, deckId),
         getProgressMap(),
         db.cards.toArray(),
       ]);
@@ -70,7 +88,7 @@ export function StudySession() {
     return () => {
       mounted = false;
     };
-  }, [deckId]);
+  }, [deckId, weak]);
 
   function switchMode(next: StudyMode) {
     if (next === mode) return;
@@ -127,10 +145,10 @@ export function StudySession() {
     }
   }
 
-  // 모드 토글 (플래시카드 / 빈칸 / 대화) — 모든 화면 상단에 공통
-  const modeToggle = (
-    <div className="mb-3 flex gap-1 rounded-lg bg-muted p-1 text-sm">
-      {(["flashcard", "cloze", "dialogue"] as const).map((m) => (
+  // 모드 토글 (플래시카드 / 빈칸 / 듣기 / 대화). 약점 복습 모드에선 숨김.
+  const modeToggle = weak ? null : (
+    <div className="mb-3 flex gap-1 rounded-lg bg-muted p-1 text-xs sm:text-sm">
+      {(["flashcard", "cloze", "listen", "dialogue"] as const).map((m) => (
         <button
           key={m}
           onClick={() => switchMode(m)}
@@ -141,22 +159,35 @@ export function StudySession() {
               : "text-muted-foreground hover:text-foreground",
           )}
         >
-          {m === "flashcard"
-            ? t("modeFlashcard")
-            : m === "cloze"
-              ? t("modeCloze")
-              : t("modeDialogue")}
+          {t(MODE_LABEL[m])}
         </button>
       ))}
     </div>
   );
 
-  // 대화 모드는 별도 큐(dialogues)라 카드 상태(status)와 무관
+  // 대화 모드는 별도 큐(dialogues/scenarios)라 카드 상태(status)와 무관.
+  // 안에서 한 마디(단발) / 시나리오(멀티턴) 서브 토글.
   if (mode === "dialogue") {
     return (
       <div className="flex flex-1 flex-col">
         {modeToggle}
-        <DialogueSession />
+        <div className="mb-3 flex gap-1 self-center rounded-full border bg-muted/50 p-0.5 text-xs">
+          {(["single", "scenario"] as const).map((s) => (
+            <button
+              key={s}
+              onClick={() => setDlgSub(s)}
+              className={cn(
+                "rounded-full px-3 py-1 font-medium transition-colors",
+                dlgSub === s
+                  ? "bg-background text-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground",
+              )}
+            >
+              {t(s === "single" ? "dialogueSingle" : "dialogueScenario")}
+            </button>
+          ))}
+        </div>
+        {dlgSub === "single" ? <DialogueSession /> : <ScenarioSession />}
       </div>
     );
   }
@@ -229,6 +260,16 @@ export function StudySession() {
           isNew={isNew}
           wordPool={wordPool}
           onAnswer={handleClozeAnswer}
+        />
+      )}
+
+      {current && mode === "listen" && (
+        <ListenCard
+          key={current.id}
+          card={current}
+          isNew={isNew}
+          busy={busy}
+          onComplete={handleClozeAnswer}
         />
       )}
 

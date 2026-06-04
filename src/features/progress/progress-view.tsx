@@ -5,17 +5,32 @@ import { useLocale, useTranslations } from "next-intl";
 import { getStudyStats } from "./stats";
 import { CEFR_LABELS } from "@/types/card";
 import type { Locale } from "@/i18n/routing";
+import { db } from "@/lib/db";
+import { Link } from "@/i18n/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { Flame, BookOpenCheck, Clock, Layers, Repeat } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Flame,
+  BookOpenCheck,
+  Clock,
+  Layers,
+  Repeat,
+  Target,
+  AlertTriangle,
+} from "lucide-react";
 
 export function ProgressView() {
   const t = useTranslations("progress");
   const locale = useLocale() as Locale;
   const stats = useLiveQuery(() => getStudyStats());
+  const settings = useLiveQuery(() => db.settings.get("main"));
 
   if (!stats) return null;
+
+  const goal = settings?.dailyGoal ?? 20;
+  const goalReached = stats.today >= goal;
 
   const hasActivity = stats.reviews > 0 || stats.learned > 0;
   const maxRecent = Math.max(1, ...stats.recent.map((d) => d.count));
@@ -35,14 +50,58 @@ export function ProgressView() {
           <span className="grid h-14 w-14 place-items-center rounded-2xl bg-orange-100 dark:bg-orange-900/50">
             <Flame className="h-7 w-7 text-orange-500" />
           </span>
-          <div>
+          <div className="flex-1">
             <p className="text-sm text-muted-foreground">{t("streakLabel")}</p>
             <p className="text-2xl font-bold">
               {stats.streak > 0 ? t("streakDays", { n: stats.streak }) : t("streakZero")}
             </p>
           </div>
+          {/* 스트릭 마일스톤 배지 */}
+          {stats.streak >= 7 && (
+            <span className="text-2xl" title={t("badge")}>
+              {stats.streak >= 100 ? "👑" : stats.streak >= 30 ? "⭐" : "🔥"}
+            </span>
+          )}
         </CardContent>
       </Card>
+
+      {/* 오늘 목표 게이지 */}
+      <Card className="border-border/60">
+        <CardContent className="p-4">
+          <div className="flex items-center justify-between">
+            <span className="flex items-center gap-1.5 text-sm font-medium">
+              <Target className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+              {t("todayGoal")}
+            </span>
+            <span className="text-sm font-semibold tabular-nums">
+              {goalReached
+                ? t("goalDone")
+                : t("goalProgress", { done: stats.today, goal })}
+            </span>
+          </div>
+          <Progress
+            value={Math.min(100, (stats.today / goal) * 100)}
+            className="mt-2 h-2"
+          />
+        </CardContent>
+      </Card>
+
+      {/* 약점 집중 */}
+      {stats.weak > 0 ? (
+        <Button
+          variant="outline"
+          nativeButton={false}
+          className="justify-start gap-2 border-amber-300 text-amber-700 dark:border-amber-700 dark:text-amber-300"
+          render={<Link href="/study?weak=1" prefetch={false} />}
+        >
+          <AlertTriangle className="h-4 w-4" />
+          {t("weakFocus")} · {t("weakCount", { n: stats.weak })}
+        </Button>
+      ) : (
+        <p className="text-center text-sm text-muted-foreground">
+          {t("weakNone")}
+        </p>
+      )}
 
       {/* 통계 타일 */}
       <div className="grid grid-cols-2 gap-3">

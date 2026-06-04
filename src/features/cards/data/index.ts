@@ -45,8 +45,8 @@ import { VOCAB_C2_1_DECKS, VOCAB_C2_1_CARDS } from "./vocab-c2-1";
 import { VOCAB_C2_2_DECKS, VOCAB_C2_2_CARDS } from "./vocab-c2-2";
 import { VOCAB_C2_3_DECKS, VOCAB_C2_3_CARDS } from "./vocab-c2-3";
 
-/** 콘텐츠 버전 — 카드/덱/대화 데이터를 수정할 때마다 +1 */
-export const SEED_VERSION = 7;
+/** 콘텐츠 버전 — 카드/덱/대화/시나리오 데이터를 수정할 때마다 +1 */
+export const SEED_VERSION = 8;
 
 export const ALL_DECKS: Deck[] = [
   ...A1_DECKS,

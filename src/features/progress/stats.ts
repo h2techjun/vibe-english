@@ -24,6 +24,10 @@ export interface StudyStats {
   streak: number;
   levels: LevelStat[];
   recent: DayActivity[];
+  /** 오늘 학습한 횟수 */
+  today: number;
+  /** 약점 카드 수 (lapses ≥ 1) */
+  weak: number;
 }
 
 /** epoch ms → 로컬 날짜 키 (YYYY-M-D) */
@@ -87,5 +91,7 @@ export async function getStudyStats(now: Date = new Date()): Promise<StudyStats>
     streak,
     levels,
     recent,
+    today: recent.length > 0 ? recent[recent.length - 1].count : 0,
+    weak: progress.filter((p) => p.lapses >= 1).length,
   };
 }

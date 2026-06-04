@@ -77,6 +77,16 @@ export function SettingsView() {
 
       {/* 학습량 */}
       <Section title={t("study")}>
+        <Row label={t("dailyGoal")} desc={t("dailyGoalDesc")}>
+          <Stepper
+            value={s.dailyGoal ?? 20}
+            min={5}
+            max={100}
+            step={5}
+            onChange={(v) => update({ dailyGoal: v })}
+            format={(v) => t("cardsUnit", { n: v })}
+          />
+        </Row>
         <Row label={t("dailyNew")} desc={t("dailyNewDesc")}>
           <Stepper
             value={s.dailyNewLimit}

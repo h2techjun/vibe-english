@@ -64,6 +64,8 @@ export interface AppSettings {
   startLevel?: CefrLevel;
   /** 한국어 뜻을 항상 표시할지. false(기본)면 가렸다 탭해야 표시(능동 회상). */
   alwaysShowKorean?: boolean;
+  /** 하루 학습 목표 카드 수 (동기 게이지용) */
+  dailyGoal?: number;
 }
 
 export const DEFAULT_SETTINGS: AppSettings = {
@@ -73,6 +75,7 @@ export const DEFAULT_SETTINGS: AppSettings = {
   seedVersion: 0,
   ttsRate: 0.95,
   notificationsEnabled: false,
+  dailyGoal: 20,
 };
 
 /** ts-fsrs Card → 저장용 CardProgress 변환 */
