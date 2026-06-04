@@ -149,7 +149,7 @@ export const A2_SCENARIOS: Scenario[] = [
         blanks: [
           [
             { en: "floor", ko: "층", note: "몇 층인지 물을 때 자연스러운 표현" },
-            { en: "way", ko: "쪽", note: "어느 방향인지 물을 때" },
+            { en: "side", ko: "쪽", note: "건물의 어느 편(좌/우)에 있는지 물을 때" },
           ],
         ],
         example: {
@@ -266,7 +266,7 @@ export const A2_SCENARIOS: Scenario[] = [
         blanks: [
           [
             { en: "yesterday", ko: "어제", note: "하루 전부터 아팠을 때" },
-            { en: "two days ago", ko: "이틀 전", note: "며칠 됐을 때" },
+            { en: "two days ago", ko: "이틀 전", note: "이틀 전부터 아팠을 때" },
             { en: "this morning", ko: "오늘 아침", note: "오늘 막 시작됐을 때" },
           ],
         ],

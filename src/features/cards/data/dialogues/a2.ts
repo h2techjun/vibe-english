@@ -44,7 +44,7 @@ export const A2_DIALOGUES: Dialogue[] = [
         { en: "play games", ko: "게임을 하다", note: "캐주얼하고 가벼운 여가" },
       ],
       [
-        { en: "movies", ko: "영화", note: "한 편짜리 극장/영화" },
+        { en: "movies", ko: "영화", note: "한 편으로 끝나는 영화" },
         { en: "TV shows", ko: "드라마", note: "여러 회차 드라마·시리즈물" },
         { en: "videos", ko: "영상", note: "유튜브 등 짧은 영상" },
       ],
@@ -138,7 +138,7 @@ export const A2_DIALOGUES: Dialogue[] = [
       ],
       [
         { en: "get along", ko: "잘 지내다", note: "사이가 좋다는 관계 표현" },
-        { en: "talk", ko: "대화하다", note: "자주 이야기를 나눈다는 뜻" },
+        { en: "get on", ko: "잘 지내다", note: "'get along'과 같은 뜻, 영국식에서 흔함" },
       ],
     ],
     example: { en: "Yes, I have an older brother. We get along well.", ko: "응, 형이 한 명 있어. 우리는 사이좋게 지내." },
@@ -187,7 +187,7 @@ export const A2_DIALOGUES: Dialogue[] = [
       [
         { en: "come", ko: "오다", note: "가장 쉽고 일상적인 표현" },
         { en: "be there", ko: "도착하다", note: "그 자리에 가 있겠다는 뉘앙스" },
-        { en: "arrive", ko: "도착하다", note: "약간 더 또박또박한 표현" },
+        { en: "arrive", ko: "도착하다", note: "약간 더 격식 있는 '도착하다'" },
       ],
     ],
     example: { en: "Sure, I'd love to! What time should I come?", ko: "좋아, 정말 가고 싶어! 몇 시에 가면 돼?" },
@@ -237,7 +237,7 @@ export const A2_DIALOGUES: Dialogue[] = [
       [
         { en: "happy", ko: "기쁜", note: "잔잔하고 진심 어린 기쁨" },
         { en: "excited", ko: "신나는", note: "들뜨고 활기찬 기쁨" },
-        { en: "glad", ko: "반가운", note: "안도하듯 가볍게 기뻐할 때" },
+        { en: "pleased", ko: "기쁜", note: "happy보다 차분하고 점잖은 기쁨" },
       ],
     ],
     example: { en: "That's great news! I'm so happy for you.", ko: "정말 좋은 소식이다! 진심으로 기뻐." },

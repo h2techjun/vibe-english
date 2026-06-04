@@ -66,8 +66,8 @@ export const A1_SCENARIOS: Scenario[] = [
         template: "Hi Mina, I'm {0}. Nice to meet you!",
         blanks: [
           [
-            { en: "Jun", ko: "준", note: "자기 이름을 넣는 자리 (예시)" },
-            { en: "Sora", ko: "소라", note: "자기 이름을 넣는 자리 (예시)" },
+            { en: "Jun", ko: "준", note: "자기 이름 자리 (예: 준)" },
+            { en: "Sora", ko: "소라", note: "자기 이름 자리 (예: 소라)" },
           ],
         ],
         example: { en: "Hi Mina, I'm Jun. Nice to meet you!", ko: "안녕 미나, 난 준이야. 만나서 반가워!" },
@@ -78,8 +78,8 @@ export const A1_SCENARIOS: Scenario[] = [
         blanks: [
           [
             { en: "Korea", ko: "한국", note: "나라 이름으로 답할 때" },
-            { en: "Seoul", ko: "서울", note: "도시 이름으로 콕 집어 답할 때" },
-            { en: "Busan", ko: "부산", note: "도시 이름으로 콕 집어 답할 때" },
+            { en: "Seoul", ko: "서울", note: "사는 도시 이름 (서울)" },
+            { en: "Busan", ko: "부산", note: "사는 도시 이름 (부산)" },
           ],
         ],
         example: { en: "I'm from Korea.", ko: "난 한국에서 왔어." },

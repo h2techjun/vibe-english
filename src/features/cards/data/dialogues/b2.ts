@@ -63,7 +63,7 @@ export const B2_DIALOGUES: Dialogue[] = [
       [
         { en: "concerned", ko: "우려하는", note: "격식 있게 우려를 표하는 어감" },
         { en: "worried", ko: "걱정하는", note: "감정이 더 직접 드러나는 구어체" },
-        { en: "hesitant", ko: "망설여지는", note: "단정 않고 머뭇거리는 완곡함" },
+        { en: "uneasy", ko: "꺼림칙한", note: "막연히 마음이 편치 않은 완곡한 어감" },
       ],
       [
         { en: "compromise", ko: "훼손하다", note: "품질을 떨어뜨린다는 일반적 표현" },
@@ -195,7 +195,7 @@ export const B2_DIALOGUES: Dialogue[] = [
       [
         { en: "love", ko: "정말 가고 싶다", note: "현재형, 강하게 가고 싶은 마음" },
         { en: "have loved", ko: "정말 가고 싶었다", note: "가정법, 못 가서 아쉬운 어감" },
-        { en: "really like", ko: "꽤 가고 싶다", note: "love보다 약한 완곡한 표현" },
+        { en: "really like", ko: "꽤 가고 싶다", note: "love보다 덜 열렬한 어감" },
       ],
       [
         { en: "committed to", ko: "약속한", note: "확실히 약속을 잡았다는 격식체" },
@@ -243,7 +243,7 @@ export const B2_DIALOGUES: Dialogue[] = [
       ],
       [
         { en: "over", ko: "보내", note: "send over, 자연스러운 구어 표현" },
-        { en: "across", ko: "전달", note: "get across, 영국식 어감" },
+        { en: "across", ko: "전달", note: "건네 보낸다는 영국식 구어" },
         { en: "sent", ko: "발송", note: "가장 단순·직접적인 표현" },
       ],
       [

@@ -424,7 +424,7 @@ export const B1_SCENARIOS: Scenario[] = [
         template: "Hi. I bought {0} here last week, but unfortunately it {1}.",
         blanks: [
           [
-            { en: "these headphones", ko: "이 헤드폰", note: "구매한 품목을 지칭" },
+            { en: "this speaker", ko: "이 스피커", note: "구매한 품목을 지칭" },
             { en: "this kettle", ko: "이 주전자", note: "구매한 품목을 지칭" },
             { en: "this charger", ko: "이 충전기", note: "구매한 품목을 지칭" },
           ],
@@ -434,8 +434,8 @@ export const B1_SCENARIOS: Scenario[] = [
           ],
         ],
         example: {
-          en: "Hi. I bought these headphones here last week, but unfortunately they stopped working.",
-          ko: "안녕하세요. 지난주에 여기서 이 헤드폰을 샀는데, 안타깝게도 작동을 멈췄어요.",
+          en: "Hi. I bought this speaker here last week, but unfortunately it stopped working.",
+          ko: "안녕하세요. 지난주에 여기서 이 스피커를 샀는데, 안타깝게도 작동을 멈췄어요.",
         },
       },
       {

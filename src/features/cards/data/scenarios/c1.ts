@@ -173,11 +173,11 @@ export const C1_SCENARIOS: Scenario[] = [
           [
             { en: "push back on", ko: "반론을 제기하다", note: "직접 반박하겠다는 비즈니스 관용구" },
             { en: "respectfully challenge", ko: "정중히 이의를 제기하다", note: "예의를 갖춰 반론하는 격식체" },
-            { en: "see it differently from", ko: "달리 보다", note: "견해 차이를 부드럽게 표현" },
+            { en: "take issue with", ko: "이의를 제기하다", note: "정중히 견해 차이를 드러내는 표현" },
           ],
           [
             { en: "barely scratches", ko: "겉만 살짝 건드리다", note: "표면만 긁었다는 비유 관용구" },
-            { en: "only addresses", ko: "일부만 다루다", note: "일부만 손댔다는 담백한 지적" },
+            { en: "only touches", ko: "겉만 건드리다", note: "겉면만 손댔다는 담백한 지적" },
             { en: "skims", ko: "겉핥기로 다루다", note: "수박 겉핥기식임을 강조" },
           ],
           [
@@ -199,9 +199,9 @@ export const C1_SCENARIOS: Scenario[] = [
         template: "Good catch. We've {0} a buffer into Q3, so even if things {1}, the launch date {2}.",
         blanks: [
           [
-            { en: "built in", ko: "내장하다", note: "처음부터 여유를 넣어 뒀다는 표현" },
-            { en: "baked", ko: "포함시키다", note: "baked in, 녹여 넣었다는 구어 관용구" },
-            { en: "factored", ko: "감안하다", note: "계산에 미리 반영했다는 표현" },
+            { en: "built", ko: "짜 넣다", note: "build into, 처음부터 여유를 짜 넣어 뒀다는 표현" },
+            { en: "baked", ko: "포함시키다", note: "bake into, 녹여 넣었다는 구어 관용구" },
+            { en: "factored", ko: "감안하다", note: "factor into, 계산에 미리 반영했다는 표현" },
           ],
           [
             { en: "slip a little", ko: "조금 밀리다", note: "일정이 살짝 지연됨을 가볍게" },
@@ -215,7 +215,7 @@ export const C1_SCENARIOS: Scenario[] = [
           ],
         ],
         example: {
-          en: "Good catch. We've built in a buffer into Q3, so even if things slip a little, the launch date holds.",
+          en: "Good catch. We've built a buffer into Q3, so even if things slip a little, the launch date holds.",
           ko: "좋은 지적입니다. 3분기에 여유를 내장해 두어서, 조금 밀리더라도 출시일은 유지됩니다.",
         },
       },
@@ -363,7 +363,7 @@ export const C1_SCENARIOS: Scenario[] = [
           [
             { en: "happy to share ownership of", ko: "기꺼이 함께 책임지다", note: "결과를 함께 책임지겠다는 협업 어법" },
             { en: "fully invested in", ko: "전적으로 몰입한", note: "결과에 온전히 헌신한다는 강조" },
-            { en: "in this together on", ko: "함께 헤쳐 나가는", note: "한배를 탔다는 동지애적 표현" },
+            { en: "committed to delivering", ko: "함께 이뤄낼 각오가 된", note: "결과를 함께 이뤄내겠다는 동지애적 표현" },
           ],
         ],
         example: {
@@ -397,7 +397,7 @@ export const C1_SCENARIOS: Scenario[] = [
           ],
           [
             { en: "assign", ko: "돌리다", note: "책임을 배정한다는 중립적 표현" },
-            { en: "point fingers about", ko: "탓을 돌리다", note: "손가락질하며 비난한다는 부정적 뉘앙스" },
+            { en: "lay", ko: "탓을 돌리다", note: "lay blame, 잘잘못을 따져 탓을 지우는 부정적 뉘앙스" },
             { en: "get into", ko: "따지다", note: "시시비비를 파고든다는 구어체" },
           ],
           [
@@ -472,7 +472,7 @@ export const C1_SCENARIOS: Scenario[] = [
           en: "That works for me. I think we just needed someone to break the ice.",
           ko: "저는 좋아요. 그냥 누가 어색한 분위기를 풀어 줄 사람이 필요했던 것 같네요.",
         },
-        template: "I'm glad we could {0}. Let's {1} this conversation in writing so we both {2}, and we'll revisit in two weeks.",
+        template: "I'm glad we could {0}. Let's {1} this conversation so we both {2}, and we'll revisit in two weeks.",
         blanks: [
           [
             { en: "clear the air", ko: "오해를 풀다", note: "묵은 앙금을 걷어 낸다는 관용구" },
@@ -491,7 +491,7 @@ export const C1_SCENARIOS: Scenario[] = [
           ],
         ],
         example: {
-          en: "I'm glad we could clear the air. Let's capture this conversation in writing so we both stay on the same page, and we'll revisit in two weeks.",
+          en: "I'm glad we could clear the air. Let's capture this conversation so we both stay on the same page, and we'll revisit in two weeks.",
           ko: "오해를 풀 수 있어서 다행입니다. 이 대화를 글로 기록해서 둘 다 같은 이해를 유지하고, 2주 뒤에 다시 점검해 봅시다.",
         },
       },
@@ -516,8 +516,8 @@ export const C1_SCENARIOS: Scenario[] = [
         blanks: [
           [
             { en: "bombard", ko: "퍼붓다", note: "약속을 쏟아붓지 않겠다는 비유" },
-            { en: "oversell", ko: "과장해 팔다", note: "과대 포장하지 않겠다는 솔직함" },
-            { en: "win over", ko: "구슬리다", note: "말로 환심을 사려 들지 않겠다는 뉘앙스" },
+            { en: "dazzle", ko: "현혹하다", note: "과장된 약속으로 현혹하지 않겠다는 솔직함" },
+            { en: "woo", ko: "구슬리다", note: "약속으로 환심을 사려 들지 않겠다는 뉘앙스" },
           ],
           [
             { en: "prove out", ko: "실제로 입증하다", note: "실제 결과로 증명한다는 표현" },
@@ -545,7 +545,7 @@ export const C1_SCENARIOS: Scenario[] = [
           [
             { en: "box", ko: "한정하다", note: "범위를 가둬 제한한다는 비유" },
             { en: "time-box", ko: "기간을 못 박다", note: "기한을 못 박는다는 실무 용어" },
-            { en: "cap", ko: "상한을 두다", note: "상한선을 둔다는 표현" },
+            { en: "limit", ko: "제한하다", note: "limit ... to, 상한을 두어 제한한다는 표현" },
           ],
           [
             { en: "single", ko: "단일한", note: "딱 하나로 좁힌다는 강조" },
@@ -568,12 +568,12 @@ export const C1_SCENARIOS: Scenario[] = [
           en: "And if the pilot falls short of that metric? Then what?",
           ko: "그런데 파일럿이 그 지표에 못 미치면요? 그땐 어떻게 되죠?",
         },
-        template: "Then you {0} us nothing — we only {1} once we've {2}. The risk sits squarely with us.",
+        template: "Then you {0} nothing — we only {1} once we've {2}. The risk sits squarely with us.",
         blanks: [
           [
             { en: "owe", ko: "지불할 의무가 있다", note: "지불 의무가 발생한다는 표현" },
             { en: "pay", ko: "지불하다", note: "가장 단순하게 지불한다는 표현" },
-            { en: "are on the hook for", ko: "부담하다", note: "책임지고 떠안는다는 구어 관용구" },
+            { en: "are on the hook for", ko: "부담하다", note: "on the hook for, 책임지고 떠안는다는 구어 관용구" },
           ],
           [
             { en: "get paid", ko: "보수를 받다", note: "대가를 받는다는 일반적 표현" },
@@ -587,7 +587,7 @@ export const C1_SCENARIOS: Scenario[] = [
           ],
         ],
         example: {
-          en: "Then you owe us nothing — we only get paid once we've earned it. The risk sits squarely with us.",
+          en: "Then you owe nothing — we only get paid once we've earned it. The risk sits squarely with us.",
           ko: "그러면 한 푼도 지불하지 않으셔도 됩니다. 저희는 그만한 자격을 갖춘 뒤에야 보수를 받습니다. 위험은 전적으로 저희가 집니다.",
         },
       },

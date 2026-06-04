@@ -86,7 +86,7 @@ export const A1_DIALOGUES: Dialogue[] = [
     example: { en: "How much is this?", ko: "이거 얼마예요?" },
     alternatives: [
       { en: "What's the price?", ko: "가격이 어떻게 돼요?", note: "가격만 콕 집어 묻는 표현" },
-      { en: "How much does it cost?", ko: "얼마인가요?", note: "조금 더 또박또박 격식 있는 표현" },
+      { en: "How much does it cost?", ko: "얼마인가요?", note: "값을 묻는 또박또박한 완전한 문장" },
     ],
   },
   {
@@ -99,7 +99,7 @@ export const A1_DIALOGUES: Dialogue[] = [
     blanks: [
       [
         { en: "station", ko: "역", note: "지하철·기차역을 찾을 때" },
-        { en: "restroom", ko: "화장실", note: "급하게 화장실 찾을 때 점잖은 말" },
+        { en: "restroom", ko: "화장실", note: "화장실을 점잖게 이르는 말" },
         { en: "bus stop", ko: "버스 정류장", note: "버스 타는 곳을 찾을 때" },
         { en: "exit", ko: "출구", note: "건물·역에서 나가는 곳을 찾을 때" },
       ],

@@ -273,9 +273,9 @@ export const C2_DIALOGUES: Dialogue[] = [
       "I'd be {0} if I pretended that figure {1}, so let me be {2}: we can {3} on terms, but not on a number that {4} the value we bring.",
     blanks: [
       [
-        { en: "disingenuous", ko: "솔직하지 못한", note: "속내를 숨겨 음흉하다는 격식 어휘" },
+        { en: "disingenuous", ko: "솔직하지 못한", note: "모르는 척 둘러대는 점잖은 격식 어휘" },
         { en: "dishonest", ko: "정직하지 못한", note: "거짓이라고 직설적으로 단정" },
-        { en: "remiss", ko: "직무를 소홀히 하는", note: "책무를 다 안 한 결격이라는 문어체" },
+        { en: "insincere", ko: "진심이 아닌", note: "본심과 다르게 둘러대는 점잖은 문어체" },
       ],
       [
         { en: "works for us", ko: "우리에게 맞다", note: "실익이 된다는 캐주얼 구어" },
@@ -348,7 +348,7 @@ export const C2_DIALOGUES: Dialogue[] = [
       [
         { en: "inevitable", ko: "필연적인", note: "막을 수 없이 닥친다는 어감" },
         { en: "guaranteed", ko: "보장된", note: "확실히 약속됐다는 구어적 강조" },
-        { en: "automatic", ko: "저절로 되는", note: "노력 없이 굴러간다는 비꼼" },
+        { en: "automatic", ko: "저절로 되는", note: "노력 없이 저절로 굴러간다는 어감" },
       ],
       [
         { en: "earned", ko: "쟁취되는", note: "노력으로 얻어낸다는 능동적 어감" },
@@ -464,7 +464,7 @@ export const C2_DIALOGUES: Dialogue[] = [
       [
         { en: "push back on", ko: "반박하다", note: "전제에 정면으로 맞서는 구어 관용구" },
         { en: "resist", ko: "받아들이지 않다", note: "수용을 거부한다는 절제된 표현" },
-        { en: "reframe", ko: "재구성하다", note: "프레임 자체를 바꿔 친다는 전략어" },
+        { en: "recast", ko: "재구성하다", note: "프레임 자체를 다시 짜 친다는 전략어" },
       ],
       [
         { en: "risk", ko: "위험", note: "손실 가능성을 가리키는 중립 기본어" },

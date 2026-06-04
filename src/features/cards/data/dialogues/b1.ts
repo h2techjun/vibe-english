@@ -39,7 +39,7 @@ export const B1_DIALOGUES: Dialogue[] = [
     template: "Honestly, I thought it was {0}, mainly because the {1} was so {2}.",
     blanks: [
       [
-        { en: "great", ko: "훌륭했다", note: "무난하게 강한 칭찬" },
+        { en: "great", ko: "훌륭했다", note: "흔히 쓰는 무난한 호평" },
         { en: "impressive", ko: "인상적이었다", note: "완성도에 감탄하는 뉘앙스" },
         { en: "disappointing", ko: "실망스러웠다", note: "기대에 못 미쳤다는 부정 평가" },
       ],
@@ -121,7 +121,7 @@ export const B1_DIALOGUES: Dialogue[] = [
       [
         { en: "delicious", ko: "맛있다", note: "맛 자체를 콕 집은 칭찬" },
         { en: "really good", ko: "정말 좋다", note: "편하게 만족을 전하는 캐주얼" },
-        { en: "lovely", ko: "훌륭하다", note: "은근히 격식 있는 영국식 칭찬" },
+        { en: "lovely", ko: "훌륭하다", note: "따뜻하고 다정한 영국식 칭찬" },
       ],
       [
         { en: "soup", ko: "수프", note: "수프 요리를 가리킴" },
@@ -216,7 +216,7 @@ export const B1_DIALOGUES: Dialogue[] = [
       [
         { en: "recommend", ko: "추천하다", note: "가장 자연스러운 추천" },
         { en: "suggest", ko: "권하다", note: "넌지시 권하는 부드러운 톤" },
-        { en: "encourage", ko: "권장하다", note: "적극적으로 떠미는 느낌" },
+        { en: "advise", ko: "권하다", note: "가서 보라고 강하게 권하는 느낌" },
       ],
     ],
     example: { en: "It was amazing! The best part was when we hiked up the mountain, and I'd really recommend going there.", ko: "정말 놀라웠어! 산에 올랐을 때가 제일 좋았고, 거기 꼭 가보길 추천해." },

@@ -171,11 +171,11 @@ export const C1_DIALOGUES: Dialogue[] = [
       en: "We just can't seem to agree on how to handle this.",
       ko: "이걸 어떻게 처리할지 도무지 합의가 안 돼요.",
     },
-    template: "Let's {0} a step back and {1} on what we {2} agree on before we {3} the rest.",
+    template: "Let's {0} and {1} on what we {2} agree on before we {3} the rest.",
     blanks: [
       [
-        { en: "take", ko: "취하다", note: "take a step back 관용구의 표준형" },
-        { en: "step", ko: "물러서다", note: "step back으로 더 직접적인 표현" },
+        { en: "take a step back", ko: "한 발 물러서다", note: "take a step back 관용구의 표준형" },
+        { en: "step back", ko: "물러서다", note: "step back으로 더 직접적인 표현" },
       ],
       [
         { en: "focus", ko: "집중하다", note: "합의점에 초점을 맞추자는 제안" },
@@ -286,7 +286,7 @@ export const C1_DIALOGUES: Dialogue[] = [
       [
         { en: "meaning", ko: "~하려고 마음먹고 있던", note: "줄곧 마음먹어 온 의도를 강조" },
         { en: "hoping", ko: "바라고 있던", note: "내심 바라 왔다는 부드러운 뉘앙스" },
-        { en: "looking", ko: "기대하던", note: "기대하며 기다려 온 느낌" },
+        { en: "looking", ko: "기대하던", note: "막연히 ~할 기회를 노려 온 느낌" },
       ],
       [
         { en: "reconnect", ko: "다시 연이 닿다", note: "끊긴 인연을 다시 잇자는 표현" },
@@ -487,9 +487,9 @@ export const C1_DIALOGUES: Dialogue[] = [
         { en: "had", ko: "갖췄다", note: "강점이 있었다는 담백한 표현" },
       ],
       [
-        { en: "build", ko: "발전시키다", note: "이미 좋은 것을 더 키우자는 긍정적 어법" },
-        { en: "gently nudge", ko: "살짝 다듬다", note: "부담 없이 살짝 보완하자는 완곡 표현" },
-        { en: "fine-tune", ko: "미세 조정하다", note: "세부를 정교하게 다듬자는 뉘앙스" },
+        { en: "build", ko: "발전시키다", note: "build on, 이미 좋은 것을 더 키우자는 긍정적 어법" },
+        { en: "work", ko: "손보다", note: "work on, 부담 없이 살짝 손보자는 완곡 표현" },
+        { en: "improve", ko: "개선하다", note: "improve on, 더 낫게 다듬자는 뉘앙스" },
       ],
       [
         { en: "handled", ko: "다뤘다", note: "반론을 처리한 방식 전반을 지칭" },

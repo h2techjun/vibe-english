@@ -73,8 +73,8 @@ export const C2_SCENARIOS: Scenario[] = [
           ],
           [
             { en: "stand to eliminate", ko: "없앨 수 있는", note: "절감 이득을 얻게 된다는 어감" },
-            { en: "would no longer carry", ko: "더는 짊어지지 않을", note: "짐을 벗는다는 비유적 표현" },
-            { en: "currently bankroll", ko: "지금 떠받치고 있는", note: "현재 돈을 대고 있음을 부각하는 구어" },
+            { en: "no longer carry", ko: "더는 짊어지지 않을", note: "짐을 벗는다는 비유적 표현" },
+            { en: "otherwise shoulder", ko: "어차피 짊어질", note: "안 그러면 떠안았을 비용임을 부각" },
           ],
         ],
         example: {
@@ -203,7 +203,7 @@ export const C2_SCENARIOS: Scenario[] = [
           [
             { en: "press", ko: "압박하지", note: "은근히 밀어붙인다는 점잖은 표현" },
             { en: "ask", ko: "요청하지", note: "정중히 부탁한다는 가장 부드러운 어감" },
-            { en: "back you into", ko: "몰아붙여", note: "구석으로 몰아넣는다는 강한 비유" },
+            { en: "force", ko: "강요하지", note: "억지로 넘게 만든다는 가장 강한 표현" },
           ],
           [
             { en: "That said", ko: "그렇지만", note: "앞말 인정 후 전환하는 무난한 연결" },
@@ -235,8 +235,8 @@ export const C2_SCENARIOS: Scenario[] = [
         blanks: [
           [
             { en: "hand", ko: "안겨", note: "성과를 직접 쥐여 준다는 일상어" },
-            { en: "engineer", ko: "마련해", note: "치밀하게 설계해 만들어 준다는 어감" },
-            { en: "build in", ko: "설계해", note: "구조 안에 미리 심어 둔다는 표현" },
+            { en: "secure", ko: "따내", note: "치밀하게 따내 안겨 준다는 어감" },
+            { en: "craft", ko: "지어내", note: "공들여 만들어 안겨 준다는 표현" },
           ],
           [
             { en: "take to the podium", ko: "연단에서 내세울", note: "공개 발표 자리에서 과시한다는 비유" },
@@ -268,8 +268,8 @@ export const C2_SCENARIOS: Scenario[] = [
         blanks: [
           [
             { en: "capture", ko: "담아 두고", note: "요지를 글로 포착해 둔다는 어감" },
-            { en: "set down", ko: "적어 두고", note: "차분히 기록해 둔다는 표현" },
-            { en: "lock in", ko: "확정해 두고", note: "못 박아 고정한다는 단단한 어감" },
+            { en: "record", ko: "기록해 두고", note: "차분히 글로 남겨 둔다는 표현" },
+            { en: "formalize", ko: "공식화해 두고", note: "공식 문서로 못 박아 둔다는 단단한 어감" },
           ],
           [
             { en: "hand off", ko: "넘기고", note: "다음 단계로 인계한다는 일상어" },
@@ -279,7 +279,7 @@ export const C2_SCENARIOS: Scenario[] = [
           [
             { en: "have", ko: "하도록 하시죠", note: "~하게 시킨다는 사역의 기본형" },
             { en: "let", ko: "하게 하시죠", note: "허용·방임의 부드러운 어감" },
-            { en: "arrange for", ko: "주선하시죠", note: "절차를 마련해 준다는 격식체" },
+            { en: "make", ko: "하도록 하시죠", note: "~하도록 시키는 사역의 격식체" },
           ],
           [
             { en: "in lockstep", ko: "보조를 맞춰", note: "한 치 어긋남 없이 발맞춘다는 관용구" },
@@ -329,7 +329,7 @@ export const C2_SCENARIOS: Scenario[] = [
           [
             { en: "running on fumes", ko: "거의 바닥난 상태입니다", note: "연료가 동난다는 위기감 관용구" },
             { en: "living off the past", ko: "과거의 유산으로 버티고 있습니다", note: "옛 성과로 연명한다는 비판적 비유" },
-            { en: "coasting", ko: "관성으로 버티고 있습니다", note: "동력 없이 미끄러져 간다는 어감" },
+            { en: "falling behind", ko: "뒤처지고 있습니다", note: "경쟁에서 밀려나고 있다는 어감" },
           ],
         ],
         example: {
@@ -462,7 +462,7 @@ export const C2_SCENARIOS: Scenario[] = [
           ],
           [
             { en: "foreground", ko: "전면에 내세웁니다", note: "한계를 숨기지 않고 부각한다는 학술어" },
-            { en: "address head-on", ko: "정면으로 다룹니다", note: "회피 없이 정공법으로 다룬다는 어감" },
+            { en: "confront", ko: "정면으로 마주합니다", note: "회피 없이 정공법으로 마주한다는 어감" },
             { en: "don't shy away from", ko: "회피하지 않습니다", note: "꺼리지 않고 직시한다는 표현" },
           ],
           [
@@ -570,14 +570,14 @@ export const C2_SCENARIOS: Scenario[] = [
             { en: "firm up", ko: "다지고", note: "단단히 굳혀 확실히 한다는 어감" },
           ],
           [
-            { en: "blind", ko: "블라인드로 맡기겠습니다", note: "정보 차단 처리한다는 연구 방법어" },
+            { en: "assign", ko: "배정하겠습니다", note: "독립 검증 위해 다른 분석가에게 맡긴다는 어감" },
             { en: "hand off", ko: "넘기겠습니다", note: "다른 사람에게 인계한다는 일상어" },
             { en: "open up", ko: "개방하겠습니다", note: "외부에 공개해 맡긴다는 어감" },
           ],
         ],
         example: {
-          en: "Honestly, I'd broaden the cohort across two more sites to shore up the external validity, and I'd blind the qualitative coding to a second analyst.",
-          ko: "솔직히, 외적 타당도를 보강하기 위해 코호트를 두 곳 더 확장하고, 질적 코딩은 두 번째 분석가에게 블라인드로 맡기겠습니다.",
+          en: "Honestly, I'd broaden the cohort across two more sites to shore up the external validity, and I'd assign the qualitative coding to a second analyst.",
+          ko: "솔직히, 외적 타당도를 보강하기 위해 코호트를 두 곳 더 확장하고, 질적 코딩은 두 번째 분석가에게 배정하겠습니다.",
         },
       },
     ],
@@ -616,7 +616,7 @@ export const C2_SCENARIOS: Scenario[] = [
           ],
           [
             { en: "dance", ko: "빙빙 도는 것보다", note: "핵심을 피해 겉도는 협상 비유" },
-            { en: "posture", ko: "허세를 부리는 것보다", note: "겉치레 자세만 잡는다는 비판" },
+            { en: "skirt", ko: "에둘러 피하는 것보다", note: "본질을 슬쩍 비껴 피한다는 비유" },
             { en: "tiptoe", ko: "조심스레 도는 것보다", note: "발끝으로 살금살금 피한다는 비유" },
           ],
         ],

@@ -53,7 +53,7 @@ export const B2_SCENARIOS: Scenario[] = [
           [
             { en: "concerned", ko: "우려되는", note: "격식 있게 우려를 표하는 어감" },
             { en: "worried", ko: "걱정되는", note: "감정이 더 직접 드러나는 구어체" },
-            { en: "hesitant", ko: "주저되는", note: "단정 않고 머뭇거리는 완곡함" },
+            { en: "uneasy", ko: "꺼림칙한", note: "막연히 마음이 편치 않은 완곡한 어감" },
           ],
           [
             { en: "rushing it", ko: "서두르는 것", note: "성급함 자체를 문제 삼음" },
@@ -114,7 +114,7 @@ export const B2_SCENARIOS: Scenario[] = [
           [
             { en: "balances", ko: "균형을 맞추다", note: "두 가치를 저울질해 맞춤" },
             { en: "reconciles", ko: "조화시키다", note: "상충을 화해시킨다는 격식체" },
-            { en: "weighs", ko: "저울질하다", note: "양쪽을 견주어 본다는 어감" },
+            { en: "squares", ko: "양립시키다", note: "상충을 무리 없이 맞물리게 한다는 어감" },
           ],
           [
             { en: "on board", ko: "찬성합니다", note: "함께하겠다는 구어적 동의" },
@@ -177,7 +177,7 @@ export const B2_SCENARIOS: Scenario[] = [
           [
             { en: "come down", ko: "낮추다", note: "가격을 내린다는 직접적 표현" },
             { en: "move", ko: "조정하다", note: "여지를 둔다는 완곡한 표현" },
-            { en: "meet us", ko: "맞춰주다", note: "중간에서 만나자는 협력적 어감" },
+            { en: "drop", ko: "내려주다", note: "곧장 그 값까지 내려달라는 어감" },
           ],
           [
             { en: "sign off on", ko: "확정하다", note: "최종 승인한다는 비즈니스 표현" },
@@ -238,7 +238,7 @@ export const B2_SCENARIOS: Scenario[] = [
           [
             { en: "put", ko: "정리하다", note: "put in writing, 서면화 관용구" },
             { en: "draft", ko: "초안 작성하다", note: "초안을 쓴다는 격식체" },
-            { en: "lay out", ko: "명시하다", note: "조목조목 펼쳐 적는다는 어감" },
+            { en: "capture", ko: "담아내다", note: "문서로 또박또박 담아낸다는 어감" },
           ],
           [
             { en: "finalize", ko: "마무리하다", note: "최종 확정한다는 격식체" },
@@ -338,7 +338,7 @@ export const B2_SCENARIOS: Scenario[] = [
           ],
           [
             { en: "delegating", ko: "위임하기", note: "업무를 넘기는 구체적 행동" },
-            { en: "trusting", ko: "신뢰하기", note: "팀을 믿는 태도에 초점" },
+            { en: "deferring", ko: "(판단을) 맡기기", note: "팀의 판단을 믿고 따른다는 어감" },
             { en: "handing ownership", ko: "주도권을 넘기기", note: "책임·권한까지 넘긴다는 강조" },
           ],
         ],
@@ -397,7 +397,7 @@ export const B2_SCENARIOS: Scenario[] = [
           [
             { en: "was faulty", ko: "결함이 있었다", note: "제품 자체 하자를 가리킴" },
             { en: "failed", ko: "작동하지 않았다", note: "기능이 멈췄다는 어감" },
-            { en: "arrived damaged", ko: "파손되어 도착했다", note: "배송 중 손상을 지목" },
+            { en: "was damaged", ko: "파손돼 있었다", note: "배송 중 손상을 지목" },
           ],
           [
             { en: "disrupted", ko: "차질을 빚게 했다", note: "흐름을 어지럽혔다는 일반 표현" },
@@ -406,8 +406,8 @@ export const B2_SCENARIOS: Scenario[] = [
           ],
           [
             { en: "cost", ko: "잃게 했다", note: "대가를 치르게 했다는 격식체" },
-            { en: "lost us", ko: "잃게 만들었다", note: "직접 손실을 강조한 구어체" },
-            { en: "nearly cost us", ko: "거의 잃게 할 뻔했다", note: "아슬아슬했다는 완화된 어감" },
+            { en: "lost", ko: "잃게 만들었다", note: "직접 손실을 강조한 구어체" },
+            { en: "nearly cost", ko: "거의 잃게 할 뻔했다", note: "아슬아슬했다는 완화된 어감" },
           ],
         ],
         example: {
