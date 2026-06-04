@@ -43,7 +43,11 @@ export async function getStudyStats(now: Date = new Date()): Promise<StudyStats>
     db.studyLog.toArray(),
   ]);
   const nowMs = now.getTime();
-  const progIds = new Set(progress.map((p) => p.cardId));
+  // 카드 지표(learned/due/weak)는 카드 progress 만 집계 — 대화/시나리오 progress
+  // (dlg-*/scn-*)가 섞여 부풀리지 않도록 분리. getWeakCards 가 cards 만 보므로 일치시킴.
+  const cardIdSet = new Set(cards.map((c) => c.id));
+  const cardProgress = progress.filter((p) => cardIdSet.has(p.cardId));
+  const progIds = new Set(cardProgress.map((p) => p.cardId));
 
   // 레벨별 진도
   const levelMap = new Map<CefrLevel, { total: number; learned: number }>();
@@ -85,13 +89,13 @@ export async function getStudyStats(now: Date = new Date()): Promise<StudyStats>
 
   return {
     totalCards: cards.length,
-    learned: progress.length,
-    due: progress.filter((p) => p.due <= nowMs).length,
+    learned: cardProgress.length,
+    due: cardProgress.filter((p) => p.due <= nowMs).length,
     reviews: logs.length,
     streak,
     levels,
     recent,
     today: recent.length > 0 ? recent[recent.length - 1].count : 0,
-    weak: progress.filter((p) => p.lapses >= 1).length,
+    weak: cardProgress.filter((p) => p.lapses >= 1).length,
   };
 }

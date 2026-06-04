@@ -96,6 +96,11 @@ function normalize(word: string): string {
   return word.toLowerCase().replace(/[^a-z']/g, "");
 }
 
+/** 정규식 메타문자 이스케이프 */
+function escapeRegExp(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 export interface ClozeQuestion {
   /** 빈칸이 들어간 예문 */
   masked: string;
@@ -134,8 +139,11 @@ export function buildCloze(card: VocabCard): ClozeQuestion | null {
   const match = answerRaw.match(/^([^\w]*)([\w']+)([^\w]*)$/);
   const answer = match ? match[2] : answerRaw;
 
-  // 예문에서 첫 등장만 빈칸으로
-  const masked = sentence.replace(answer, BLANK);
+  // 예문에서 첫 등장만 빈칸으로 (단어 경계 — "cat" 이 "category" 를 깨지 않게)
+  const masked = sentence.replace(
+    new RegExp(`\\b${escapeRegExp(answer)}\\b`),
+    BLANK,
+  );
   if (masked === sentence) return null; // 치환 실패 방어
 
   return { masked, answer };

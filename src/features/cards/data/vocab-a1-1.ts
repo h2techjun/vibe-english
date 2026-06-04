@@ -1185,7 +1185,7 @@ export const VOCAB_A1_1_CARDS: VocabCard[] = [
     koPron: "원트",
     ko: "원하다, ~하고 싶다 (동사)",
     exampleEn: "I want some water.",
-    exampleKo: "물이 좀 마시고 싶어요.",
+    exampleKo: "물 좀 마시고 싶어요.",
     tags: ["동사", "행동"],
   },
   {

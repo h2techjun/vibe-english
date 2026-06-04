@@ -727,7 +727,7 @@ export const C1_MORE_CARDS: VocabCard[] = [
     ipa: "/aɪ ˈwʊdnt ɡoʊ ðæt fɑːr/",
     koPron: "아이 우든트 고우 댓 파",
     ko: "거기까진 아닌 것 같아요.",
-    exampleEn: "It has flaws, sure, but I wouldn't go that far as to call it a disaster.",
+    exampleEn: "It has flaws, sure, but I wouldn't go so far as to call it a disaster.",
     exampleKo: "결함이 있는 건 맞지만, 그걸 재앙이라 부를 정도까진 아닌 것 같아요.",
     note: "I wouldn't go that far = 상대의 강한 주장에 정중히 선을 긋는 표현.",
     tags: ["의견", "절제"],

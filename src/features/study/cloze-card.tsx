@@ -14,11 +14,13 @@ interface Props {
   card: VocabCard;
   isNew: boolean;
   wordPool: string[];
+  /** 평가 처리 중 — 다음 버튼 연타로 인한 이중 평가 방지 */
+  busy?: boolean;
   /** 정답 여부를 부모에 전달 (FSRS 자동 평가) */
   onAnswer: (correct: boolean) => void;
 }
 
-export function ClozeCard({ card, isNew, wordPool, onAnswer }: Props) {
+export function ClozeCard({ card, isNew, wordPool, busy, onAnswer }: Props) {
   const t = useTranslations("study");
   const { speak, supported } = useTts();
 
@@ -136,7 +138,9 @@ export function ClozeCard({ card, isNew, wordPool, onAnswer }: Props) {
                 ? t("clozeCorrect")
                 : `${t("clozeWrong")} "${cloze.answer}"`}
             </p>
-            <Button onClick={() => onAnswer(correct)}>{t("next")}</Button>
+            <Button disabled={busy} onClick={() => onAnswer(correct)}>
+              {t("next")}
+            </Button>
           </div>
         )}
       </div>

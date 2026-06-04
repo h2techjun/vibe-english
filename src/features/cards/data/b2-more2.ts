@@ -937,7 +937,7 @@ export const B2_MORE2_CARDS: VocabCard[] = [
     level: "B2",
     deck: "health-wellness",
     en: "I'm trying to cut back on caffeine.",
-    ipa: "/aɪm ˈtraɪɪŋ tu kʌt bæk ɑːn ˈkæfiːn/",
+    ipa: "/aɪm ˈtraɪɪŋ tu kʌt bæk ɑːn kæˈfiːn/",
     koPron: "아임 트라잉 투 컷 백 온 캐피인",
     ko: "카페인을 줄여 보려고 하고 있어요.",
     exampleEn: "To sleep better, I'm trying to cut back on caffeine.",

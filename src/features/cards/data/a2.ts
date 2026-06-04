@@ -618,7 +618,7 @@ export const A2_CARDS: VocabCard[] = [
     deck: "health",
     en: "My stomach hurts.",
     ipa: "/maɪ ˈstʌmək hɜːrts/",
-    koPron: "마이 스토먹 허츠",
+    koPron: "마이 스터먹 허츠",
     ko: "배가 아파요.",
     exampleEn: "My stomach hurts after lunch.",
     exampleKo: "점심 먹고 나서 배가 아파요.",

@@ -1765,7 +1765,7 @@ export const VOCAB_B1_1_CARDS: VocabCard[] = [
     deck: "vocab-b1-adv",
     en: "moreover",
     ipa: "/mɔːrˈoʊvər/",
-    koPron: "모-어오버",
+    koPron: "모-로우버",
     ko: "게다가, 더욱이",
     exampleEn: "The hotel is cheap; moreover, it's clean.",
     exampleKo: "그 호텔은 저렴해요. 게다가 깨끗해요.",

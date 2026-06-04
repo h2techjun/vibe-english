@@ -70,6 +70,16 @@ export function StudySession() {
 
   useEffect(() => {
     let mounted = true;
+    // 같은 /study 라우트에서 쿼리(deck/weak)만 바뀌면 리마운트되지 않으므로
+    // 진행 상태를 직접 리셋한다 (안 하면 이전 index/mode 잔존 → 빈 화면/엉뚱한 모드).
+    setIndex(0);
+    setStudied(0);
+    setRevealed(false);
+    setStatus("loading");
+    if (weak) {
+      setMode("flashcard"); // 약점 복습은 플래시카드 고정 (모드 토글 숨김)
+      setDlgSub("single");
+    }
     (async () => {
       const now = new Date();
       const [q, pm, allCards] = await Promise.all([
@@ -259,6 +269,7 @@ export function StudySession() {
           card={current}
           isNew={isNew}
           wordPool={wordPool}
+          busy={busy}
           onAnswer={handleClozeAnswer}
         />
       )}

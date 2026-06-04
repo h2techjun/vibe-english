@@ -68,7 +68,7 @@ export function ScenarioCard({ scenario, isNew, busy, onGrade }: Props) {
       "text" in p
         ? p.text
         : selected[p.blank] !== null
-          ? turn.blanks[p.blank][selected[p.blank]!].en
+          ? (turn.blanks[p.blank]?.[selected[p.blank]!]?.en ?? "____")
           : "____",
     )
     .join("");
@@ -159,7 +159,7 @@ export function ScenarioCard({ scenario, isNew, busy, onGrade }: Props) {
                 <span key={i}>{p.text}</span>
               ) : selected[p.blank] !== null ? (
                 <span key={i} className="font-semibold text-blue-600 dark:text-blue-400">
-                  {turn.blanks[p.blank][selected[p.blank]!].en}
+                  {turn.blanks[p.blank]?.[selected[p.blank]!]?.en ?? "____"}
                 </span>
               ) : (
                 <span

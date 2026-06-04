@@ -276,7 +276,7 @@ export const B1_MORE2_CARDS: VocabCard[] = [
     en: "I'm looking for a one-bedroom apartment.",
     ipa: "/aɪm ˈlʊkɪŋ fər ə wʌn ˈbɛdruːm əˈpɑːrtmənt/",
     koPron: "아임 루킹 포 어 원 베드룸 어파-트먼트",
-    ko: "원룸(침실 하나) 아파트를 찾고 있어요.",
+    ko: "침실 하나짜리 아파트를 찾고 있어요.",
     exampleEn: "I'm looking for a one-bedroom apartment near the station.",
     exampleKo: "역 근처 침실 하나짜리 아파트를 찾고 있어요.",
     tags: ["주거", "임대"],

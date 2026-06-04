@@ -69,7 +69,7 @@ export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
       "text" in p
         ? p.text
         : selected[p.blank] !== null
-          ? dialogue.blanks[p.blank][selected[p.blank]!].en
+          ? (dialogue.blanks[p.blank]?.[selected[p.blank]!]?.en ?? "____")
           : "____",
     )
     .join("");
@@ -138,7 +138,7 @@ export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
               key={i}
               className="font-semibold text-blue-600 dark:text-blue-400"
             >
-              {dialogue.blanks[p.blank][selected[p.blank]!].en}
+              {dialogue.blanks[p.blank]?.[selected[p.blank]!]?.en ?? "____"}
             </span>
           ) : (
             <span

@@ -121,7 +121,7 @@ export const VOCAB_A2_1_CARDS: VocabCard[] = [
     deck: "vocab-a2-home-life",
     en: "laundry",
     ipa: "/ˈlɔːndri/",
-    koPron: "런-드리",
+    koPron: "론-드리",
     ko: "빨래, 세탁물",
     exampleEn: "I do the laundry twice a week.",
     exampleKo: "저는 일주일에 두 번 빨래를 해요.",

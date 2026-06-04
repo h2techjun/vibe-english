@@ -660,7 +660,7 @@ export const C2_CARDS: VocabCard[] = [
     en: "Thank you for your prompt attention to this matter",
     ipa: "/θæŋk juː fɔːr jɔːr prɑːmpt əˈtenʃən tə ðɪs ˈmætər/",
     koPron: "땡크 유 포 유어 프람프트 어텐션 투 디스 매터",
-    ko: "본 사안에 신속히 처리해 주셔서 감사합니다",
+    ko: "본 사안을 신속히 처리해 주셔서 감사합니다",
     exampleEn: "Thank you for your prompt attention to this matter.",
     exampleKo: "본 사안에 신속히 대응해 주셔서 감사합니다.",
     note: "신속 처리를 정중히 요청·감사하는 마무리 정형구.",

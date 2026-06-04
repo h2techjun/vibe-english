@@ -491,7 +491,7 @@ export const B1_CARDS: VocabCard[] = [
     koPron: "아이 유스트 투 리브 인 부산",
     ko: "예전에 부산에 살았었어요.",
     exampleEn: "I used to live in Busan, so I know the area well.",
-    exampleKo: "예전에 부산에 살았어서, 그 동네를 잘 알아요.",
+    exampleKo: "예전에 부산에 살아서, 그 동네를 잘 알아요.",
     note: "'used to'는 지금은 아닌 과거의 습관·상태.",
     tags: ["경험", "과거"],
   },

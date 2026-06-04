@@ -546,7 +546,7 @@ export const VOCAB_B1_2_CARDS: VocabCard[] = [
     koPron: "프라그레스",
     ko: "진행, 진척",
     exampleEn: "We're making good progress on the plan.",
-    exampleKo: "우리는 그 계획에서 잘 진척되고 있다.",
+    exampleKo: "우리는 그 계획을 잘 진행하고 있다.",
     tags: ["업무", "명사"],
   },
   {

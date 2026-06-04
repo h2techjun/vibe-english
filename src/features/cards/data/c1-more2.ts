@@ -382,7 +382,7 @@ export const C1_MORE2_CARDS: VocabCard[] = [
     koPron: "홀드 썸원 어카운터블",
     ko: "~에게 책임을 묻다",
     exampleEn: "We need clear metrics to hold each department accountable.",
-    exampleKo: "각 부서에 책임을 묻으려면 명확한 지표가 필요해요.",
+    exampleKo: "각 부서에 책임을 물으려면 명확한 지표가 필요해요.",
     tags: ["리더십", "책임"],
   },
   {
