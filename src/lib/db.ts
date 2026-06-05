@@ -5,6 +5,7 @@
  * 주의: 이 모듈은 클라이언트에서만 사용한다 (useLiveQuery / "use client" 컴포넌트).
  */
 import Dexie, { type EntityTable } from "dexie";
+import { BRAND } from "@/lib/brand";
 import type { VocabCard, Deck } from "@/types/card";
 import type { CardProgress, StudyLogEntry, AppSettings } from "@/types/srs";
 import type { Dialogue } from "@/types/dialogue";
@@ -27,7 +28,7 @@ export class VibeEnglishDB extends Dexie {
   settings!: EntityTable<AppSettings, "key">;
 
   constructor() {
-    super("vibe-english");
+    super(BRAND.dbName);
     this.version(1).stores({
       // 인덱스: 쿼리에 쓰이는 필드만 선언
       cards: "id, level, deck, *tags",

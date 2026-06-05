@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { LanguageToggle } from "@/components/language-toggle";
 import { Brain, Mic2, GraduationCap, PencilLine, ArrowRight } from "lucide-react";
+import { BRAND } from "@/lib/brand";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -32,9 +33,9 @@ export default async function LandingPage({ params }: Props) {
         <div className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between px-4">
           <Link href="/" prefetch={false} className="flex items-center gap-2 font-semibold">
             <span className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-slate-900 to-blue-900 text-sm font-bold text-white">
-              VE
+              {BRAND.logoMark}
             </span>
-            {tApp("name")}
+            {BRAND.name}
           </Link>
           <div className="flex items-center gap-2">
             <LanguageToggle />
@@ -116,7 +117,7 @@ export default async function LandingPage({ params }: Props) {
 
       <footer className="border-t border-border/40 py-8">
         <div className="mx-auto max-w-6xl px-4 text-center text-sm text-muted-foreground">
-          © 2026 {tApp("name")} · Vibe Coding by Minerva
+          © 2026 {BRAND.name} · Vibe Coding by Minerva
         </div>
       </footer>
     </div>

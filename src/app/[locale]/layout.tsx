@@ -20,8 +20,8 @@ export async function generateMetadata({
   return {
     title: {
       absolute: isKo
-        ? "Vibe English — 생활 영어 SRS 학습"
-        : "Vibe English — Learn Korean with SRS",
+        ? "Loopla English — 생활 영어 SRS 학습"
+        : "Loopla English — Learn Korean with SRS",
     },
     description: isKo
       ? "기억력 곡선 기반 생활 영어 SRS 학습. 매일 10분, 잊을 만할 때 다시 만나는 표현."
