@@ -1,7 +1,7 @@
 {
   "app": {
     "name": "Vibe English",
-    "tagline": "10 minutes a day, meet expressions right before you forget"
+    "tagline": "10 minutes a day — Korean that sticks"
   },
   "nav": {
     "home": "Home",
@@ -16,8 +16,8 @@
   },
   "landing": {
     "hero": {
-      "title": "Everyday English, timed to your memory curve",
-      "subtitle": "From beginner to expert. FSRS algorithm schedules your reviews automatically.",
+      "title": "Everyday Korean, built on the English you know",
+      "subtitle": "Learn Korean starting from English you already understand. FSRS brings each phrase back right before you forget — from your first words to natural, everyday speech.",
       "ctaPrimary": "Get started",
       "ctaSecondary": "How it works"
     },
@@ -27,36 +27,36 @@
         "desc": "Powered by FSRS — the modern successor to Anki's algorithm"
       },
       "pronunciation": {
-        "title": "IPA + phonetic guide",
-        "desc": "Every card shows IPA and a Korean phonetic hint for effortless learning"
+        "title": "Hangul for every phrase",
+        "desc": "See the Korean script and meaning for every expression and pick up reading as you go"
       },
       "levels": {
-        "title": "Level-by-level curriculum",
-        "desc": "From A1 beginner to C2 expert across six CEFR-aligned levels"
+        "title": "Level-by-level path",
+        "desc": "Six graded levels, from your first Korean phrases to advanced, natural speech"
       },
       "ai": {
         "title": "Fill-in-the-blank quiz",
-        "desc": "Pick the missing word from choices to learn actively"
+        "desc": "Pick the right word from the choices to recall Korean actively"
       }
     },
     "howItWorks": {
       "title": "How it works",
-      "step1": "Receive today's review queue",
-      "step2": "Study the expression with pronunciation and examples",
-      "step3": "Rate your recall — next review is scheduled automatically",
-      "step4": "Track progress by level and move to the next stage"
+      "step1": "Get today's review queue",
+      "step2": "See the English prompt, then recall how to say it in Korean",
+      "step3": "Rate your recall — the next review is scheduled automatically",
+      "step4": "Track progress by level and move up to the next stage"
     }
   },
   "onboarding": {
     "title": "What's your level?",
-    "subtitle": "You'll learn conversation phrases from this level. Change it anytime in settings.",
+    "subtitle": "You'll learn Korean phrases from this level. Change it anytime in settings.",
     "unsureHint": "Not sure? Start from Beginner (A1).",
     "levels": {
-      "A1": "Brand new to English — start with greetings & basics",
+      "A1": "Brand new to Korean — start with greetings & basics",
       "A2": "I know simple everyday phrases",
       "B1": "I can hold basic conversations, want them smoother",
-      "B2": "I want to express opinions and feelings in English",
-      "C1": "Fluent in work and professional situations",
+      "B2": "I want to express opinions and feelings in Korean",
+      "C1": "Comfortable in work and professional situations",
       "C2": "Up to native-level nuance"
     }
   },
