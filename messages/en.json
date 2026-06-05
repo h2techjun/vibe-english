@@ -178,6 +178,7 @@
     "doneTitle": "All done for today 🎉",
     "doneDesc": "You studied {count} cards. Consistency builds fluency!",
     "backHome": "Home",
+    "studyAgain": "Keep studying",
     "progress": "{current} / {total}",
     "interval": {
       "min": "{n}m",

@@ -178,6 +178,7 @@
     "doneTitle": "오늘 학습 완료 🎉",
     "doneDesc": "{count}장을 학습했어요. 꾸준함이 실력이 됩니다!",
     "backHome": "홈으로",
+    "studyAgain": "이어서 더 학습",
     "progress": "{current} / {total}",
     "interval": {
       "min": "{n}분",

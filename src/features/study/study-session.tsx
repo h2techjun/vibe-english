@@ -67,6 +67,7 @@ export function StudySession() {
   const [mode, setMode] = useState<StudyMode>("flashcard");
   const [dlgSub, setDlgSub] = useState<"single" | "scenario">("single");
   const [wordPool, setWordPool] = useState<string[]>([]);
+  const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
     let mounted = true;
@@ -98,7 +99,7 @@ export function StudySession() {
     return () => {
       mounted = false;
     };
-  }, [deckId, weak]);
+  }, [deckId, weak, reloadKey]);
 
   function switchMode(next: StudyMode) {
     if (next === mode) return;
@@ -232,9 +233,18 @@ export function StudySession() {
         title={t("doneTitle")}
         desc={t("doneDesc", { count: studied })}
       >
-        <Button nativeButton={false} render={<Link href="/" prefetch={false} />}>
-          {t("backHome")}
-        </Button>
+        <div className="flex gap-2">
+          <Button onClick={() => setReloadKey((k) => k + 1)}>
+            {t("studyAgain")}
+          </Button>
+          <Button
+            variant="outline"
+            nativeButton={false}
+            render={<Link href="/" prefetch={false} />}
+          >
+            {t("backHome")}
+          </Button>
+        </div>
       </CenteredCard>
     );
   }

@@ -27,9 +27,13 @@ export function DialogueSession() {
   const [index, setIndex] = useState(0);
   const [studied, setStudied] = useState(0);
   const [busy, setBusy] = useState(false);
+  const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
     let mounted = true;
+    setIndex(0);
+    setStudied(0);
+    setStatus("loading");
     (async () => {
       const now = new Date();
       const [q, pm] = await Promise.all([
@@ -44,7 +48,7 @@ export function DialogueSession() {
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [reloadKey]);
 
   const current = queue[index];
   const isNew = current ? !progressMap.has(current.id) : false;
@@ -93,9 +97,18 @@ export function DialogueSession() {
         title={t("doneTitle")}
         desc={t("doneDesc", { count: studied })}
       >
-        <Button nativeButton={false} render={<Link href="/" prefetch={false} />}>
-          {t("backHome")}
-        </Button>
+        <div className="flex gap-2">
+          <Button onClick={() => setReloadKey((k) => k + 1)}>
+            {t("studyAgain")}
+          </Button>
+          <Button
+            variant="outline"
+            nativeButton={false}
+            render={<Link href="/" prefetch={false} />}
+          >
+            {t("backHome")}
+          </Button>
+        </div>
       </Centered>
     );
   }
