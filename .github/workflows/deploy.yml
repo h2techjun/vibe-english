@@ -25,13 +25,24 @@ jobs:
           cache: npm
       # npm ci 대신 install: 로컬/CI npm 버전 차이로 인한 lock 불일치 허용
       - run: npm install
+      # ① 영어 빌드 (Loopla English) → 사이트 루트
+      #    https://h2techjun.github.io/vibe-english/
       - run: npm run build
         env:
-          # 프로젝트 사이트: https://h2techjun.github.io/vibe-english/
           NEXT_PUBLIC_BASE_PATH: /vibe-english
+      - run: mv out site
+      # ② 한국어 빌드 (Loopla Korean) → /korean 하위
+      #    https://h2techjun.github.io/vibe-english/korean/
+      - run: rm -rf .next
+      - run: npm run build
+        env:
+          NEXT_PUBLIC_APP_TARGET: korean
+          NEXT_PUBLIC_BASE_PATH: /vibe-english/korean
+      - run: mv out site/korean
+      # 영어(루트) + 한국어(/korean) 합본 배포
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: ./out
+          path: ./site
 
   deploy:
     needs: build
