@@ -24,29 +24,39 @@ export const CEFR_LABELS: Record<CefrLevel, { ko: string; en: string }> = {
 };
 
 /**
- * 한 표현 = 카드 한 장.
- * 발음 부담을 줄이기 위해 IPA + 한국어 발음을 함께 제공한다.
+ * 한 표현 = 카드 한 장. 양방향(영어 학습 / 한국어 학습) 빌드가 공유한다.
+ *
+ * 빌드별 카드 해석 (lib/card-view.ts 의 getCardFace 가 분기):
+ *  - 영어 빌드: en = 학습 대상, ipa+koPron = 발음, ko = 뜻,
+ *               exampleEn/exampleKo = 예문/번역
+ *  - 한국어 빌드: ko = 학습 대상, roman = 발음(로마자), en = 뜻,
+ *               exampleKo/exampleEn = 예문/번역
+ *
+ * 발음 필드는 학습 방향에 따라 한쪽만 채운다 (영어 카드 → ipa/koPron,
+ * 한국어 카드 → roman). 그래서 모두 선택 필드다.
  */
 export interface VocabCard {
-  /** 안정적 고유 ID. 예: "a1-greetings-001" */
+  /** 안정적 고유 ID. 예: "a1-greetings-001" / "ko-a1-greetings-001" */
   id: string;
   /** CEFR 레벨 */
   level: CefrLevel;
   /** 소속 덱(주제) ID. 예: "greetings" */
   deck: string;
-  /** 영어 표현 */
+  /** 영어 표현 (영어 빌드=학습 대상 / 한국어 빌드=영어 뜻) */
   en: string;
-  /** 발음기호 (IPA). 예: "/həˈloʊ/" */
-  ipa: string;
-  /** 한국어 발음 음차. 예: "헐로우" */
-  koPron: string;
-  /** 한국어 뜻 */
+  /** 발음기호 (IPA). 예: "/həˈloʊ/". 영어 빌드 전용 */
+  ipa?: string;
+  /** 한국어 발음 음차. 예: "헐로우". 영어 빌드 전용 */
+  koPron?: string;
+  /** 로마자 발음. 예: "annyeonghaseyo". 한국어 빌드 전용 */
+  roman?: string;
+  /** 한국어 표현 (영어 빌드=뜻 / 한국어 빌드=학습 대상) */
   ko: string;
   /** 예문 (영어) */
   exampleEn: string;
   /** 예문 (한국어) */
   exampleKo: string;
-  /** 사용 맥락/상황 설명 (한국어, 선택) */
+  /** 사용 맥락/상황 설명 (사용자 모국어, 선택) */
   note?: string;
   /** 검색/필터용 태그 */
   tags?: string[];

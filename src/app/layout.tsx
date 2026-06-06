@@ -14,14 +14,14 @@ const geistMono = Geist_Mono({
 });
 
 const APP_NAME = BRAND.name;
-const APP_DESCRIPTION =
-  "기억력 곡선 기반 생활 영어 SRS 학습. 매일 10분, 잊을 만할 때 다시 만나는 표현.";
+const DEF_LOCALE = BRAND.defaultLocale;
+const APP_DESCRIPTION = BRAND.meta.description[DEF_LOCALE];
 const BP = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 export const metadata: Metadata = {
   applicationName: APP_NAME,
   title: {
-    default: `${APP_NAME} — 생활 영어 SRS 학습`,
+    default: BRAND.meta.title[DEF_LOCALE],
     template: `%s | ${APP_NAME}`,
   },
   description: APP_DESCRIPTION,
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0f172a",
+  themeColor: BRAND.themeColor,
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
@@ -51,7 +51,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
-      lang="ko"
+      lang={DEF_LOCALE}
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">

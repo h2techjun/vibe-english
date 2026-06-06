@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import type { VocabCard } from "@/types/card";
+import { getCardFace } from "@/lib/card-view";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { RevealableMeaning } from "@/components/revealable-meaning";
@@ -29,8 +30,9 @@ interface Props {
 export function ListenCard({ card, isNew, busy, onComplete }: Props) {
   const t = useTranslations("study");
   const { speak, supported } = useTts();
+  const face = getCardFace(card);
 
-  const words = useMemo(() => card.exampleEn.split(/\s+/), [card.exampleEn]);
+  const words = useMemo(() => face.example.split(/\s+/), [face.example]);
   const shuffled = useMemo(
     () => shuffle(words.map((w, i) => ({ w, i }))),
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -42,7 +44,7 @@ export function ListenCard({ card, isNew, busy, onComplete }: Props) {
 
   // 카드 진입 시 음성 자동 재생
   useEffect(() => {
-    if (supported) speak(card.exampleEn);
+    if (supported) speak(face.example);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [card.id]);
 
@@ -87,7 +89,7 @@ export function ListenCard({ card, isNew, busy, onComplete }: Props) {
             size="sm"
             className="gap-1.5"
             disabled={!supported}
-            onClick={() => speak(card.exampleEn)}
+            onClick={() => speak(face.example)}
           >
             <Volume2 className="h-4 w-4" /> {t("replay")}
           </Button>
@@ -96,7 +98,7 @@ export function ListenCard({ card, isNew, busy, onComplete }: Props) {
             size="sm"
             className="gap-1.5"
             disabled={!supported}
-            onClick={() => speak(card.exampleEn, { rate: 0.6 })}
+            onClick={() => speak(face.example, { rate: 0.6 })}
           >
             <Turtle className="h-4 w-4" /> {t("slow")}
           </Button>
@@ -165,12 +167,12 @@ export function ListenCard({ card, isNew, busy, onComplete }: Props) {
                 correct ? "text-emerald-600" : "text-rose-600",
               )}
             >
-              {correct ? t("listenCorrect") : `${t("listenWrong")}: ${card.exampleEn}`}
+              {correct ? t("listenCorrect") : `${t("listenWrong")}: ${face.example}`}
             </p>
             <div className="rounded-xl bg-muted/50 p-4 text-center">
-              <p className="font-semibold">{card.exampleEn}</p>
+              <p className="font-semibold">{face.example}</p>
               <RevealableMeaning
-                ko={card.exampleKo}
+                ko={face.exampleTrans}
                 className="mt-1 text-sm"
                 revealedClassName="text-muted-foreground"
               />

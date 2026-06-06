@@ -6,6 +6,7 @@ import type { Dialogue, BlankOption } from "@/types/dialogue";
 import type { ReviewGrade } from "@/types/srs";
 import { Rating } from "@/types/srs";
 import { REVIEW_GRADES } from "@/features/srs/scheduler";
+import { learnText, meaningText } from "@/lib/card-view";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { RevealableMeaning } from "@/components/revealable-meaning";
@@ -18,13 +19,12 @@ type Part = { text: string } | { blank: number };
 /** "I'm {0}, thank you." -> [{text}, {blank:0}, {text}] */
 function parseTemplate(template: string): Part[] {
   const parts: Part[] = [];
-  const re = /\{(\d+)\}/g;
   let last = 0;
-  let m: RegExpExecArray | null;
-  while ((m = re.exec(template)) !== null) {
-    if (m.index > last) parts.push({ text: template.slice(last, m.index) });
+  for (const m of template.matchAll(/\{(\d+)\}/g)) {
+    const idx = m.index ?? 0;
+    if (idx > last) parts.push({ text: template.slice(last, idx) });
     parts.push({ blank: Number(m[1]) });
-    last = m.index + m[0].length;
+    last = idx + m[0].length;
   }
   if (last < template.length) parts.push({ text: template.slice(last) });
   return parts;
@@ -65,13 +65,11 @@ export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
 
   const allFilled = selected.every((s) => s !== null);
   const sentence = parts
-    .map((p) =>
-      "text" in p
-        ? p.text
-        : selected[p.blank] !== null
-          ? (dialogue.blanks[p.blank]?.[selected[p.blank]!]?.en ?? "____")
-          : "____",
-    )
+    .map((p) => {
+      if ("text" in p) return p.text;
+      const opt = dialogue.blanks[p.blank]?.[selected[p.blank] ?? -1];
+      return opt ? learnText(opt) : "____";
+    })
     .join("");
 
   function pick(blankIdx: number, optIdx: number) {
@@ -98,8 +96,11 @@ export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
           {isNew ? t("new") : t("review")}
         </Badge>
         <span className="ml-auto flex items-center gap-1 text-xs text-muted-foreground">
-          {dialogue.context.en} ·
-          <RevealableMeaning ko={dialogue.context.ko} className="text-xs" />
+          {learnText(dialogue.context)} ·
+          <RevealableMeaning
+            ko={meaningText(dialogue.context)}
+            className="text-xs"
+          />
         </span>
       </div>
 
@@ -107,21 +108,24 @@ export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
       <div className="rounded-2xl rounded-bl-sm border border-border/60 bg-muted/50 p-4">
         <div className="flex items-start justify-between gap-2">
           <p className="text-lg font-semibold leading-relaxed">
-            {dialogue.prompt.en}
+            {learnText(dialogue.prompt)}
           </p>
           <Button
             variant="outline"
             size="sm"
             className="shrink-0 gap-1"
             disabled={!supported}
-            onClick={() => speak(dialogue.prompt.en)}
+            onClick={() => speak(learnText(dialogue.prompt))}
           >
             <Volume2 className="h-4 w-4" />
             {t("listen")}
           </Button>
         </div>
         <div className="mt-1 text-sm">
-          <RevealableMeaning ko={dialogue.prompt.ko} className="text-sm" />
+          <RevealableMeaning
+            ko={meaningText(dialogue.prompt)}
+            className="text-sm"
+          />
         </div>
       </div>
 
@@ -130,15 +134,15 @@ export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
         {t("dialoguePrompt")}
       </p>
       <p className="mt-1 text-lg leading-relaxed">
-        {parts.map((p, i) =>
-          "text" in p ? (
-            <span key={i}>{p.text}</span>
-          ) : selected[p.blank] !== null ? (
+        {parts.map((p, i) => {
+          if ("text" in p) return <span key={i}>{p.text}</span>;
+          const opt = dialogue.blanks[p.blank]?.[selected[p.blank] ?? -1];
+          return opt ? (
             <span
               key={i}
               className="font-semibold text-blue-600 dark:text-blue-400"
             >
-              {dialogue.blanks[p.blank]?.[selected[p.blank]!]?.en ?? "____"}
+              {learnText(opt)}
             </span>
           ) : (
             <span
@@ -147,8 +151,8 @@ export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
             >
               &nbsp;
             </span>
-          ),
-        )}
+          );
+        })}
       </p>
 
       {!completed ? (
@@ -180,9 +184,9 @@ export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
                           : "border-border hover:border-blue-300",
                       )}
                     >
-                      <span className="font-medium">{opt.en}</span>
+                      <span className="font-medium">{learnText(opt)}</span>
                       <RevealableMeaning
-                        ko={opt.ko}
+                        ko={meaningText(opt)}
                         className="text-[11px]"
                         revealedClassName="text-muted-foreground"
                       />
@@ -234,7 +238,7 @@ export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
                         className="flex items-baseline gap-2"
                       >
                         <span className="shrink-0 text-sm font-medium text-blue-600 dark:text-blue-400">
-                          {o.en}
+                          {learnText(o)}
                         </span>
                         <span className="text-xs text-muted-foreground">
                           {o.note}
@@ -260,19 +264,19 @@ export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
                     className="rounded-lg border border-border/60 p-2.5 text-sm"
                   >
                     <div className="flex items-center gap-1.5">
-                      <span>{alt.en}</span>
+                      <span>{learnText(alt)}</span>
                       <Button
                         variant="ghost"
                         size="icon-xs"
                         disabled={!supported}
-                        onClick={() => speak(alt.en)}
+                        onClick={() => speak(learnText(alt))}
                         aria-label={t("listen")}
                       >
                         <Volume2 className="h-3.5 w-3.5" />
                       </Button>
                     </div>
                     <RevealableMeaning
-                      ko={alt.ko}
+                      ko={meaningText(alt)}
                       className="text-xs"
                       revealedClassName="text-muted-foreground"
                     />

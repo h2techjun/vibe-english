@@ -6,6 +6,7 @@ import type { Scenario } from "@/types/scenario";
 import type { ReviewGrade } from "@/types/srs";
 import { Rating } from "@/types/srs";
 import { REVIEW_GRADES } from "@/features/srs/scheduler";
+import { learnText, meaningText } from "@/lib/card-view";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { RevealableMeaning } from "@/components/revealable-meaning";
@@ -16,13 +17,12 @@ import { cn } from "@/lib/utils";
 type Part = { text: string } | { blank: number };
 function parseTemplate(template: string): Part[] {
   const parts: Part[] = [];
-  const re = /\{(\d+)\}/g;
   let last = 0;
-  let m: RegExpExecArray | null;
-  while ((m = re.exec(template)) !== null) {
-    if (m.index > last) parts.push({ text: template.slice(last, m.index) });
+  for (const m of template.matchAll(/\{(\d+)\}/g)) {
+    const idx = m.index ?? 0;
+    if (idx > last) parts.push({ text: template.slice(last, idx) });
     parts.push({ blank: Number(m[1]) });
-    last = m.index + m[0].length;
+    last = idx + m[0].length;
   }
   if (last < template.length) parts.push({ text: template.slice(last) });
   return parts;
@@ -64,13 +64,11 @@ export function ScenarioCard({ scenario, isNew, busy, onGrade }: Props) {
 
   const allFilled = selected.every((s) => s !== null);
   const built = parts
-    .map((p) =>
-      "text" in p
-        ? p.text
-        : selected[p.blank] !== null
-          ? (turn.blanks[p.blank]?.[selected[p.blank]!]?.en ?? "____")
-          : "____",
-    )
+    .map((p) => {
+      if ("text" in p) return p.text;
+      const opt = turn.blanks[p.blank]?.[selected[p.blank] ?? -1];
+      return opt ? learnText(opt) : "____";
+    })
     .join("");
 
   function pick(blankIdx: number, optIdx: number) {
@@ -108,8 +106,11 @@ export function ScenarioCard({ scenario, isNew, busy, onGrade }: Props) {
           {isNew ? t("new") : t("review")}
         </Badge>
         <span className="ml-auto flex items-center gap-1 text-xs text-muted-foreground">
-          {scenario.title.en} ·
-          <RevealableMeaning ko={scenario.title.ko} className="text-xs" />
+          {learnText(scenario.title)} ·
+          <RevealableMeaning
+            ko={meaningText(scenario.title)}
+            className="text-xs"
+          />
         </span>
       </div>
 
@@ -125,7 +126,7 @@ export function ScenarioCard({ scenario, isNew, busy, onGrade }: Props) {
         {responses.map((resp, i) => (
           <div key={i} className="flex flex-col gap-1">
             <div className="self-start rounded-2xl rounded-bl-sm bg-muted px-3 py-1.5 text-sm">
-              {scenario.turns[i].prompt.en}
+              {learnText(scenario.turns[i].prompt)}
             </div>
             <div className="self-end rounded-2xl rounded-br-sm bg-blue-600 px-3 py-1.5 text-sm text-white">
               {resp}
@@ -138,28 +139,31 @@ export function ScenarioCard({ scenario, isNew, busy, onGrade }: Props) {
         <div className="mt-2 flex flex-col gap-3">
           <div className="self-start rounded-2xl rounded-bl-sm border border-border/60 bg-muted/50 px-3 py-2">
             <div className="flex items-center gap-2">
-              <p className="text-sm font-medium">{turn.prompt.en}</p>
+              <p className="text-sm font-medium">{learnText(turn.prompt)}</p>
               <Button
                 variant="outline"
                 size="sm"
                 className="ml-auto shrink-0 gap-1"
                 disabled={!supported}
-                onClick={() => speak(turn.prompt.en)}
+                onClick={() => speak(learnText(turn.prompt))}
               >
                 <Volume2 className="h-3.5 w-3.5" />
                 {t("listen")}
               </Button>
             </div>
-            <RevealableMeaning ko={turn.prompt.ko} className="text-xs" />
+            <RevealableMeaning ko={meaningText(turn.prompt)} className="text-xs" />
           </div>
 
           <p className="text-base leading-relaxed">
-            {parts.map((p, i) =>
-              "text" in p ? (
-                <span key={i}>{p.text}</span>
-              ) : selected[p.blank] !== null ? (
-                <span key={i} className="font-semibold text-blue-600 dark:text-blue-400">
-                  {turn.blanks[p.blank]?.[selected[p.blank]!]?.en ?? "____"}
+            {parts.map((p, i) => {
+              if ("text" in p) return <span key={i}>{p.text}</span>;
+              const opt = turn.blanks[p.blank]?.[selected[p.blank] ?? -1];
+              return opt ? (
+                <span
+                  key={i}
+                  className="font-semibold text-blue-600 dark:text-blue-400"
+                >
+                  {learnText(opt)}
                 </span>
               ) : (
                 <span
@@ -168,8 +172,8 @@ export function ScenarioCard({ scenario, isNew, busy, onGrade }: Props) {
                 >
                   &nbsp;
                 </span>
-              ),
-            )}
+              );
+            })}
           </p>
 
           <div className="flex flex-col gap-2">
@@ -194,8 +198,11 @@ export function ScenarioCard({ scenario, isNew, busy, onGrade }: Props) {
                         : "border-border hover:border-blue-300",
                     )}
                   >
-                    <span className="font-medium">{opt.en}</span>
-                    <RevealableMeaning ko={opt.ko} className="text-[11px]" />
+                    <span className="font-medium">{learnText(opt)}</span>
+                    <RevealableMeaning
+                      ko={meaningText(opt)}
+                      className="text-[11px]"
+                    />
                   </div>
                 ))}
               </div>
@@ -236,7 +243,7 @@ export function ScenarioCard({ scenario, isNew, busy, onGrade }: Props) {
                           className="flex items-baseline gap-2"
                         >
                           <span className="shrink-0 text-sm font-medium text-blue-600 dark:text-blue-400">
-                            {o.en}
+                            {learnText(o)}
                           </span>
                           <span className="text-xs text-muted-foreground">
                             {o.note}

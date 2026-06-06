@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import type { VocabCard } from "@/types/card";
+import { getCardFace } from "@/lib/card-view";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useTts } from "./use-tts";
@@ -23,6 +24,7 @@ interface Props {
 export function ClozeCard({ card, isNew, wordPool, busy, onAnswer }: Props) {
   const t = useTranslations("study");
   const { speak, supported } = useTts();
+  const face = getCardFace(card);
 
   const cloze = useMemo(() => buildCloze(card), [card]);
   const options = useMemo(
@@ -37,15 +39,13 @@ export function ClozeCard({ card, isNew, wordPool, busy, onAnswer }: Props) {
   // 카드가 바뀌면 상태 초기화 + 예문 자동 재생
   useEffect(() => {
     setSelected(null);
-    if (supported && cloze) speak(card.exampleEn);
+    if (supported && cloze) speak(face.example);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [card.id]);
 
   // 빈칸 추출 실패 시 부모가 플래시카드로 폴백하도록 신호
   if (!cloze) {
-    return (
-      <ClozeFallback card={card} onContinue={() => onAnswer(true)} />
-    );
+    return <ClozeFallback card={card} onContinue={() => onAnswer(true)} />;
   }
 
   function choose(option: string) {
@@ -74,19 +74,21 @@ export function ClozeCard({ card, isNew, wordPool, busy, onAnswer }: Props) {
 
         {/* 빈칸 예문 */}
         <p className="mt-4 text-xl font-semibold leading-relaxed">
-          {answered ? card.exampleEn : cloze.masked}
+          {answered ? face.example : cloze.masked}
         </p>
-        <p className="mt-2 text-sm text-muted-foreground">{card.exampleKo}</p>
+        <p className="mt-2 text-sm text-muted-foreground">
+          {face.exampleTrans}
+        </p>
 
         {/* 표현 뜻 힌트 */}
         <div className="mt-3 flex items-center gap-2 text-sm">
-          <span className="font-medium">{card.en}</span>
-          <span className="text-muted-foreground">— {card.ko}</span>
+          <span className="font-medium">{face.term}</span>
+          <span className="text-muted-foreground">— {face.meaning}</span>
           <Button
             variant="ghost"
             size="icon-sm"
             disabled={!supported}
-            onClick={() => speak(card.exampleEn)}
+            onClick={() => speak(face.example)}
             aria-label={t("listen")}
           >
             <Volume2 className="h-4 w-4" />
@@ -157,13 +159,20 @@ function ClozeFallback({
   onContinue: () => void;
 }) {
   const t = useTranslations("study");
+  const face = getCardFace(card);
   return (
     <div className="flex flex-1 flex-col rounded-2xl border border-border/60 bg-card p-6 shadow-sm">
-      <p className="text-2xl font-bold">{card.en}</p>
-      <p className="mt-1 font-mono text-sm text-muted-foreground">{card.ipa}</p>
-      <p className="text-sm text-muted-foreground">[{card.koPron}]</p>
+      <p className="text-2xl font-bold">{face.term}</p>
+      {face.pronPrimary && (
+        <p className="mt-1 font-mono text-sm text-muted-foreground">
+          {face.pronPrimary}
+        </p>
+      )}
+      {face.pronSecondary && (
+        <p className="text-sm text-muted-foreground">[{face.pronSecondary}]</p>
+      )}
       <p className="mt-3 text-lg font-semibold text-blue-700 dark:text-blue-300">
-        {card.ko}
+        {face.meaning}
       </p>
       <div className="mt-auto flex justify-center pt-6">
         <Button onClick={onContinue}>{t("next")}</Button>

@@ -42,4 +42,29 @@ export const BRAND = {
   logoMark: "L",
   /** 테마 컬러 (둘 다 동일 톤 유지) */
   themeColor: "#0f172a",
+  /**
+   * SEO/메타 (로케일별 title·description 단일 소스).
+   * layout 들이 BRAND.meta[locale] 로 참조한다.
+   */
+  meta: isKorean
+    ? {
+        title: {
+          ko: "Loopla Korean — 영어로 배우는 한국어",
+          en: "Loopla Korean — Learn Korean with SRS",
+        },
+        description: {
+          ko: "이미 아는 영어에서 출발하는 한국어 학습. FSRS 간격 반복으로 잊을 만할 때 다시 만나는 표현. 가입 없이 브라우저에서 완전 로컬.",
+          en: "Learn Korean from the English you already know — FSRS spaced-repetition flashcards, A1 to C2, fully local in your browser. No signup.",
+        },
+      }
+    : {
+        title: {
+          ko: "Loopla English — 생활 영어 SRS 학습",
+          en: "Loopla English — Everyday English with SRS",
+        },
+        description: {
+          ko: "기억력 곡선 기반 생활 영어 SRS 학습. 매일 10분, 잊을 만할 때 다시 만나는 표현.",
+          en: "Spaced-repetition for everyday English. Ten minutes a day — phrases that come back right before you forget.",
+        },
+      },
 } as const;

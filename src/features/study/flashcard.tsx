@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import type { VocabCard } from "@/types/card";
+import { getCardFace } from "@/lib/card-view";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -20,11 +21,12 @@ export function Flashcard({ card, revealed, isNew, onReveal }: Props) {
   const t = useTranslations("study");
   const { speak, supported } = useTts();
   const [shadowing, setShadowing] = useState(false);
+  const face = getCardFace(card);
 
   // 앞면이 새로 보일 때 표현을 한 번 자동 재생
   useEffect(() => {
     setShadowing(false);
-    if (supported) speak(card.en);
+    if (supported) speak(face.term);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [card.id]);
 
@@ -47,13 +49,21 @@ export function Flashcard({ card, revealed, isNew, onReveal }: Props) {
 
       {/* 카드 본체 */}
       <div className="flex flex-1 flex-col rounded-2xl border border-border/60 bg-card p-6 shadow-sm">
-        {/* 앞면: 영어 + 발음 */}
+        {/* 앞면: 학습 대상 표현 + 발음 */}
         <div className="flex flex-col items-center gap-2 text-center">
           <p className="text-2xl font-bold leading-snug sm:text-3xl">
-            {card.en}
+            {face.term}
           </p>
-          <p className="font-mono text-base text-muted-foreground">{card.ipa}</p>
-          <p className="text-sm text-muted-foreground">[{card.koPron}]</p>
+          {face.pronPrimary && (
+            <p className="font-mono text-base text-muted-foreground">
+              {face.pronPrimary}
+            </p>
+          )}
+          {face.pronSecondary && (
+            <p className="text-sm text-muted-foreground">
+              [{face.pronSecondary}]
+            </p>
+          )}
         </div>
 
         {/* 듣기 버튼 */}
@@ -63,7 +73,7 @@ export function Flashcard({ card, revealed, isNew, onReveal }: Props) {
             size="sm"
             className="gap-1.5"
             disabled={!supported}
-            onClick={() => speak(card.en)}
+            onClick={() => speak(face.term)}
           >
             <Volume2 className="h-4 w-4" /> {t("listen")}
           </Button>
@@ -72,7 +82,7 @@ export function Flashcard({ card, revealed, isNew, onReveal }: Props) {
             size="sm"
             className="gap-1.5"
             disabled={!supported}
-            onClick={() => speak(card.en, { rate: 0.6 })}
+            onClick={() => speak(face.term, { rate: 0.6 })}
           >
             <Turtle className="h-4 w-4" /> {t("slow")}
           </Button>
@@ -82,7 +92,7 @@ export function Flashcard({ card, revealed, isNew, onReveal }: Props) {
             className="gap-1.5"
             disabled={!supported}
             onClick={() => {
-              speak(card.en, { rate: 0.7 });
+              speak(face.term, { rate: 0.7 });
               setShadowing(true);
             }}
           >
@@ -105,27 +115,27 @@ export function Flashcard({ card, revealed, isNew, onReveal }: Props) {
           <div className="mt-5 flex flex-col gap-4">
             <Separator />
             <p className="text-center text-xl font-semibold text-blue-700 dark:text-blue-300">
-              {card.ko}
+              {face.meaning}
             </p>
 
             <div className="rounded-xl bg-muted/50 p-4">
               <div className="flex items-start justify-between gap-2">
                 <p className="text-sm font-medium leading-relaxed">
-                  {card.exampleEn}
+                  {face.example}
                 </p>
                 <Button
                   variant="ghost"
                   size="icon-sm"
                   className="shrink-0"
                   disabled={!supported}
-                  onClick={() => speak(card.exampleEn)}
+                  onClick={() => speak(face.example)}
                   aria-label={t("listen")}
                 >
                   <Volume2 className="h-4 w-4" />
                 </Button>
               </div>
               <p className="mt-1 text-sm text-muted-foreground">
-                {card.exampleKo}
+                {face.exampleTrans}
               </p>
             </div>
 
