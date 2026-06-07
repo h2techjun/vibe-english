@@ -199,10 +199,11 @@ export function ScenarioCard({ scenario, isNew, busy, onGrade }: Props) {
                     )}
                   >
                     <span className="font-medium">{learnText(opt)}</span>
-                    <RevealableMeaning
-                      ko={meaningText(opt)}
-                      className="text-[11px]"
-                    />
+                    {selected[bi] === oi && (
+                      <span className="text-[11px] text-muted-foreground">
+                        {meaningText(opt)}
+                      </span>
+                    )}
                   </div>
                 ))}
               </div>
