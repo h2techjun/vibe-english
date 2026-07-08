@@ -45,6 +45,13 @@ export class VibeEnglishDB extends Dexie {
     this.version(3).stores({
       scenarios: "id, level, situation",
     });
+    // v4: 런타임 코스 전환 — 두 코스 콘텐츠가 공존하도록 course 인덱스 추가
+    this.version(4).stores({
+      cards: "id, level, deck, course, *tags",
+      decks: "id, level, order, course",
+      dialogues: "id, level, situation, course",
+      scenarios: "id, level, situation, course",
+    });
   }
 }
 

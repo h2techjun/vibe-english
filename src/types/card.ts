@@ -14,63 +14,81 @@ export const CEFR_LEVELS: readonly CefrLevel[] = [
   "C2",
 ] as const;
 
-export const CEFR_LABELS: Record<CefrLevel, { ko: string; en: string }> = {
-  A1: { ko: "입문", en: "Beginner" },
-  A2: { ko: "초급", en: "Elementary" },
-  B1: { ko: "중급", en: "Intermediate" },
-  B2: { ko: "중상급", en: "Upper-Intermediate" },
-  C1: { ko: "고급", en: "Advanced" },
-  C2: { ko: "전문가", en: "Proficient" },
+export const CEFR_LABELS: Record<
+  CefrLevel,
+  { ko: string; en: string; zh: string }
+> = {
+  A1: { ko: "입문", en: "Beginner", zh: "入门" },
+  A2: { ko: "초급", en: "Elementary", zh: "初级" },
+  B1: { ko: "중급", en: "Intermediate", zh: "中级" },
+  B2: { ko: "중상급", en: "Upper-Intermediate", zh: "中高级" },
+  C1: { ko: "고급", en: "Advanced", zh: "高级" },
+  C2: { ko: "전문가", en: "Proficient", zh: "精通" },
 };
 
 /**
- * 한 표현 = 카드 한 장. 양방향(영어 학습 / 한국어 학습) 빌드가 공유한다.
+ * 학습 코스 = 학습 대상 언어. UI 로케일(모국어)에서 파생된다:
+ * ko 로케일 → "en"(영어 학습) / en·zh 로케일 → "ko"(한국어 학습).
+ */
+export type Course = "en" | "ko";
+
+/**
+ * 한 표현 = 카드 한 장. 두 코스(영어 학습 / 한국어 학습)가 공유하는 타입.
  *
- * 빌드별 카드 해석 (lib/card-view.ts 의 getCardFace 가 분기):
- *  - 영어 빌드: en = 학습 대상, ipa+koPron = 발음, ko = 뜻,
- *               exampleEn/exampleKo = 예문/번역
- *  - 한국어 빌드: ko = 학습 대상, roman = 발음(로마자), en = 뜻,
- *               exampleKo/exampleEn = 예문/번역
+ * 코스별 카드 해석 (lib/card-view.ts 의 getCardFace 가 런타임 분기):
+ *  - en 코스(한국어 화자): en = 학습 대상, ipa+koPron = 발음, ko = 뜻
+ *  - ko 코스(영어/중국어 화자): ko = 학습 대상, roman = 발음(로마자),
+ *    en = 영어 뜻, zh = 중국어 뜻(선택, 없으면 en 폴백)
  *
- * 발음 필드는 학습 방향에 따라 한쪽만 채운다 (영어 카드 → ipa/koPron,
- * 한국어 카드 → roman). 그래서 모두 선택 필드다.
+ * 발음 필드는 코스에 따라 한쪽만 채운다 (en 코스 카드 → ipa/koPron,
+ * ko 코스 카드 → roman). 그래서 모두 선택 필드다.
  */
 export interface VocabCard {
   /** 안정적 고유 ID. 예: "a1-greetings-001" / "ko-a1-greetings-001" */
   id: string;
   /** CEFR 레벨 */
   level: CefrLevel;
-  /** 소속 덱(주제) ID. 예: "greetings" */
+  /** 소속 덱(주제) ID. 예: "greetings" (ko 코스는 시드 시 "ko:" prefix) */
   deck: string;
-  /** 영어 표현 (영어 빌드=학습 대상 / 한국어 빌드=영어 뜻) */
+  /** 학습 코스. 콘텐츠 파일엔 없고 시드가 주입한다 */
+  course?: Course;
+  /** 영어 표현 (en 코스=학습 대상 / ko 코스=영어 뜻) */
   en: string;
-  /** 발음기호 (IPA). 예: "/həˈloʊ/". 영어 빌드 전용 */
+  /** 발음기호 (IPA). 예: "/həˈloʊ/". en 코스 전용 */
   ipa?: string;
-  /** 한국어 발음 음차. 예: "헐로우". 영어 빌드 전용 */
+  /** 한국어 발음 음차. 예: "헐로우". en 코스 전용 */
   koPron?: string;
-  /** 로마자 발음. 예: "annyeonghaseyo". 한국어 빌드 전용 */
+  /** 로마자 발음. 예: "annyeonghaseyo". ko 코스 전용 */
   roman?: string;
-  /** 한국어 표현 (영어 빌드=뜻 / 한국어 빌드=학습 대상) */
+  /** 한국어 표현 (en 코스=뜻 / ko 코스=학습 대상) */
   ko: string;
+  /** 중국어(간체) 뜻. ko 코스 + zh 사용자용 (없으면 en 폴백) */
+  zh?: string;
   /** 예문 (영어) */
   exampleEn: string;
   /** 예문 (한국어) */
   exampleKo: string;
-  /** 사용 맥락/상황 설명 (사용자 모국어, 선택) */
+  /** 예문 중국어 번역. ko 코스 + zh 사용자용 */
+  exampleZh?: string;
+  /** 사용 맥락/상황 설명 (영어 또는 한국어, 선택) */
   note?: string;
+  /** note 의 중국어 번역 (선택) */
+  noteZh?: string;
   /** 검색/필터용 태그 */
   tags?: string[];
 }
 
 /** 덱(주제) 메타데이터 */
 export interface Deck {
-  /** 덱 ID. VocabCard.deck 와 매칭 */
+  /** 덱 ID. VocabCard.deck 와 매칭 (ko 코스는 시드 시 "ko:" prefix) */
   id: string;
   level: CefrLevel;
-  /** 표시 이름 */
-  title: { ko: string; en: string };
+  /** 학습 코스. 콘텐츠 파일엔 없고 시드가 주입한다 */
+  course?: Course;
+  /** 표시 이름 (zh 는 ko 코스 덱만 채움, 없으면 en 폴백) */
+  title: { ko: string; en: string; zh?: string };
   /** 한 줄 설명 */
-  description: { ko: string; en: string };
+  description: { ko: string; en: string; zh?: string };
   /** 레벨 내 정렬 순서 */
   order: number;
   /** lucide 아이콘 이름 (선택) */

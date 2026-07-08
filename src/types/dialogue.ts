@@ -8,10 +8,11 @@
  */
 import type { CefrLevel } from "./card";
 
-/** 한/영 한 쌍 */
+/** 한/영(+중) 한 쌍. zh 는 ko 코스 콘텐츠만 채운다 (없으면 en 폴백) */
 export interface Bilingual {
   en: string;
   ko: string;
+  zh?: string;
 }
 
 /**
@@ -21,6 +22,8 @@ export interface Bilingual {
  */
 export interface BlankOption extends Bilingual {
   note?: string;
+  /** note 의 중국어 번역 (선택) */
+  noteZh?: string;
 }
 
 /** 빈칸 하나에 들어갈 수 있는 선택지들 */
@@ -30,6 +33,8 @@ export interface Dialogue {
   /** 안정적 고유 ID. 예: "dlg-a1-greetings-001" */
   id: string;
   level: CefrLevel;
+  /** 학습 코스. 콘텐츠 파일엔 없고 시드가 주입한다 */
+  course?: import("./card").Course;
   /** 상황 그룹 ID (회화 덱과 동일 체계, 예: "greetings", "cafe") */
   situation: string;
   /** 상황 설명 (한/영) */

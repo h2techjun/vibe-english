@@ -6,7 +6,8 @@ import type { Dialogue, BlankOption } from "@/types/dialogue";
 import type { ReviewGrade } from "@/types/srs";
 import { Rating } from "@/types/srs";
 import { REVIEW_GRADES } from "@/features/srs/scheduler";
-import { learnText, meaningText } from "@/lib/card-view";
+import { learnText, meaningText, noteText } from "@/lib/card-view";
+import { useCourse } from "@/lib/course";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { RevealableMeaning } from "@/components/revealable-meaning";
@@ -53,6 +54,7 @@ interface Props {
 export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
   const t = useTranslations("study");
   const { speak, supported } = useTts();
+  const { course, src } = useCourse();
   const parts = useMemo(
     () => parseTemplate(dialogue.template),
     [dialogue.template],
@@ -68,7 +70,7 @@ export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
     .map((p) => {
       if ("text" in p) return p.text;
       const opt = dialogue.blanks[p.blank]?.[selected[p.blank] ?? -1];
-      return opt ? learnText(opt) : "____";
+      return opt ? learnText(opt, course) : "____";
     })
     .join("");
 
@@ -96,9 +98,9 @@ export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
           {isNew ? t("new") : t("review")}
         </Badge>
         <span className="ml-auto flex items-center gap-1 text-xs text-muted-foreground">
-          {learnText(dialogue.context)} ·
+          {learnText(dialogue.context, course)} ·
           <RevealableMeaning
-            ko={meaningText(dialogue.context)}
+            ko={meaningText(dialogue.context, course, src)}
             className="text-xs"
           />
         </span>
@@ -108,14 +110,14 @@ export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
       <div className="rounded-2xl rounded-bl-sm border border-border/60 bg-muted/50 p-4">
         <div className="flex items-start justify-between gap-2">
           <p className="text-lg font-semibold leading-relaxed">
-            {learnText(dialogue.prompt)}
+            {learnText(dialogue.prompt, course)}
           </p>
           <Button
             variant="outline"
             size="sm"
             className="shrink-0 gap-1"
             disabled={!supported}
-            onClick={() => speak(learnText(dialogue.prompt))}
+            onClick={() => speak(learnText(dialogue.prompt, course))}
           >
             <Volume2 className="h-4 w-4" />
             {t("listen")}
@@ -123,7 +125,7 @@ export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
         </div>
         <div className="mt-1 text-sm">
           <RevealableMeaning
-            ko={meaningText(dialogue.prompt)}
+            ko={meaningText(dialogue.prompt, course, src)}
             className="text-sm"
           />
         </div>
@@ -142,7 +144,7 @@ export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
               key={i}
               className="font-semibold text-blue-600 dark:text-blue-400"
             >
-              {learnText(opt)}
+              {learnText(opt, course)}
             </span>
           ) : (
             <span
@@ -184,10 +186,10 @@ export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
                           : "border-border hover:border-blue-300",
                       )}
                     >
-                      <span className="font-medium">{learnText(opt)}</span>
+                      <span className="font-medium">{learnText(opt, course)}</span>
                       {selected[bi] === oi && (
                         <span className="text-[11px] text-muted-foreground">
-                          {meaningText(opt)}
+                          {meaningText(opt, course, src)}
                         </span>
                       )}
                     </div>
@@ -238,10 +240,10 @@ export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
                         className="flex items-baseline gap-2"
                       >
                         <span className="shrink-0 text-sm font-medium text-blue-600 dark:text-blue-400">
-                          {learnText(o)}
+                          {learnText(o, course)}
                         </span>
                         <span className="text-xs text-muted-foreground">
-                          {o.note}
+                          {noteText(o, src)}
                         </span>
                       </div>
                     )),
@@ -264,25 +266,25 @@ export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
                     className="rounded-lg border border-border/60 p-2.5 text-sm"
                   >
                     <div className="flex items-center gap-1.5">
-                      <span>{learnText(alt)}</span>
+                      <span>{learnText(alt, course)}</span>
                       <Button
                         variant="ghost"
                         size="icon-xs"
                         disabled={!supported}
-                        onClick={() => speak(learnText(alt))}
+                        onClick={() => speak(learnText(alt, course))}
                         aria-label={t("listen")}
                       >
                         <Volume2 className="h-3.5 w-3.5" />
                       </Button>
                     </div>
                     <RevealableMeaning
-                      ko={meaningText(alt)}
+                      ko={meaningText(alt, course, src)}
                       className="text-xs"
                       revealedClassName="text-muted-foreground"
                     />
-                    {alt.note && (
+                    {noteText(alt, src) && (
                       <p className="mt-0.5 text-[11px] text-muted-foreground/80">
-                        {alt.note}
+                        {noteText(alt, src)}
                       </p>
                     )}
                   </li>

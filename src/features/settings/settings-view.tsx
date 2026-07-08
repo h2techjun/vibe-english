@@ -7,6 +7,7 @@ import { useState } from "react";
 import { db } from "@/lib/db";
 import { DEFAULT_SETTINGS, type AppSettings } from "@/types/srs";
 import { CEFR_LEVELS, CEFR_LABELS } from "@/types/card";
+import { startLevelOf, startLevelPatch, useCourse } from "@/lib/course";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
@@ -36,7 +37,9 @@ const SPEEDS = [
 export function SettingsView() {
   const t = useTranslations("settings");
   const locale = useLocale();
-  const lang = locale === "ko" ? "ko" : "en";
+  const { course } = useCourse();
+  const lang: "ko" | "en" | "zh" =
+    locale === "ko" ? "ko" : locale === "zh" ? "zh" : "en";
   const settings = useLiveQuery(() => db.settings.get("main"));
   const s: AppSettings = settings ?? DEFAULT_SETTINGS;
 
@@ -57,10 +60,10 @@ export function SettingsView() {
             {CEFR_LEVELS.map((level) => (
               <button
                 key={level}
-                onClick={() => update({ startLevel: level })}
+                onClick={() => update(startLevelPatch(course, level))}
                 className={cn(
                   "flex flex-col items-center gap-0.5 rounded-lg border p-2.5 text-center transition-colors",
-                  s.startLevel === level
+                  startLevelOf(s, course) === level
                     ? "border-blue-500 bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300"
                     : "border-border/60 hover:border-blue-300",
                 )}

@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import type { VocabCard } from "@/types/card";
 import { getCardFace } from "@/lib/card-view";
+import { useCourse } from "@/lib/course";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useTts } from "./use-tts";
@@ -24,12 +25,13 @@ interface Props {
 export function ClozeCard({ card, isNew, wordPool, busy, onAnswer }: Props) {
   const t = useTranslations("study");
   const { speak, supported } = useTts();
-  const face = getCardFace(card);
+  const { course, src } = useCourse();
+  const face = getCardFace(card, course, src);
 
-  const cloze = useMemo(() => buildCloze(card), [card]);
+  const cloze = useMemo(() => buildCloze(card, course), [card, course]);
   const options = useMemo(
-    () => (cloze ? makeOptions(cloze.answer, wordPool) : []),
-    [cloze, wordPool],
+    () => (cloze ? makeOptions(cloze.answer, wordPool, course) : []),
+    [cloze, wordPool, course],
   );
 
   const [selected, setSelected] = useState<string | null>(null);
@@ -159,7 +161,8 @@ function ClozeFallback({
   onContinue: () => void;
 }) {
   const t = useTranslations("study");
-  const face = getCardFace(card);
+  const { course, src } = useCourse();
+  const face = getCardFace(card, course, src);
   return (
     <div className="flex flex-1 flex-col rounded-2xl border border-border/60 bg-card p-6 shadow-sm">
       <p className="text-2xl font-bold">{face.term}</p>

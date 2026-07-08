@@ -13,12 +13,14 @@ import {
   getProgressMap,
   applyGrade,
 } from "@/features/srs/repository";
+import { useCourse } from "@/lib/course";
 import { DialogueCard } from "./dialogue-card";
 
 type Status = "loading" | "studying" | "empty" | "done";
 
 export function DialogueSession() {
   const t = useTranslations("study");
+  const { course } = useCourse();
   const [status, setStatus] = useState<Status>("loading");
   const [queue, setQueue] = useState<Dialogue[]>([]);
   const [progressMap, setProgressMap] = useState<Map<string, CardProgress>>(
@@ -37,7 +39,7 @@ export function DialogueSession() {
     (async () => {
       const now = new Date();
       const [q, pm] = await Promise.all([
-        buildDialogueQueue(now),
+        buildDialogueQueue(now, course),
         getProgressMap(),
       ]);
       if (!mounted) return;
@@ -48,7 +50,7 @@ export function DialogueSession() {
     return () => {
       mounted = false;
     };
-  }, [reloadKey]);
+  }, [reloadKey, course]);
 
   const current = queue[index];
   const isNew = current ? !progressMap.has(current.id) : false;

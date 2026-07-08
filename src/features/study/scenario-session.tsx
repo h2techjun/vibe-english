@@ -12,12 +12,14 @@ import {
   getProgressMap,
   applyGrade,
 } from "@/features/srs/repository";
+import { useCourse } from "@/lib/course";
 import { ScenarioCard } from "./scenario-card";
 
 type Status = "loading" | "studying" | "empty" | "done";
 
 export function ScenarioSession() {
   const t = useTranslations("study");
+  const { course } = useCourse();
   const [status, setStatus] = useState<Status>("loading");
   const [queue, setQueue] = useState<Scenario[]>([]);
   const [progressMap, setProgressMap] = useState<Map<string, CardProgress>>(
@@ -35,7 +37,7 @@ export function ScenarioSession() {
     setStatus("loading");
     (async () => {
       const [q, pm] = await Promise.all([
-        buildScenarioQueue(new Date()),
+        buildScenarioQueue(new Date(), course),
         getProgressMap(),
       ]);
       if (!mounted) return;
@@ -46,7 +48,7 @@ export function ScenarioSession() {
     return () => {
       mounted = false;
     };
-  }, [reloadKey]);
+  }, [reloadKey, course]);
 
   const current = queue[index];
   const isNew = current ? !progressMap.has(current.id) : false;

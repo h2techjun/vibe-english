@@ -21,6 +21,8 @@ export interface Scenario {
   /** 안정적 고유 ID. 예: "scn-a1-cafe-001" */
   id: string;
   level: CefrLevel;
+  /** 학습 코스. 콘텐츠 파일엔 없고 시드가 주입한다 */
+  course?: import("./card").Course;
   /** 상황 그룹 ID */
   situation: string;
   /** 시나리오 제목 (한/영) */

@@ -3,13 +3,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
+import { useLiveQuery } from "dexie-react-hooks";
 import { Link } from "@/i18n/navigation";
 import type { VocabCard } from "@/types/card";
 import type { CardProgress, ReviewGrade } from "@/types/srs";
 import { Rating } from "@/types/srs";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Loader2, PartyPopper, Coffee } from "lucide-react";
+import { Loader2, PartyPopper, Coffee, Target } from "lucide-react";
 import {
   buildStudyQueue,
   getProgressMap,
@@ -17,7 +18,9 @@ import {
   getWeakCards,
 } from "@/features/srs/repository";
 import { previewIntervalsMin, REVIEW_GRADES } from "@/features/srs/scheduler";
+import { getStudyStats } from "@/features/progress/stats";
 import { db } from "@/lib/db";
+import { useCourse } from "@/lib/course";
 import { Flashcard } from "./flashcard";
 import { ClozeCard } from "./cloze-card";
 import { ListenCard } from "./listen-card";
@@ -53,10 +56,12 @@ const GRADE_KEY: Record<ReviewGrade, "again" | "hard" | "good" | "easy"> = {
 export function StudySession() {
   const t = useTranslations("study");
   const searchParams = useSearchParams();
+  const { course } = useCourse();
   const deckId = searchParams.get("deck") ?? undefined;
   const weak = searchParams.get("weak") === "1";
   const [status, setStatus] = useState<Status>("loading");
   const [queue, setQueue] = useState<VocabCard[]>([]);
+  const [counts, setCounts] = useState({ review: 0, fresh: 0 });
   const [progressMap, setProgressMap] = useState<Map<string, CardProgress>>(
     new Map(),
   );
@@ -68,6 +73,14 @@ export function StudySession() {
   const [dlgSub, setDlgSub] = useState<"single" | "scenario">("single");
   const [wordPool, setWordPool] = useState<string[]>([]);
   const [reloadKey, setReloadKey] = useState(0);
+  // 세션 콤보 (연속 정답) — 동기 부여용
+  const [combo, setCombo] = useState(0);
+  const [bestCombo, setBestCombo] = useState(0);
+
+  // 오늘 허브 스트립 (스트릭·목표) — DB 변경 시 자동 갱신
+  const stats = useLiveQuery(() => getStudyStats(course), [course]);
+  const settings = useLiveQuery(() => db.settings.get("main"));
+  const goal = settings?.dailyGoal ?? 20;
 
   useEffect(() => {
     let mounted = true;
@@ -76,6 +89,8 @@ export function StudySession() {
     setIndex(0);
     setStudied(0);
     setRevealed(false);
+    setCombo(0);
+    setBestCombo(0);
     setStatus("loading");
     if (weak) {
       setMode("flashcard"); // 약점 복습은 플래시카드 고정 (모드 토글 숨김)
@@ -85,26 +100,41 @@ export function StudySession() {
       const now = new Date();
       const [q, pm, allCards] = await Promise.all([
         weak
-          ? getWeakCards().then((r) => ({ cards: r.cards }))
-          : buildStudyQueue(now, deckId),
+          ? getWeakCards(course).then((r) => ({
+              cards: r.cards,
+              reviewCount: r.cards.length,
+              newCount: 0,
+            }))
+          : buildStudyQueue(now, deckId, course),
         getProgressMap(),
-        db.cards.toArray(),
+        db.cards.where("course").equals(course).toArray(),
       ]);
       if (!mounted) return;
       setQueue(q.cards);
+      setCounts({ review: q.reviewCount, fresh: q.newCount });
       setProgressMap(pm);
-      setWordPool(buildWordPool(allCards));
+      setWordPool(buildWordPool(allCards, course));
       setStatus(q.cards.length === 0 ? "empty" : "studying");
     })();
     return () => {
       mounted = false;
     };
-  }, [deckId, weak, reloadKey]);
+    // course 변경(언어 토글 = 코스 전환) 시에도 큐를 새 코스로 재구성한다
+  }, [deckId, weak, reloadKey, course]);
 
   function switchMode(next: StudyMode) {
     if (next === mode) return;
     setRevealed(false);
     setMode(next);
+  }
+
+  /** 콤보 갱신 — 정답이면 +1, 오답이면 리셋 */
+  function trackCombo(correct: boolean) {
+    setCombo((c) => {
+      const next = correct ? c + 1 : 0;
+      setBestCombo((b) => Math.max(b, next));
+      return next;
+    });
   }
 
   function advance() {
@@ -123,6 +153,7 @@ export function StudySession() {
     setBusy(true);
     try {
       await applyGrade(current.id, correct ? Rating.Good : Rating.Again);
+      trackCombo(correct);
       advance();
     } finally {
       setBusy(false);
@@ -150,11 +181,41 @@ export function StudySession() {
     setBusy(true);
     try {
       await applyGrade(current.id, grade);
+      trackCombo(grade === Rating.Good || grade === Rating.Easy);
       advance();
     } finally {
       setBusy(false);
     }
   }
+
+  // 오늘 허브 스트립 — 스트릭 🔥 + 오늘 목표 게이지 (모든 모드 상단 공통)
+  const todayHeader = stats && (
+    <div className="mb-3 flex items-center gap-3 rounded-xl border border-border/60 bg-card px-3 py-2 text-xs">
+      <span
+        className={cn(
+          "flex shrink-0 items-center gap-1 font-bold tabular-nums",
+          stats.streak > 0 ? "text-orange-500" : "text-muted-foreground",
+        )}
+      >
+        🔥 {stats.streak}
+      </span>
+      <div className="flex flex-1 items-center gap-2">
+        <Target className="h-3.5 w-3.5 shrink-0 text-blue-500" />
+        <Progress
+          value={Math.min(100, (stats.today / goal) * 100)}
+          className="h-1.5"
+        />
+        <span className="shrink-0 tabular-nums text-muted-foreground">
+          {stats.today}/{goal}
+        </span>
+      </div>
+      {status === "studying" && (
+        <span className="hidden shrink-0 text-muted-foreground sm:inline">
+          {t("review")} {counts.review} · {t("new")} {counts.fresh}
+        </span>
+      )}
+    </div>
+  );
 
   // 모드 토글 (플래시카드 / 빈칸 / 듣기 / 대화). 약점 복습 모드에선 숨김.
   const modeToggle = weak ? null : (
@@ -181,6 +242,7 @@ export function StudySession() {
   if (mode === "dialogue") {
     return (
       <div className="flex flex-1 flex-col">
+        {todayHeader}
         {modeToggle}
         <div className="mb-3 flex gap-1 self-center rounded-full border bg-muted/50 p-0.5 text-xs">
           {(["single", "scenario"] as const).map((s) => (
@@ -228,11 +290,23 @@ export function StudySession() {
 
   if (status === "done") {
     return (
-      <CenteredCard
-        icon={<PartyPopper className="h-10 w-10 text-blue-600" />}
-        title={t("doneTitle")}
-        desc={t("doneDesc", { count: studied })}
-      >
+      <div className="relative flex flex-1 flex-col items-center justify-center gap-5 text-center">
+        <Confetti />
+        <PartyPopper className="h-12 w-12 text-amber-500 duration-500 animate-in zoom-in" />
+        <div className="space-y-1">
+          <h2 className="text-2xl font-bold">{t("doneTitle")}</h2>
+          <p className="max-w-xs text-sm text-muted-foreground">
+            {t("doneDesc", { count: studied })}
+          </p>
+        </div>
+
+        {/* 세션 보상 요약 — 학습 수 · 최고 콤보 · 스트릭 */}
+        <div className="grid w-full max-w-xs grid-cols-3 gap-2 duration-500 animate-in fade-in slide-in-from-bottom-2">
+          <SummaryTile value={studied} label={t("statCards")} />
+          <SummaryTile value={`🔥${bestCombo}`} label={t("statCombo")} />
+          <SummaryTile value={stats?.streak ?? 0} label={t("statStreak")} />
+        </div>
+
         <div className="flex gap-2">
           <Button onClick={() => setReloadKey((k) => k + 1)}>
             {t("studyAgain")}
@@ -245,13 +319,14 @@ export function StudySession() {
             {t("backHome")}
           </Button>
         </div>
-      </CenteredCard>
+      </div>
     );
   }
 
   // studying
   return (
     <div className="flex flex-1 flex-col">
+      {todayHeader}
       {modeToggle}
 
       <div className="mb-3 flex items-center gap-3">
@@ -259,44 +334,58 @@ export function StudySession() {
           value={((index + (revealed ? 0.5 : 0)) / queue.length) * 100}
           className="h-2"
         />
+        {combo >= 2 && (
+          <span
+            key={combo}
+            className="shrink-0 text-xs font-bold text-orange-500 duration-300 animate-in zoom-in"
+          >
+            🔥 ×{combo}
+          </span>
+        )}
         <span className="shrink-0 text-xs tabular-nums text-muted-foreground">
           {t("progress", { current: index + 1, total: queue.length })}
         </span>
       </div>
 
-      {current && mode === "flashcard" && (
-        <Flashcard
-          card={current}
-          revealed={revealed}
-          isNew={isNew}
-          onReveal={() => setRevealed(true)}
-        />
-      )}
-
-      {current && mode === "cloze" && (
-        <ClozeCard
+      {/* 카드 전환 애니메이션 — 새 카드가 오른쪽에서 슬라이드 인 */}
+      {current && (
+        <div
           key={current.id}
-          card={current}
-          isNew={isNew}
-          wordPool={wordPool}
-          busy={busy}
-          onAnswer={handleClozeAnswer}
-        />
-      )}
+          className="flex flex-1 flex-col duration-300 animate-in fade-in slide-in-from-right-4"
+        >
+          {mode === "flashcard" && (
+            <Flashcard
+              card={current}
+              revealed={revealed}
+              isNew={isNew}
+              onReveal={() => setRevealed(true)}
+            />
+          )}
 
-      {current && mode === "listen" && (
-        <ListenCard
-          key={current.id}
-          card={current}
-          isNew={isNew}
-          busy={busy}
-          onComplete={handleClozeAnswer}
-        />
+          {mode === "cloze" && (
+            <ClozeCard
+              card={current}
+              isNew={isNew}
+              wordPool={wordPool}
+              busy={busy}
+              onAnswer={handleClozeAnswer}
+            />
+          )}
+
+          {mode === "listen" && (
+            <ListenCard
+              card={current}
+              isNew={isNew}
+              busy={busy}
+              onComplete={handleClozeAnswer}
+            />
+          )}
+        </div>
       )}
 
       {/* 플래시카드 평가 버튼 (공개 후 활성) */}
       {mode === "flashcard" && revealed && preview && (
-        <div className="mt-4 grid grid-cols-4 gap-2">
+        <div className="mt-4 grid grid-cols-4 gap-2 duration-200 animate-in fade-in">
           {REVIEW_GRADES.map((g) => (
             <button
               key={g}
@@ -312,6 +401,40 @@ export function StudySession() {
           ))}
         </div>
       )}
+    </div>
+  );
+}
+
+/** 완료 화면 요약 타일 */
+function SummaryTile({
+  value,
+  label,
+}: {
+  value: number | string;
+  label: string;
+}) {
+  return (
+    <div className="rounded-xl border border-border/60 bg-card p-3">
+      <p className="text-lg font-bold tabular-nums">{value}</p>
+      <p className="text-[10px] text-muted-foreground">{label}</p>
+    </div>
+  );
+}
+
+/** 완료 컨페티 — CSS 애니메이션만 사용 (외부 의존성 없음) */
+function Confetti() {
+  const items = ["🎉", "⭐", "🔥", "💯", "🎊", "✨"];
+  return (
+    <div className="pointer-events-none absolute inset-x-0 top-1/3 flex justify-center gap-5">
+      {items.map((e, i) => (
+        <span
+          key={i}
+          className="animate-confetti text-2xl"
+          style={{ animationDelay: `${i * 130}ms` }}
+        >
+          {e}
+        </span>
+      ))}
     </div>
   );
 }

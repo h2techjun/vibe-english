@@ -6,7 +6,8 @@ import type { Scenario } from "@/types/scenario";
 import type { ReviewGrade } from "@/types/srs";
 import { Rating } from "@/types/srs";
 import { REVIEW_GRADES } from "@/features/srs/scheduler";
-import { learnText, meaningText } from "@/lib/card-view";
+import { learnText, meaningText, noteText } from "@/lib/card-view";
+import { useCourse } from "@/lib/course";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { RevealableMeaning } from "@/components/revealable-meaning";
@@ -51,6 +52,7 @@ interface Props {
 export function ScenarioCard({ scenario, isNew, busy, onGrade }: Props) {
   const t = useTranslations("study");
   const { speak, supported } = useTts();
+  const { course, src } = useCourse();
 
   const [turnIndex, setTurnIndex] = useState(0);
   const [responses, setResponses] = useState<string[]>([]);
@@ -67,7 +69,7 @@ export function ScenarioCard({ scenario, isNew, busy, onGrade }: Props) {
     .map((p) => {
       if ("text" in p) return p.text;
       const opt = turn.blanks[p.blank]?.[selected[p.blank] ?? -1];
-      return opt ? learnText(opt) : "____";
+      return opt ? learnText(opt, course) : "____";
     })
     .join("");
 
@@ -106,9 +108,9 @@ export function ScenarioCard({ scenario, isNew, busy, onGrade }: Props) {
           {isNew ? t("new") : t("review")}
         </Badge>
         <span className="ml-auto flex items-center gap-1 text-xs text-muted-foreground">
-          {learnText(scenario.title)} ·
+          {learnText(scenario.title, course)} ·
           <RevealableMeaning
-            ko={meaningText(scenario.title)}
+            ko={meaningText(scenario.title, course, src)}
             className="text-xs"
           />
         </span>
@@ -126,7 +128,7 @@ export function ScenarioCard({ scenario, isNew, busy, onGrade }: Props) {
         {responses.map((resp, i) => (
           <div key={i} className="flex flex-col gap-1">
             <div className="self-start rounded-2xl rounded-bl-sm bg-muted px-3 py-1.5 text-sm">
-              {learnText(scenario.turns[i].prompt)}
+              {learnText(scenario.turns[i].prompt, course)}
             </div>
             <div className="self-end rounded-2xl rounded-br-sm bg-blue-600 px-3 py-1.5 text-sm text-white">
               {resp}
@@ -139,19 +141,22 @@ export function ScenarioCard({ scenario, isNew, busy, onGrade }: Props) {
         <div className="mt-2 flex flex-col gap-3">
           <div className="self-start rounded-2xl rounded-bl-sm border border-border/60 bg-muted/50 px-3 py-2">
             <div className="flex items-center gap-2">
-              <p className="text-sm font-medium">{learnText(turn.prompt)}</p>
+              <p className="text-sm font-medium">{learnText(turn.prompt, course)}</p>
               <Button
                 variant="outline"
                 size="sm"
                 className="ml-auto shrink-0 gap-1"
                 disabled={!supported}
-                onClick={() => speak(learnText(turn.prompt))}
+                onClick={() => speak(learnText(turn.prompt, course))}
               >
                 <Volume2 className="h-3.5 w-3.5" />
                 {t("listen")}
               </Button>
             </div>
-            <RevealableMeaning ko={meaningText(turn.prompt)} className="text-xs" />
+            <RevealableMeaning
+              ko={meaningText(turn.prompt, course, src)}
+              className="text-xs"
+            />
           </div>
 
           <p className="text-base leading-relaxed">
@@ -163,7 +168,7 @@ export function ScenarioCard({ scenario, isNew, busy, onGrade }: Props) {
                   key={i}
                   className="font-semibold text-blue-600 dark:text-blue-400"
                 >
-                  {learnText(opt)}
+                  {learnText(opt, course)}
                 </span>
               ) : (
                 <span
@@ -198,10 +203,10 @@ export function ScenarioCard({ scenario, isNew, busy, onGrade }: Props) {
                         : "border-border hover:border-blue-300",
                     )}
                   >
-                    <span className="font-medium">{learnText(opt)}</span>
+                    <span className="font-medium">{learnText(opt, course)}</span>
                     {selected[bi] === oi && (
                       <span className="text-[11px] text-muted-foreground">
-                        {meaningText(opt)}
+                        {meaningText(opt, course, src)}
                       </span>
                     )}
                   </div>
@@ -244,10 +249,10 @@ export function ScenarioCard({ scenario, isNew, busy, onGrade }: Props) {
                           className="flex items-baseline gap-2"
                         >
                           <span className="shrink-0 text-sm font-medium text-blue-600 dark:text-blue-400">
-                            {learnText(o)}
+                            {learnText(o, course)}
                           </span>
                           <span className="text-xs text-muted-foreground">
-                            {o.note}
+                            {noteText(o, src)}
                           </span>
                         </div>
                       )),

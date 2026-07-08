@@ -1,16 +1,18 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { LEARN_TTS_LANG } from "@/lib/card-view";
+import { ttsLangFor, useCourse } from "@/lib/course";
 
 /**
  * Web Speech API (window.speechSynthesis) 기반 TTS.
  * 외부 네트워크 호출 없이 브라우저 내장 음성으로 학습 대상 언어를 읽는다.
- * 언어는 빌드 타깃에 따라 결정된다 (영어 빌드=en-US / 한국어 빌드=ko-KR).
+ * 언어는 현재 코스에서 결정된다 (en 코스=en-US / ko 코스=ko-KR).
  */
-const LEARN_LANG_PREFIX = LEARN_TTS_LANG.split("-")[0];
-
 export function useTts() {
+  const { course } = useCourse();
+  const lang = ttsLangFor(course);
+  const langPrefix = lang.split("-")[0];
+
   const [supported, setSupported] = useState(true);
   const [speaking, setSpeaking] = useState(false);
   const voicesRef = useRef<SpeechSynthesisVoice[]>([]);
@@ -35,11 +37,11 @@ export function useTts() {
     const voices = voicesRef.current;
     // 학습 대상 언어 우선, 로컬(오프라인) 음성 선호
     return (
-      voices.find((v) => v.lang === LEARN_TTS_LANG && v.localService) ??
-      voices.find((v) => v.lang === LEARN_TTS_LANG) ??
-      voices.find((v) => v.lang.startsWith(LEARN_LANG_PREFIX))
+      voices.find((v) => v.lang === lang && v.localService) ??
+      voices.find((v) => v.lang === lang) ??
+      voices.find((v) => v.lang.startsWith(langPrefix))
     );
-  }, []);
+  }, [lang, langPrefix]);
 
   const speak = useCallback(
     (text: string, opts?: { rate?: number }) => {
@@ -47,7 +49,7 @@ export function useTts() {
         return;
       window.speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(text);
-      u.lang = LEARN_TTS_LANG;
+      u.lang = lang;
       u.rate = opts?.rate ?? 0.95;
       const voice = pickLearnVoice();
       if (voice) u.voice = voice;
@@ -56,7 +58,7 @@ export function useTts() {
       u.onerror = () => setSpeaking(false);
       window.speechSynthesis.speak(u);
     },
-    [pickLearnVoice],
+    [pickLearnVoice, lang],
   );
 
   const stop = useCallback(() => {

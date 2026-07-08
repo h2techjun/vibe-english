@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import type { VocabCard } from "@/types/card";
 import { getCardFace } from "@/lib/card-view";
+import { useCourse } from "@/lib/course";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { RevealableMeaning } from "@/components/revealable-meaning";
@@ -30,7 +31,8 @@ interface Props {
 export function ListenCard({ card, isNew, busy, onComplete }: Props) {
   const t = useTranslations("study");
   const { speak, supported } = useTts();
-  const face = getCardFace(card);
+  const { course, src } = useCourse();
+  const face = getCardFace(card, course, src);
 
   const words = useMemo(() => face.example.split(/\s+/), [face.example]);
   const shuffled = useMemo(

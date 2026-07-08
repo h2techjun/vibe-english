@@ -6,11 +6,13 @@ import { getStudyStats } from "./stats";
 import { CEFR_LABELS } from "@/types/card";
 import type { Locale } from "@/i18n/routing";
 import { db } from "@/lib/db";
+import { startLevelOf, startLevelPatch, useCourse } from "@/lib/course";
 import { Link } from "@/i18n/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import {
   Flame,
   BookOpenCheck,
@@ -19,18 +21,22 @@ import {
   Repeat,
   Target,
   AlertTriangle,
+  TrendingUp,
 } from "lucide-react";
 
 export function ProgressView() {
   const t = useTranslations("progress");
   const locale = useLocale() as Locale;
-  const stats = useLiveQuery(() => getStudyStats());
+  const { course } = useCourse();
+  const stats = useLiveQuery(() => getStudyStats(course), [course]);
   const settings = useLiveQuery(() => db.settings.get("main"));
 
   if (!stats) return null;
 
   const goal = settings?.dailyGoal ?? 20;
   const goalReached = stats.today >= goal;
+  const levelUp = stats.levelUp;
+  const currentLevel = startLevelOf(settings, course);
 
   const hasActivity = stats.reviews > 0 || stats.learned > 0;
   const maxRecent = Math.max(1, ...stats.recent.map((d) => d.count));
@@ -86,6 +92,26 @@ export function ProgressView() {
         </CardContent>
       </Card>
 
+      {/* 레벨업 제안 — 현재 레벨 회화 80% 달성 시 */}
+      {levelUp && (
+        <Card className="border-emerald-300/60 bg-emerald-50/60 duration-500 animate-in fade-in slide-in-from-bottom-2 dark:border-emerald-800/60 dark:bg-emerald-950/30">
+          <CardContent className="flex items-center gap-3 p-4">
+            <TrendingUp className="h-5 w-5 shrink-0 text-emerald-600 dark:text-emerald-400" />
+            <p className="flex-1 text-sm font-medium">
+              {t("levelUpReady", { level: levelUp.next })}
+            </p>
+            <Button
+              size="sm"
+              onClick={() =>
+                db.settings.update("main", startLevelPatch(course, levelUp.next))
+              }
+            >
+              {t("levelUpCta")}
+            </Button>
+          </CardContent>
+        </Card>
+      )}
+
       {/* 약점 집중 */}
       {stats.weak > 0 ? (
         <Button
@@ -118,7 +144,7 @@ export function ProgressView() {
         ))}
       </div>
 
-      {/* 레벨별 진도 */}
+      {/* 레벨 패스 — 현재 레벨은 파란 링으로 표시 */}
       <section className="flex flex-col gap-3">
         <h2 className="text-sm font-semibold text-muted-foreground">
           {t("byLevel")}
@@ -126,11 +152,18 @@ export function ProgressView() {
         <div className="flex flex-col gap-2.5">
           {stats.levels.map((lv) => (
             <div key={lv.level} className="flex items-center gap-3">
-              <Badge variant="secondary" className="w-9 justify-center">
+              <Badge
+                variant="secondary"
+                className={cn(
+                  "w-9 justify-center",
+                  currentLevel === lv.level &&
+                    "bg-blue-600 text-white ring-2 ring-blue-300 dark:ring-blue-700",
+                )}
+              >
                 {lv.level}
               </Badge>
               <span className="w-16 shrink-0 text-xs text-muted-foreground">
-                {CEFR_LABELS[lv.level][locale === "ko" ? "ko" : "en"]}
+                {CEFR_LABELS[lv.level][locale]}
               </span>
               <Progress
                 value={lv.total > 0 ? (lv.learned / lv.total) * 100 : 0}

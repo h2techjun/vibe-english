@@ -3,8 +3,9 @@
  * 순수 로직(scheduler.ts)과 DB 사이를 잇는다.
  */
 import { db } from "@/lib/db";
-import type { VocabCard, CefrLevel } from "@/types/card";
+import type { VocabCard, CefrLevel, Course } from "@/types/card";
 import { isVocabDeck, isLevelAtLeast } from "@/types/card";
+import { startLevelOf } from "@/lib/course";
 import type { Dialogue } from "@/types/dialogue";
 import type { Scenario } from "@/types/scenario";
 import type { CardProgress, ReviewGrade } from "@/types/srs";
@@ -34,21 +35,22 @@ export async function getProgressMap(): Promise<Map<string, CardProgress>> {
  * @param deckId 특정 덱만 학습할 때 (없으면 회화 표현 전체)
  */
 export async function buildStudyQueue(
-  now: Date = new Date(),
-  deckId?: string,
+  now: Date,
+  deckId: string | undefined,
+  course: Course,
 ): Promise<StudyQueue> {
   const settings = await getSettings();
   const [allCards, decks, progressList] = await Promise.all([
     deckId
       ? db.cards.where("deck").equals(deckId).toArray()
-      : db.cards.toArray(),
+      : db.cards.where("course").equals(course).toArray(),
     db.decks.toArray(),
     db.progress.toArray(),
   ]);
   const progressMap = new Map(progressList.map((p) => [p.cardId, p]));
   const deckOrder = new Map(decks.map((d) => [d.id, d.order]));
   const nowMs = now.getTime();
-  const startLevel = settings.startLevel;
+  const startLevel = startLevelOf(settings, course);
 
   const due: { card: VocabCard; due: number }[] = [];
   const fresh: VocabCard[] = [];
@@ -119,15 +121,16 @@ export async function applyGrade(
  * progress 테이블을 카드와 공유한다 (dialogue id 로 저장).
  */
 export async function buildDialogueQueue(
-  now: Date = new Date(),
+  now: Date,
+  course: Course,
 ): Promise<Dialogue[]> {
   const settings = await getSettings();
   const [all, progressList] = await Promise.all([
-    db.dialogues.toArray(),
+    db.dialogues.where("course").equals(course).toArray(),
     db.progress.toArray(),
   ]);
   const progMap = new Map(progressList.map((p) => [p.cardId, p]));
-  const startLevel = settings.startLevel;
+  const startLevel = startLevelOf(settings, course);
   const nowMs = now.getTime();
 
   const due: { d: Dialogue; due: number }[] = [];
@@ -156,15 +159,16 @@ export async function buildDialogueQueue(
  * progress 테이블 공유 (scenario id).
  */
 export async function buildScenarioQueue(
-  now: Date = new Date(),
+  now: Date,
+  course: Course,
 ): Promise<Scenario[]> {
   const settings = await getSettings();
   const [all, progressList] = await Promise.all([
-    db.scenarios.toArray(),
+    db.scenarios.where("course").equals(course).toArray(),
     db.progress.toArray(),
   ]);
   const progMap = new Map(progressList.map((p) => [p.cardId, p]));
-  const startLevel = settings.startLevel;
+  const startLevel = startLevelOf(settings, course);
   const nowMs = now.getTime();
 
   const due: { s: Scenario; due: number }[] = [];
@@ -191,10 +195,11 @@ export async function buildScenarioQueue(
  * 집중 복습용. 회화 표현/단어(cards 테이블)만 대상.
  */
 export async function getWeakCards(
+  course: Course,
   limit = 20,
 ): Promise<{ cards: VocabCard[]; total: number }> {
   const [cards, progressList] = await Promise.all([
-    db.cards.toArray(),
+    db.cards.where("course").equals(course).toArray(),
     db.progress.toArray(),
   ]);
   const cardMap = new Map(cards.map((c) => [c.id, c]));
@@ -216,10 +221,11 @@ export interface DeckStat {
 }
 
 export async function getDeckStats(
+  course: Course,
   now: Date = new Date(),
 ): Promise<Map<string, DeckStat>> {
   const [cards, progressList] = await Promise.all([
-    db.cards.toArray(),
+    db.cards.where("course").equals(course).toArray(),
     db.progress.toArray(),
   ]);
   const progressMap = new Map(progressList.map((p) => [p.cardId, p]));
@@ -240,11 +246,11 @@ export async function getDeckStats(
 }
 
 /** 레벨별 전체/학습 카운트 (레벨 잠금 해제 판정용) */
-export async function getLevelProgress(): Promise<
-  Map<CefrLevel, { total: number; mastered: number }>
-> {
+export async function getLevelProgress(
+  course: Course,
+): Promise<Map<CefrLevel, { total: number; mastered: number }>> {
   const [cards, progressList] = await Promise.all([
-    db.cards.toArray(),
+    db.cards.where("course").equals(course).toArray(),
     db.progress.toArray(),
   ]);
   const progressMap = new Map(progressList.map((p) => [p.cardId, p]));

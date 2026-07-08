@@ -128,3 +128,42 @@
     @apply font-sans;
   }
 }
+
+/* ── 학습 동기 애니메이션 (오답 셰이크 / 완료 컨페티) ── */
+@keyframes loopla-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-6px);
+  }
+  40% {
+    transform: translateX(6px);
+  }
+  60% {
+    transform: translateX(-4px);
+  }
+  80% {
+    transform: translateX(4px);
+  }
+}
+
+.animate-shake {
+  animation: loopla-shake 0.4s ease-in-out;
+}
+
+@keyframes loopla-confetti {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-120px) rotate(240deg) scale(0.6);
+    opacity: 0;
+  }
+}
+
+.animate-confetti {
+  animation: loopla-confetti 1.4s ease-out forwards;
+}

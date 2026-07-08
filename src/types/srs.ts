@@ -60,8 +60,10 @@ export interface AppSettings {
   notificationsEnabled?: boolean;
   /** 마지막으로 알림을 보낸 날짜 키 (하루 1회 제한용) */
   lastNotifiedDay?: string;
-  /** 사용자가 선택한 시작 레벨. 미설정(undefined)이면 온보딩 레벨 선택을 띄운다. */
+  /** en 코스(영어 학습) 시작 레벨. 미설정이면 온보딩 레벨 선택을 띄운다. */
   startLevel?: CefrLevel;
+  /** ko 코스(한국어 학습) 시작 레벨. 코스별로 실력이 다르므로 분리 저장. */
+  startLevelKo?: CefrLevel;
   /** 한국어 뜻을 항상 표시할지. false(기본)면 가렸다 탭해야 표시(능동 회상). */
   alwaysShowKorean?: boolean;
   /** 하루 학습 목표 카드 수 (동기 게이지용) */

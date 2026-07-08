@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import type { VocabCard } from "@/types/card";
 import { getCardFace } from "@/lib/card-view";
+import { useCourse } from "@/lib/course";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -20,8 +21,9 @@ interface Props {
 export function Flashcard({ card, revealed, isNew, onReveal }: Props) {
   const t = useTranslations("study");
   const { speak, supported } = useTts();
+  const { course, src } = useCourse();
   const [shadowing, setShadowing] = useState(false);
-  const face = getCardFace(card);
+  const face = getCardFace(card, course, src);
 
   // 앞면이 새로 보일 때 표현을 한 번 자동 재생
   useEffect(() => {
@@ -139,9 +141,9 @@ export function Flashcard({ card, revealed, isNew, onReveal }: Props) {
               </p>
             </div>
 
-            {card.note && (
+            {face.note && (
               <p className="text-center text-xs text-muted-foreground">
-                💡 {card.note}
+                💡 {face.note}
               </p>
             )}
           </div>

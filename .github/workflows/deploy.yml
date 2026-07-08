@@ -25,21 +25,19 @@ jobs:
           cache: npm
       # npm ci 대신 install: 로컬/CI npm 버전 차이로 인한 lock 불일치 허용
       - run: npm install
-      # ① 영어 빌드 (Loopla English) → 사이트 루트
-      #    https://h2techjun.github.io/vibe-english/
+      # 단일 빌드 — 로케일(=모국어)에 따라 코스가 런타임 전환된다
+      #   https://h2techjun.github.io/vibe-english/
+      #   /ko = 영어 학습, /en·/zh = 한국어 학습
       - run: npm run build
         env:
           NEXT_PUBLIC_BASE_PATH: /vibe-english
       - run: mv out site
-      # ② 한국어 빌드 (Loopla Korean) → /korean 하위
-      #    https://h2techjun.github.io/vibe-english/korean/
-      - run: rm -rf .next
-      - run: npm run build
-        env:
-          NEXT_PUBLIC_APP_TARGET: korean
-          NEXT_PUBLIC_BASE_PATH: /vibe-english/korean
-      - run: mv out site/korean
-      # 영어(루트) + 한국어(/korean) 합본 배포
+      # 구 Loopla Korean 별도 빌드 URL(/korean)은 /en 로케일로 리다이렉트 (링크 보존)
+      - run: |
+          mkdir -p site/korean
+          cat > site/korean/index.html <<'EOF'
+          <!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=/vibe-english/en/"><link rel="canonical" href="https://h2techjun.github.io/vibe-english/en/"><title>Loopla</title>
+          EOF
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./site

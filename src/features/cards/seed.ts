@@ -2,16 +2,23 @@
  * 시드 로더 — 번들 콘텐츠를 IndexedDB 에 적재한다.
  * 외부 네트워크 호출 없이 빌드에 포함된 TS 데이터만 사용.
  *
- * 빌드 타깃(영어 학습 / 한국어 학습)에 따라 콘텐츠 세트를 분기한다.
- * dynamic import 라서 빌드마다 해당 콘텐츠만 청크로 로드된다.
+ * 두 코스(en=영어 학습, ko=한국어 학습)의 콘텐츠를 **모두** 적재하고
+ * course 필드로 태깅한다. 학습 방향은 런타임(로케일)에서 결정되므로
+ * 빌드 분기가 없다. ko 코스 덱 id 는 en 코스와의 충돌을 막기 위해
+ * "ko:" prefix 를 붙인다 (카드의 deck 참조도 함께).
  */
 import { db } from "@/lib/db";
 import { DEFAULT_SETTINGS } from "@/types/srs";
+import { KO_DECK_PREFIX } from "@/lib/course";
 import type { VocabCard, Deck } from "@/types/card";
 import type { Dialogue } from "@/types/dialogue";
 import type { Scenario } from "@/types/scenario";
 
-const IS_KOREAN = process.env.NEXT_PUBLIC_APP_TARGET === "korean";
+/**
+ * 통합 콘텐츠 버전 — 어느 코스든 콘텐츠 수정 시 +1.
+ * (구 영어 빌드 SEED_VERSION 11 을 승계해 12부터 시작 — 기존 사용자 재적재 보장)
+ */
+const SEED_VERSION = 12;
 
 interface SeedContent {
   cards: VocabCard[];
@@ -21,34 +28,43 @@ interface SeedContent {
   version: number;
 }
 
-/** 빌드 타깃에 맞는 콘텐츠 세트를 로드한다. */
+/** 두 코스 콘텐츠를 course 태그와 함께 통합 로드한다. */
 async function loadContent(): Promise<SeedContent> {
-  if (IS_KOREAN) {
-    const [c, d, s] = await Promise.all([
-      import("./data-ko"),
-      import("./data-ko/dialogues"),
-      import("./data-ko/scenarios"),
-    ]);
-    return {
-      cards: c.ALL_CARDS_KO,
-      decks: c.ALL_DECKS_KO,
-      dialogues: d.ALL_DIALOGUES_KO,
-      scenarios: s.ALL_SCENARIOS_KO,
-      version: c.SEED_VERSION_KO,
-    };
-  }
-  const [c, d, s] = await Promise.all([
+  const [en, enDlg, enScn, ko, koDlg, koScn] = await Promise.all([
     import("./data"),
     import("./data/dialogues"),
     import("./data/scenarios"),
+    import("./data-ko"),
+    import("./data-ko/dialogues"),
+    import("./data-ko/scenarios"),
   ]);
-  return {
-    cards: c.ALL_CARDS,
-    decks: c.ALL_DECKS,
-    dialogues: d.ALL_DIALOGUES,
-    scenarios: s.ALL_SCENARIOS,
-    version: c.SEED_VERSION,
-  };
+
+  const cards: VocabCard[] = [
+    ...en.ALL_CARDS.map((c) => ({ ...c, course: "en" as const })),
+    ...ko.ALL_CARDS_KO.map((c) => ({
+      ...c,
+      course: "ko" as const,
+      deck: KO_DECK_PREFIX + c.deck,
+    })),
+  ];
+  const decks: Deck[] = [
+    ...en.ALL_DECKS.map((d) => ({ ...d, course: "en" as const })),
+    ...ko.ALL_DECKS_KO.map((d) => ({
+      ...d,
+      course: "ko" as const,
+      id: KO_DECK_PREFIX + d.id,
+    })),
+  ];
+  const dialogues: Dialogue[] = [
+    ...enDlg.ALL_DIALOGUES.map((d) => ({ ...d, course: "en" as const })),
+    ...koDlg.ALL_DIALOGUES_KO.map((d) => ({ ...d, course: "ko" as const })),
+  ];
+  const scenarios: Scenario[] = [
+    ...enScn.ALL_SCENARIOS.map((s) => ({ ...s, course: "en" as const })),
+    ...koScn.ALL_SCENARIOS_KO.map((s) => ({ ...s, course: "ko" as const })),
+  ];
+
+  return { cards, decks, dialogues, scenarios, version: SEED_VERSION };
 }
 
 /**
@@ -58,9 +74,10 @@ async function loadContent(): Promise<SeedContent> {
  * - 이미 최신: 아무것도 하지 않음
  */
 export async function ensureSeeded(): Promise<void> {
-  const content = await loadContent();
   const settings = await db.settings.get("main");
-  if (settings && settings.seedVersion >= content.version) return;
+  if (settings && settings.seedVersion >= SEED_VERSION) return;
+
+  const content = await loadContent();
 
   await db.transaction(
     "rw",

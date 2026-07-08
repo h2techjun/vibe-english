@@ -1,7 +1,6 @@
 import { getRequestConfig } from "next-intl/server";
 import { hasLocale } from "next-intl";
 import { routing } from "./routing";
-import { BRAND } from "@/lib/brand";
 
 export default getRequestConfig(async ({ requestLocale }) => {
   const requested = await requestLocale;
@@ -11,8 +10,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
 
   return {
     locale,
-    // 빌드 타깃별 메시지 디렉토리 (messages/english|korean/{locale}.json)
-    messages: (await import(`../../messages/${BRAND.target}/${locale}.json`))
-      .default,
+    // 로케일별 메시지 (ko=영어 학습 카피 / en·zh=한국어 학습 카피)
+    messages: (await import(`../../messages/${locale}.json`)).default,
   };
 });

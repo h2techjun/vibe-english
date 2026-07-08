@@ -15,6 +15,7 @@ import { Globe } from "lucide-react";
 const LABELS: Record<Locale, string> = {
   ko: "한국어",
   en: "English",
+  zh: "中文",
 };
 
 export function LanguageToggle() {

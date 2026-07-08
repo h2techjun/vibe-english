@@ -10,14 +10,14 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-// 로케일별 메타는 BRAND.meta 단일 소스에서 (빌드 타깃 = 학습 방향 반영).
+// 로케일별 메타는 BRAND.meta 단일 소스에서 (로케일 = 모국어 = 학습 방향).
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const loc = locale === "ko" ? "ko" : "en";
+  const loc = locale === "ko" ? "ko" : locale === "zh" ? "zh" : "en";
   return {
     title: { absolute: BRAND.meta.title[loc] },
     description: BRAND.meta.description[loc],

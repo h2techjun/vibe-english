@@ -1,70 +1,36 @@
 /**
- * 브랜드 / 빌드 타깃 단일 소스.
+ * 브랜드 단일 소스 — "Loopla" (Loop = 망각곡선 반복 학습).
  *
- * 통합 브랜드 "Loopla"(Loop = 망각곡선 반복 학습) 아래, 같은 코드베이스로
- * 두 학습 앱을 빌드한다:
- *  - english : 한국인의 영어 학습  → "Loopla English" (기본, 주 로케일 ko)
- *  - korean  : 영어권의 한국어 학습 → "Loopla Korean"  (주 로케일 en)
- *
- * 빌드 시 환경변수로 분기:  NEXT_PUBLIC_APP_TARGET=korean npm run build
- * (미지정 시 english)
+ * 하나의 앱이 로케일(=모국어)에 따라 두 코스를 제공한다:
+ *   ko 로케일 → 영어 학습 / en·zh 로케일 → 한국어 학습.
+ * 학습 방향 분기는 lib/course.ts, 여기는 이름·메타·DB명만 담당한다.
  */
-export type AppTarget = "english" | "korean";
-
-export const APP_TARGET: AppTarget =
-  process.env.NEXT_PUBLIC_APP_TARGET === "korean" ? "korean" : "english";
-
-const isKorean = APP_TARGET === "korean";
-
 export const BRAND = {
-  /** 빌드 타깃 */
-  target: APP_TARGET,
-  /** 통합 모브랜드명 */
+  /** 브랜드명 (단일) */
   family: "Loopla",
-  /** 앱 표시 이름 */
-  name: isKorean ? "Loopla Korean" : "Loopla English",
-  /** 학습 대상 언어 (영문 표기) */
-  learnLang: isKorean ? "Korean" : "English",
-  /** 학습 대상 언어 (한국어 표기) */
-  learnLangKo: isKorean ? "한국어" : "영어",
+  name: "Loopla",
   /**
-   * 주 사용자 기본 로케일.
-   * 영어 학습 = 한국인 = ko / 한국어 학습 = 영어권 = en.
+   * IndexedDB 이름 — 리브랜딩 전 이름을 유지해 기존 사용자 진도를 보존한다.
+   * (두 코스가 이 한 DB 에 course 태그로 공존)
    */
-  defaultLocale: isKorean ? ("en" as const) : ("ko" as const),
-  /**
-   * IndexedDB 이름.
-   * 영어 빌드는 기존 "vibe-english" 를 유지해 기존 사용자 진도를 보존하고,
-   * 한국어 빌드는 별도 DB("loopla-korean")로 데이터를 분리한다.
-   */
-  dbName: isKorean ? "loopla-korean" : "vibe-english",
+  dbName: "vibe-english",
+  /** 기본 로케일 */
+  defaultLocale: "ko" as const,
   /** 로고 레터마크 */
   logoMark: "L",
-  /** 테마 컬러 (둘 다 동일 톤 유지) */
+  /** 테마 컬러 */
   themeColor: "#0f172a",
-  /**
-   * SEO/메타 (로케일별 title·description 단일 소스).
-   * layout 들이 BRAND.meta[locale] 로 참조한다.
-   */
-  meta: isKorean
-    ? {
-        title: {
-          ko: "Loopla Korean — 영어로 배우는 한국어",
-          en: "Loopla Korean — Learn Korean with SRS",
-        },
-        description: {
-          ko: "이미 아는 영어에서 출발하는 한국어 학습. FSRS 간격 반복으로 잊을 만할 때 다시 만나는 표현. 가입 없이 브라우저에서 완전 로컬.",
-          en: "Learn Korean from the English you already know — FSRS spaced-repetition flashcards, A1 to C2, fully local in your browser. No signup.",
-        },
-      }
-    : {
-        title: {
-          ko: "Loopla English — 생활 영어 SRS 학습",
-          en: "Loopla English — Everyday English with SRS",
-        },
-        description: {
-          ko: "기억력 곡선 기반 생활 영어 SRS 학습. 매일 10분, 잊을 만할 때 다시 만나는 표현.",
-          en: "Spaced-repetition for everyday English. Ten minutes a day — phrases that come back right before you forget.",
-        },
-      },
+  /** SEO/메타 (로케일별 title·description 단일 소스) */
+  meta: {
+    title: {
+      ko: "Loopla — 생활 영어 SRS 학습",
+      en: "Loopla — Learn Korean with SRS",
+      zh: "Loopla — 用SRS学韩语",
+    },
+    description: {
+      ko: "기억력 곡선 기반 생활 영어 SRS 학습. 매일 10분, 잊을 만할 때 다시 만나는 표현.",
+      en: "Learn Korean from the English you already know — FSRS spaced-repetition flashcards, A1 to C2, fully local in your browser. No signup.",
+      zh: "从你已经掌握的语言出发学韩语 — 基于FSRS间隔重复的卡片学习，A1到C2，完全在浏览器本地运行，无需注册。",
+    },
+  },
 } as const;

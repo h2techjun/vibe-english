@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { db } from "@/lib/db";
+import { startLevelPatch, useCourse } from "@/lib/course";
 import {
   CEFR_LEVELS,
   CEFR_LABELS,
@@ -18,13 +19,15 @@ import { GraduationCap, ChevronRight } from "lucide-react";
 export function LevelOnboarding() {
   const t = useTranslations("onboarding");
   const locale = useLocale();
-  const lang = locale === "ko" ? "ko" : "en";
+  const { course } = useCourse();
+  const lang: "ko" | "en" | "zh" =
+    locale === "ko" ? "ko" : locale === "zh" ? "zh" : "en";
   const [busy, setBusy] = useState(false);
 
   async function pick(level: CefrLevel) {
     if (busy) return;
     setBusy(true);
-    await db.settings.update("main", { startLevel: level });
+    await db.settings.update("main", startLevelPatch(course, level));
     // useLiveQuery(LevelGate)가 갱신을 감지해 자동으로 앱으로 진입
   }
 

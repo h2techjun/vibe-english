@@ -1,6 +1,6 @@
 {
   "app": {
-    "name": "Loopla English",
+    "name": "Loopla",
     "tagline": "10 minutes a day — Korean that sticks"
   },
   "nav": {
@@ -95,7 +95,9 @@
     "reviews": "Total reviews",
     "byLevel": "Progress by level",
     "recent": "Last 7 days",
-    "empty": "No study history yet. Start from the Study tab!"
+    "empty": "No study history yet. Start from the Study tab!",
+    "levelUpReady": "You're ready for level {level}! 🎉",
+    "levelUpCta": "Level up"
   },
   "settings": {
     "level": "Start level",
@@ -180,6 +182,9 @@
     "backHome": "Home",
     "studyAgain": "Keep studying",
     "progress": "{current} / {total}",
+    "statCards": "Studied",
+    "statCombo": "Best combo",
+    "statStreak": "Streak",
     "interval": {
       "min": "{n}m",
       "hour": "{n}h",

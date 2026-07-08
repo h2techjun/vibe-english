@@ -3,12 +3,21 @@
  * 예문에서 핵심 어휘 1개를 빈칸으로 만들고 4지선다 보기를 생성한다.
  * 스펠링/타이핑 없이 "고르기"만으로 학습.
  *
- * 학습 대상 언어에 따라 토크나이즈가 다르다 (lib/card-view 의 LEARN_IS_LATIN 분기):
- *  - 라틴(영어): 단어 단위, 기능어(STOPWORDS) 제외, 3자 이상
- *  - 한국어: 어절(띄어쓰기) 단위로 조사까지 통째, 기능어 어절 제외, 2자 이상
+ * 학습 대상 언어에 따라 토크나이즈가 다르다 (런타임 course 분기):
+ *  - en 코스(라틴): 단어 단위, 기능어(STOPWORDS) 제외, 3자 이상
+ *  - ko 코스(한국어): 어절(띄어쓰기) 단위로 조사까지 통째, 기능어 어절 제외, 2자 이상
  */
-import type { VocabCard } from "@/types/card";
-import { getCardFace, LEARN_IS_LATIN } from "@/lib/card-view";
+import type { VocabCard, Course } from "@/types/card";
+
+/** 학습 대상 언어의 예문 */
+function learnExample(card: VocabCard, course: Course): string {
+  return course === "ko" ? card.exampleKo : card.exampleEn;
+}
+
+/** 학습 대상 언어의 표제어 */
+function learnTerm(card: VocabCard, course: Course): string {
+  return course === "ko" ? card.ko : card.en;
+}
 
 const BLANK = "_____";
 
@@ -160,22 +169,25 @@ export interface ClozeQuestion {
  * 학습 대상 표현과 겹치는 토큰을 우선 빈칸 처리한다.
  * 적절한 후보가 없으면 null (호출부에서 플래시카드로 폴백).
  */
-export function buildCloze(card: VocabCard): ClozeQuestion | null {
-  const face = getCardFace(card);
-  if (!face.example) return null;
-  return LEARN_IS_LATIN
-    ? buildClozeLatin(face.example, face.term)
-    : buildClozeKo(face.example, face.term);
+export function buildCloze(
+  card: VocabCard,
+  course: Course,
+): ClozeQuestion | null {
+  const example = learnExample(card, course);
+  if (!example) return null;
+  return course === "en"
+    ? buildClozeLatin(example, learnTerm(card, course))
+    : buildClozeKo(example, learnTerm(card, course));
 }
 
 /** 전체 카드에서 보기(distractor)용 토큰 풀을 만든다 */
-export function buildWordPool(cards: VocabCard[]): string[] {
+export function buildWordPool(cards: VocabCard[], course: Course): string[] {
   const set = new Set<string>();
   for (const card of cards) {
-    const example = getCardFace(card).example;
+    const example = learnExample(card, course);
     if (!example) continue;
     for (const raw of example.split(/\s+/)) {
-      if (LEARN_IS_LATIN) {
+      if (course === "en") {
         const word = pickLatinWord(raw);
         const n = normalizeEn(word);
         if (n.length >= 3 && !EN_STOPWORDS.has(n)) set.add(word);
@@ -193,8 +205,12 @@ export function buildWordPool(cards: VocabCard[]): string[] {
  * 정답 + 오답 3개로 4지선다 보기를 만든다.
  * 오답은 정답과 길이가 비슷한 토큰을 우선 고른다.
  */
-export function makeOptions(answer: string, pool: string[]): string[] {
-  const normalize = LEARN_IS_LATIN ? normalizeEn : normalizeKo;
+export function makeOptions(
+  answer: string,
+  pool: string[],
+  course: Course,
+): string[] {
+  const normalize = course === "en" ? normalizeEn : normalizeKo;
   const ans = normalize(answer);
   const seen = new Set([ans]);
   const distractors: string[] = [];
