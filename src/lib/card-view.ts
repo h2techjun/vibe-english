@@ -2,16 +2,26 @@
  * 카드/회화 표시 방향 어댑터 — 런타임 코스(course)와 사용자 모국어(src)에 따라
  * "무엇을 학습 대상으로 보여주고 무엇을 뜻으로 보여줄지"를 한 곳에서 분기한다.
  *
- * 학습 UI(flashcard/cloze/listen/dialogue/scenario)는 카드 필드(en/ko/zh...)에
+ * 학습 UI(flashcard/cloze/listen/dialogue/scenario)는 카드 필드(en/ko/zh/vi...)에
  * 직접 접근하지 말고 이 모듈의 getCardFace / learnText / meaningText / noteText 를
  * 쓴다. course/src 는 lib/course 의 useCourse() 로 얻는다.
  *
  *  - en 코스: term=en, 발음=ipa+koPron, meaning=ko
- *  - ko 코스: term=ko, 발음=roman, meaning=en (src=zh 면 zh, 없으면 en 폴백)
+ *  - ko 코스: term=ko, 발음=roman, meaning=en (src=zh→zh / src=vi→vi, 없으면 en 폴백)
  */
 import type { VocabCard, Course } from "@/types/card";
 import type { Bilingual, BlankOption } from "@/types/dialogue";
 import type { SrcLang } from "@/lib/course";
+
+/**
+ * 사용자 모국어(src)에 맞는 값 선택. ko 코스의 뜻/예문/노트는 en 을 기본으로,
+ * zh/vi 사용자는 각 번역을 쓰되 비어 있으면 en 으로 폴백한다.
+ */
+function bySrc<T>(src: SrcLang, en: T, zh: T | undefined, vi: T | undefined): T {
+  if (src === "zh") return zh ?? en;
+  if (src === "vi") return vi ?? en;
+  return en;
+}
 
 export interface CardFace {
   /** 카드 앞면 = 학습 대상 표현 */
@@ -37,15 +47,14 @@ export function getCardFace(
   src: SrcLang,
 ): CardFace {
   if (course === "ko") {
-    const zh = src === "zh";
     return {
       term: card.ko,
       pronPrimary: card.roman,
       pronSecondary: undefined,
-      meaning: zh ? (card.zh ?? card.en) : card.en,
+      meaning: bySrc(src, card.en, card.zh, card.vi),
       example: card.exampleKo,
-      exampleTrans: zh ? (card.exampleZh ?? card.exampleEn) : card.exampleEn,
-      note: zh ? (card.noteZh ?? card.note) : card.note,
+      exampleTrans: bySrc(src, card.exampleEn, card.exampleZh, card.exampleVi),
+      note: bySrc(src, card.note, card.noteZh, card.noteVi),
     };
   }
   return {
@@ -66,11 +75,11 @@ export function learnText(b: Bilingual, course: Course): string {
 
 /** 회화 Bilingual 에서 뜻(사용자 모국어) 텍스트 (가렸다 탭하는 대상) */
 export function meaningText(b: Bilingual, course: Course, src: SrcLang): string {
-  if (course === "ko") return src === "zh" ? (b.zh ?? b.en) : b.en;
+  if (course === "ko") return bySrc(src, b.en, b.zh, b.vi);
   return b.ko;
 }
 
-/** 선택지/대체표현의 뉘앙스 note (사용자 모국어, zh 없으면 원문 폴백) */
+/** 선택지/대체표현의 뉘앙스 note (사용자 모국어, zh/vi 없으면 원문 폴백) */
 export function noteText(o: BlankOption, src: SrcLang): string | undefined {
-  return src === "zh" ? (o.noteZh ?? o.note) : o.note;
+  return bySrc(src, o.note, o.noteZh, o.noteVi);
 }

@@ -16,19 +16,24 @@ export const CEFR_LEVELS: readonly CefrLevel[] = [
 
 export const CEFR_LABELS: Record<
   CefrLevel,
-  { ko: string; en: string; zh: string }
+  { ko: string; en: string; zh: string; vi: string }
 > = {
-  A1: { ko: "입문", en: "Beginner", zh: "入门" },
-  A2: { ko: "초급", en: "Elementary", zh: "初级" },
-  B1: { ko: "중급", en: "Intermediate", zh: "中级" },
-  B2: { ko: "중상급", en: "Upper-Intermediate", zh: "中高级" },
-  C1: { ko: "고급", en: "Advanced", zh: "高级" },
-  C2: { ko: "전문가", en: "Proficient", zh: "精通" },
+  A1: { ko: "입문", en: "Beginner", zh: "入门", vi: "Nhập môn" },
+  A2: { ko: "초급", en: "Elementary", zh: "初级", vi: "Sơ cấp" },
+  B1: { ko: "중급", en: "Intermediate", zh: "中级", vi: "Trung cấp" },
+  B2: {
+    ko: "중상급",
+    en: "Upper-Intermediate",
+    zh: "中高级",
+    vi: "Trung cao cấp",
+  },
+  C1: { ko: "고급", en: "Advanced", zh: "高级", vi: "Cao cấp" },
+  C2: { ko: "전문가", en: "Proficient", zh: "精通", vi: "Thành thạo" },
 };
 
 /**
  * 학습 코스 = 학습 대상 언어. UI 로케일(모국어)에서 파생된다:
- * ko 로케일 → "en"(영어 학습) / en·zh 로케일 → "ko"(한국어 학습).
+ * ko 로케일 → "en"(영어 학습) / en·zh·vi 로케일 → "ko"(한국어 학습).
  */
 export type Course = "en" | "ko";
 
@@ -37,8 +42,8 @@ export type Course = "en" | "ko";
  *
  * 코스별 카드 해석 (lib/card-view.ts 의 getCardFace 가 런타임 분기):
  *  - en 코스(한국어 화자): en = 학습 대상, ipa+koPron = 발음, ko = 뜻
- *  - ko 코스(영어/중국어 화자): ko = 학습 대상, roman = 발음(로마자),
- *    en = 영어 뜻, zh = 중국어 뜻(선택, 없으면 en 폴백)
+ *  - ko 코스(영어/중국어/베트남어 화자): ko = 학습 대상, roman = 발음(로마자),
+ *    en = 영어 뜻, zh = 중국어 뜻, vi = 베트남어 뜻(선택, 없으면 en 폴백)
  *
  * 발음 필드는 코스에 따라 한쪽만 채운다 (en 코스 카드 → ipa/koPron,
  * ko 코스 카드 → roman). 그래서 모두 선택 필드다.
@@ -64,16 +69,22 @@ export interface VocabCard {
   ko: string;
   /** 중국어(간체) 뜻. ko 코스 + zh 사용자용 (없으면 en 폴백) */
   zh?: string;
+  /** 베트남어 뜻. ko 코스 + vi 사용자용 (없으면 en 폴백) */
+  vi?: string;
   /** 예문 (영어) */
   exampleEn: string;
   /** 예문 (한국어) */
   exampleKo: string;
   /** 예문 중국어 번역. ko 코스 + zh 사용자용 */
   exampleZh?: string;
+  /** 예문 베트남어 번역. ko 코스 + vi 사용자용 */
+  exampleVi?: string;
   /** 사용 맥락/상황 설명 (영어 또는 한국어, 선택) */
   note?: string;
   /** note 의 중국어 번역 (선택) */
   noteZh?: string;
+  /** note 의 베트남어 번역 (선택) */
+  noteVi?: string;
   /** 검색/필터용 태그 */
   tags?: string[];
 }
@@ -85,10 +96,10 @@ export interface Deck {
   level: CefrLevel;
   /** 학습 코스. 콘텐츠 파일엔 없고 시드가 주입한다 */
   course?: Course;
-  /** 표시 이름 (zh 는 ko 코스 덱만 채움, 없으면 en 폴백) */
-  title: { ko: string; en: string; zh?: string };
+  /** 표시 이름 (zh/vi 는 ko 코스 덱만 채움, 없으면 en 폴백) */
+  title: { ko: string; en: string; zh?: string; vi?: string };
   /** 한 줄 설명 */
-  description: { ko: string; en: string; zh?: string };
+  description: { ko: string; en: string; zh?: string; vi?: string };
   /** 레벨 내 정렬 순서 */
   order: number;
   /** lucide 아이콘 이름 (선택) */

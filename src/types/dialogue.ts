@@ -8,11 +8,12 @@
  */
 import type { CefrLevel } from "./card";
 
-/** 한/영(+중) 한 쌍. zh 는 ko 코스 콘텐츠만 채운다 (없으면 en 폴백) */
+/** 한/영(+중/베) 한 쌍. zh/vi 는 ko 코스 콘텐츠만 채운다 (없으면 en 폴백) */
 export interface Bilingual {
   en: string;
   ko: string;
   zh?: string;
+  vi?: string;
 }
 
 /**
@@ -24,6 +25,8 @@ export interface BlankOption extends Bilingual {
   note?: string;
   /** note 의 중국어 번역 (선택) */
   noteZh?: string;
+  /** note 의 베트남어 번역 (선택) */
+  noteVi?: string;
 }
 
 /** 빈칸 하나에 들어갈 수 있는 선택지들 */

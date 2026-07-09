@@ -1,9 +1,10 @@
 /**
  * 학습 코스 런타임 모델 — UI 로케일(=사용자 모국어)에서 코스를 파생한다.
  *
- *   ko 로케일(한국어 화자)  → course "en"  (영어 학습)
- *   en 로케일(영어 화자)    → course "ko"  (한국어 학습)
- *   zh 로케일(중국어 화자)  → course "ko"  (한국어 학습, 뜻은 zh)
+ *   ko 로케일(한국어 화자)   → course "en"  (영어 학습)
+ *   en 로케일(영어 화자)     → course "ko"  (한국어 학습)
+ *   zh 로케일(중국어 화자)   → course "ko"  (한국어 학습, 뜻은 zh)
+ *   vi 로케일(베트남어 화자) → course "ko"  (한국어 학습, 뜻은 vi)
  *
  * 언어 토글 = 코스 전환. 빌드 분기(NEXT_PUBLIC_APP_TARGET) 대신 이 모듈이
  * 방향의 단일 소스다. 두 코스의 콘텐츠는 한 IndexedDB 에 course 태그로 공존한다.
@@ -13,11 +14,12 @@ import type { Course, CefrLevel } from "@/types/card";
 import type { AppSettings } from "@/types/srs";
 
 /** 사용자 모국어 (표시/뜻 언어) */
-export type SrcLang = "ko" | "en" | "zh";
+export type SrcLang = "ko" | "en" | "zh" | "vi";
 
 export function srcForLocale(locale: string): SrcLang {
   if (locale === "en") return "en";
   if (locale === "zh") return "zh";
+  if (locale === "vi") return "vi";
   return "ko";
 }
 

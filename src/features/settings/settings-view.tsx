@@ -38,8 +38,14 @@ export function SettingsView() {
   const t = useTranslations("settings");
   const locale = useLocale();
   const { course } = useCourse();
-  const lang: "ko" | "en" | "zh" =
-    locale === "ko" ? "ko" : locale === "zh" ? "zh" : "en";
+  const lang: "ko" | "en" | "zh" | "vi" =
+    locale === "ko"
+      ? "ko"
+      : locale === "zh"
+        ? "zh"
+        : locale === "vi"
+          ? "vi"
+          : "en";
   const settings = useLiveQuery(() => db.settings.get("main"));
   const s: AppSettings = settings ?? DEFAULT_SETTINGS;
 

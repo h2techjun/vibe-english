@@ -107,7 +107,15 @@ export function ListenCard({ card, isNew, busy, onComplete }: Props) {
         </div>
 
         {/* 답란 */}
-        <div className="mt-5 flex min-h-14 flex-wrap content-start gap-2 rounded-xl border border-dashed border-border/60 p-3">
+        <div
+          className={cn(
+            "mt-5 flex min-h-14 flex-wrap content-start gap-2 rounded-xl border border-dashed border-border/60 p-3",
+            checked &&
+              (correct
+                ? "duration-300 animate-in zoom-in-95"
+                : "animate-shake"),
+          )}
+        >
           {answer.map((origIdx, pos) => (
             <button
               key={pos}
@@ -165,7 +173,7 @@ export function ListenCard({ card, isNew, busy, onComplete }: Props) {
           <div className="mt-5 flex flex-col gap-3">
             <p
               className={cn(
-                "text-center text-sm font-medium",
+                "text-center text-sm font-medium duration-300 animate-in fade-in slide-in-from-bottom-1",
                 correct ? "text-emerald-600" : "text-rose-600",
               )}
             >

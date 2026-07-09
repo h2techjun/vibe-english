@@ -16,6 +16,7 @@ const LABELS: Record<Locale, string> = {
   ko: "한국어",
   en: "English",
   zh: "中文",
+  vi: "Tiếng Việt",
 };
 
 export function LanguageToggle() {

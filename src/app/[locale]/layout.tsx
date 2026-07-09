@@ -17,7 +17,14 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const loc = locale === "ko" ? "ko" : locale === "zh" ? "zh" : "en";
+  const loc =
+    locale === "ko"
+      ? "ko"
+      : locale === "zh"
+        ? "zh"
+        : locale === "vi"
+          ? "vi"
+          : "en";
   return {
     title: { absolute: BRAND.meta.title[loc] },
     description: BRAND.meta.description[loc],

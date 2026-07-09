@@ -113,11 +113,11 @@ export function ClozeCard({ card, isNew, wordPool, busy, onAnswer }: Props) {
                     "border-border hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950",
                   answered &&
                     isAnswer &&
-                    "border-emerald-500 bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300",
+                    "border-emerald-500 bg-emerald-50 text-emerald-700 duration-300 animate-in zoom-in-95 dark:bg-emerald-950 dark:text-emerald-300",
                   answered &&
                     isPicked &&
                     !isAnswer &&
-                    "border-rose-500 bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-300",
+                    "animate-shake border-rose-500 bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-300",
                   answered && !isAnswer && !isPicked && "opacity-50",
                 )}
               >
@@ -134,7 +134,7 @@ export function ClozeCard({ card, isNew, wordPool, busy, onAnswer }: Props) {
           <div className="mt-auto flex flex-col items-center gap-3 pt-6">
             <p
               className={cn(
-                "text-sm font-medium",
+                "text-sm font-medium duration-300 animate-in fade-in slide-in-from-bottom-1",
                 correct ? "text-emerald-600" : "text-rose-600",
               )}
             >

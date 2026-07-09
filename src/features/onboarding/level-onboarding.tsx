@@ -20,8 +20,14 @@ export function LevelOnboarding() {
   const t = useTranslations("onboarding");
   const locale = useLocale();
   const { course } = useCourse();
-  const lang: "ko" | "en" | "zh" =
-    locale === "ko" ? "ko" : locale === "zh" ? "zh" : "en";
+  const lang: "ko" | "en" | "zh" | "vi" =
+    locale === "ko"
+      ? "ko"
+      : locale === "zh"
+        ? "zh"
+        : locale === "vi"
+          ? "vi"
+          : "en";
   const [busy, setBusy] = useState(false);
 
   async function pick(level: CefrLevel) {

@@ -29,13 +29,14 @@ function iconFor(deckId: string, iconName?: string): LucideIcon {
   return Layers;
 }
 
-/** 로케일에 맞는 표시 텍스트 (zh 미번역 시 en 폴백) */
+/** 로케일에 맞는 표시 텍스트 (zh/vi 미번역 시 en 폴백) */
 function pickText(
-  t: { ko: string; en: string; zh?: string },
+  t: { ko: string; en: string; zh?: string; vi?: string },
   locale: Locale,
 ): string {
   if (locale === "ko") return t.ko;
   if (locale === "zh") return t.zh ?? t.en;
+  if (locale === "vi") return t.vi ?? t.en;
   return t.en;
 }
 
