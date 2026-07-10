@@ -25,8 +25,11 @@ export function RevealableMeaning({
   const alwaysShow = settings?.alwaysShowKorean ?? false;
   const [revealed, setRevealed] = useState(false);
 
-  // 내용이 바뀌면 다시 가림
+  // 내용(ko)이 바뀌면 다시 가림. RevealableMeaning 은 listen/dialogue/scenario
+  // 카드에서 재사용되는 범용 컴포넌트라 부모의 key 리마운트를 보장할 수 없어
+  // (대화/시나리오는 멀티턴이라 turn 전환 시 리마운트 안 될 수 있음) 리셋을 유지한다.
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setRevealed(false);
   }, [ko]);
 

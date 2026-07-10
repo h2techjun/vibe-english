@@ -19,6 +19,9 @@ export function useTts() {
 
   useEffect(() => {
     if (typeof window === "undefined" || !("speechSynthesis" in window)) {
+      // SSR/미지원 브라우저 판별은 마운트 후에만 가능 (window 접근 필요).
+      // 초기값 true 로 SSR과 일치시키고, 여기서만 false 로 갱신한다.
+      /* eslint-disable-next-line react-hooks/set-state-in-effect */
       setSupported(false);
       return;
     }

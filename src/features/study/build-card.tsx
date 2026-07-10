@@ -157,7 +157,9 @@ export function BuildCard({ card, isNew, unitPool, busy, onAnswer }: Props) {
                     className={cn(
                       "flex h-11 min-w-11 items-center justify-center rounded-lg border px-2 text-lg font-bold transition-colors disabled:cursor-default",
                       judged
-                        ? "border-emerald-500 bg-emerald-50 text-emerald-700 duration-300 animate-in zoom-in-95 dark:bg-emerald-950 dark:text-emerald-300"
+                        ? solved
+                          ? "border-emerald-500 bg-emerald-50 text-emerald-700 duration-300 animate-in zoom-in-95 dark:bg-emerald-950 dark:text-emerald-300"
+                          : "border-rose-500 bg-rose-50 text-rose-700 duration-300 animate-in zoom-in-95 dark:bg-rose-950 dark:text-rose-300"
                         : shaking
                           ? "border-rose-500 bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-300"
                           : "border-violet-500 bg-violet-50 text-violet-700 dark:border-violet-600 dark:bg-violet-950 dark:text-violet-300",

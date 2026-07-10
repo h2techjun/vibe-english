@@ -57,14 +57,19 @@ export function AnswerCard({
       )}
 
       <div className="mt-4 flex flex-1 flex-col items-center justify-center gap-4 text-center">
-        {/* 완성 타일 (조립 모드에서 넘어온 결과) */}
+        {/* 완성 타일 (조립 모드에서 넘어온 결과) — 오답 공개(revealed)면 rose 톤 */}
         {tiles && tiles.length > 0 && (
           <div className="flex flex-wrap justify-center gap-1.5">
             {tiles.map((tile, i) => (
               <span
                 key={i}
                 style={{ animationDelay: `${i * 60}ms` }}
-                className="flex h-11 min-w-11 items-center justify-center rounded-lg border border-emerald-500 bg-emerald-50 px-2 text-lg font-bold text-emerald-700 duration-300 animate-in zoom-in-95 dark:bg-emerald-950 dark:text-emerald-300"
+                className={cn(
+                  "flex h-11 min-w-11 items-center justify-center rounded-lg border px-2 text-lg font-bold duration-300 animate-in zoom-in-95",
+                  isCorrect
+                    ? "border-emerald-500 bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300"
+                    : "border-rose-500 bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-300",
+                )}
               >
                 {tile}
               </span>

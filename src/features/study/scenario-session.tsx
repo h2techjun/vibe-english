@@ -32,9 +32,13 @@ export function ScenarioSession() {
 
   useEffect(() => {
     let mounted = true;
+    // 같은 컴포넌트에서 reloadKey/course 만 바뀌면 리마운트되지 않으므로
+    // 진행 상태를 직접 리셋한다 (study-session 의 최상위 effect 와 동형 패턴).
+    /* eslint-disable react-hooks/set-state-in-effect */
     setIndex(0);
     setStudied(0);
     setStatus("loading");
+    /* eslint-enable react-hooks/set-state-in-effect */
     (async () => {
       const [q, pm] = await Promise.all([
         buildScenarioQueue(new Date(), course),
