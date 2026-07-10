@@ -127,10 +127,10 @@ export function ScenarioCard({ scenario, isNew, busy, onGrade }: Props) {
       <div className="flex flex-col gap-2">
         {responses.map((resp, i) => (
           <div key={i} className="flex flex-col gap-1">
-            <div className="self-start rounded-2xl rounded-bl-sm bg-muted px-3 py-1.5 text-sm">
+            <div className="self-start rounded-2xl rounded-bl-sm border border-border/60 bg-muted/50 px-3 py-1.5 text-sm">
               {learnText(scenario.turns[i].prompt, course)}
             </div>
-            <div className="self-end rounded-2xl rounded-br-sm bg-blue-600 px-3 py-1.5 text-sm text-white">
+            <div className="self-end rounded-2xl rounded-br-sm border border-emerald-500 bg-emerald-50 px-3 py-1.5 text-sm font-medium text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
               {resp}
             </div>
           </div>
@@ -166,14 +166,14 @@ export function ScenarioCard({ scenario, isNew, busy, onGrade }: Props) {
               return opt ? (
                 <span
                   key={i}
-                  className="font-semibold text-blue-600 dark:text-blue-400"
+                  className="font-semibold text-violet-600 dark:text-violet-400"
                 >
                   {learnText(opt, course)}
                 </span>
               ) : (
                 <span
                   key={i}
-                  className="mx-0.5 inline-block min-w-10 border-b-2 border-dashed border-blue-400 align-bottom"
+                  className="mx-0.5 inline-block min-w-10 border-b-2 border-dashed border-violet-400 align-bottom"
                 >
                   &nbsp;
                 </span>
@@ -199,8 +199,8 @@ export function ScenarioCard({ scenario, isNew, busy, onGrade }: Props) {
                     className={cn(
                       "flex cursor-pointer items-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm transition-colors",
                       selected[bi] === oi
-                        ? "border-blue-500 bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300"
-                        : "border-border hover:border-blue-300",
+                        ? "border-violet-500 bg-violet-50 text-violet-700 dark:bg-violet-950 dark:text-violet-300"
+                        : "border-border hover:border-violet-300",
                     )}
                   >
                     <span className="font-medium">{learnText(opt, course)}</span>

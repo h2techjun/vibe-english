@@ -38,9 +38,9 @@ export function ClozeCard({ card, isNew, wordPool, busy, onAnswer }: Props) {
   const answered = selected !== null;
   const correct = answered && cloze ? selected === cloze.answer : false;
 
-  // 카드가 바뀌면 상태 초기화 + 예문 자동 재생
+  // card.id 가 바뀌면 부모(study-session)의 key={current.id} 로 리마운트돼
+  // selected 가 자동 초기화되므로 여기서 리셋하지 않는다. 예문 자동 재생만.
   useEffect(() => {
-    setSelected(null);
     if (supported && cloze) speak(face.example);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [card.id]);

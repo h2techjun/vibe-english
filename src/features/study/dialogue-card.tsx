@@ -142,14 +142,14 @@ export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
           return opt ? (
             <span
               key={i}
-              className="font-semibold text-blue-600 dark:text-blue-400"
+              className="font-semibold text-violet-600 dark:text-violet-400"
             >
               {learnText(opt, course)}
             </span>
           ) : (
             <span
               key={i}
-              className="mx-0.5 inline-block min-w-12 border-b-2 border-dashed border-blue-400 align-bottom text-blue-400"
+              className="mx-0.5 inline-block min-w-12 border-b-2 border-dashed border-violet-400 align-bottom text-violet-400"
             >
               &nbsp;
             </span>
@@ -182,8 +182,8 @@ export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
                       className={cn(
                         "flex cursor-pointer items-center gap-1.5 rounded-lg border px-3 py-2 text-sm transition-colors",
                         selected[bi] === oi
-                          ? "border-blue-500 bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300"
-                          : "border-border hover:border-blue-300",
+                          ? "border-violet-500 bg-violet-50 text-violet-700 dark:bg-violet-950 dark:text-violet-300"
+                          : "border-border hover:border-violet-300",
                       )}
                     >
                       <span className="font-medium">{learnText(opt, course)}</span>
@@ -208,7 +208,7 @@ export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
       ) : (
         <>
           {/* 완성: 내 문장 + 음성 */}
-          <div className="mt-4 flex items-center gap-2 rounded-xl bg-emerald-50 p-3 dark:bg-emerald-950/40">
+          <div className="mt-4 flex items-center gap-2 rounded-xl border border-emerald-500 bg-emerald-50 p-3 dark:bg-emerald-950/40">
             <p className="flex-1 font-semibold text-emerald-700 dark:text-emerald-300">
               {sentence}
             </p>

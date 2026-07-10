@@ -10,7 +10,8 @@ import type { CardProgress, ReviewGrade } from "@/types/srs";
 import { Rating } from "@/types/srs";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Loader2, PartyPopper, Coffee, Target } from "lucide-react";
+import { Loader2, PartyPopper, Coffee, Target, Share2 } from "lucide-react";
+import { toast } from "sonner";
 import {
   buildStudyQueue,
   getProgressMap,
@@ -24,15 +25,19 @@ import { useCourse } from "@/lib/course";
 import { Flashcard } from "./flashcard";
 import { ClozeCard } from "./cloze-card";
 import { ListenCard } from "./listen-card";
+import { BuildCard } from "./build-card";
 import { DialogueSession } from "./dialogue-session";
 import { ScenarioSession } from "./scenario-session";
 import { buildWordPool } from "./cloze";
+import { buildUnitPool } from "./build";
+import { buildShareGrid, shareResult } from "./share";
 import { cn } from "@/lib/utils";
 
 type Status = "loading" | "studying" | "empty" | "done";
-type StudyMode = "flashcard" | "cloze" | "listen" | "dialogue";
+type StudyMode = "build" | "flashcard" | "cloze" | "listen" | "dialogue";
 
 const MODE_LABEL: Record<StudyMode, string> = {
+  build: "modeBuild",
   flashcard: "modeFlashcard",
   cloze: "modeCloze",
   listen: "modeListen",
@@ -69,13 +74,16 @@ export function StudySession() {
   const [revealed, setRevealed] = useState(false);
   const [studied, setStudied] = useState(0);
   const [busy, setBusy] = useState(false);
-  const [mode, setMode] = useState<StudyMode>("flashcard");
+  const [mode, setMode] = useState<StudyMode>("build");
   const [dlgSub, setDlgSub] = useState<"single" | "scenario">("single");
   const [wordPool, setWordPool] = useState<string[]>([]);
+  const [unitPool, setUnitPool] = useState<string[]>([]);
   const [reloadKey, setReloadKey] = useState(0);
   // 세션 콤보 (연속 정답) — 동기 부여용
   const [combo, setCombo] = useState(0);
   const [bestCombo, setBestCombo] = useState(0);
+  // 세션 정답/오답 이력 — 완료 화면 Wordle 식 공유용
+  const [results, setResults] = useState<boolean[]>([]);
 
   // 오늘 허브 스트립 (스트릭·목표) — DB 변경 시 자동 갱신
   const stats = useLiveQuery(() => getStudyStats(course), [course]);
@@ -91,6 +99,7 @@ export function StudySession() {
     setRevealed(false);
     setCombo(0);
     setBestCombo(0);
+    setResults([]);
     setStatus("loading");
     if (weak) {
       setMode("flashcard"); // 약점 복습은 플래시카드 고정 (모드 토글 숨김)
@@ -114,6 +123,7 @@ export function StudySession() {
       setCounts({ review: q.reviewCount, fresh: q.newCount });
       setProgressMap(pm);
       setWordPool(buildWordPool(allCards, course));
+      setUnitPool(buildUnitPool(allCards, course));
       setStatus(q.cards.length === 0 ? "empty" : "studying");
     })();
     return () => {
@@ -154,6 +164,7 @@ export function StudySession() {
     try {
       await applyGrade(current.id, correct ? Rating.Good : Rating.Again);
       trackCombo(correct);
+      setResults((r) => [...r, correct]);
       advance();
     } finally {
       setBusy(false);
@@ -181,7 +192,9 @@ export function StudySession() {
     setBusy(true);
     try {
       await applyGrade(current.id, grade);
-      trackCombo(grade === Rating.Good || grade === Rating.Easy);
+      const correct = grade === Rating.Good || grade === Rating.Easy;
+      trackCombo(correct);
+      setResults((r) => [...r, correct]);
       advance();
     } finally {
       setBusy(false);
@@ -220,7 +233,7 @@ export function StudySession() {
   // 모드 토글 (플래시카드 / 빈칸 / 듣기 / 대화). 약점 복습 모드에선 숨김.
   const modeToggle = weak ? null : (
     <div className="mb-3 flex gap-1 rounded-lg bg-muted p-1 text-xs sm:text-sm">
-      {(["flashcard", "cloze", "listen", "dialogue"] as const).map((m) => (
+      {(["build", "flashcard", "cloze", "listen", "dialogue"] as const).map((m) => (
         <button
           key={m}
           onClick={() => switchMode(m)}
@@ -307,9 +320,21 @@ export function StudySession() {
           <SummaryTile value={stats?.streak ?? 0} label={t("statStreak")} />
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex flex-wrap justify-center gap-2">
           <Button onClick={() => setReloadKey((k) => k + 1)}>
             {t("studyAgain")}
+          </Button>
+          <Button
+            variant="outline"
+            className="gap-1.5"
+            onClick={async () => {
+              const outcome = await shareResult(buildShareGrid(results));
+              if (outcome === "copied") toast.success(t("shareCopied"));
+              else if (outcome === "failed") toast.error(t("shareFailed"));
+            }}
+          >
+            <Share2 className="h-4 w-4" />
+            {t("shareResult")}
           </Button>
           <Button
             variant="outline"
@@ -353,6 +378,16 @@ export function StudySession() {
           key={current.id}
           className="flex flex-1 flex-col duration-300 animate-in fade-in slide-in-from-right-4"
         >
+          {mode === "build" && (
+            <BuildCard
+              card={current}
+              isNew={isNew}
+              unitPool={unitPool}
+              busy={busy}
+              onAnswer={handleClozeAnswer}
+            />
+          )}
+
           {mode === "flashcard" && (
             <Flashcard
               card={current}

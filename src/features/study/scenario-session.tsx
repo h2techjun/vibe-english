@@ -86,7 +86,7 @@ export function ScenarioSession() {
   if (status === "done") {
     return (
       <div className="flex flex-1 flex-col items-center justify-center gap-4 text-center">
-        <PartyPopper className="h-10 w-10 text-blue-600" />
+        <PartyPopper className="h-10 w-10 text-violet-600" />
         <h2 className="text-xl font-bold">{t("doneTitle")}</h2>
         <p className="max-w-xs text-sm text-muted-foreground">
           {t("doneDesc", { count: studied })}

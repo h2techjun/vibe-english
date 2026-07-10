@@ -95,7 +95,7 @@ export function DialogueSession() {
   if (status === "done") {
     return (
       <Centered
-        icon={<PartyPopper className="h-10 w-10 text-blue-600" />}
+        icon={<PartyPopper className="h-10 w-10 text-violet-600" />}
         title={t("doneTitle")}
         desc={t("doneDesc", { count: studied })}
       >

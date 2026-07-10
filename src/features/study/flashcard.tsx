@@ -25,9 +25,10 @@ export function Flashcard({ card, revealed, isNew, onReveal }: Props) {
   const [shadowing, setShadowing] = useState(false);
   const face = getCardFace(card, course, src);
 
-  // 앞면이 새로 보일 때 표현을 한 번 자동 재생
+  // card.id 가 바뀌면 부모(study-session)의 key={current.id} 로 컴포넌트가
+  // 리마운트돼 useState 가 자동 초기화되므로 여기서 shadowing 을 리셋하지 않는다.
+  // 앞면이 새로 보일 때 표현을 한 번 자동 재생만 한다.
   useEffect(() => {
-    setShadowing(false);
     if (supported) speak(face.term);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [card.id]);

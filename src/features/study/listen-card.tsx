@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { RevealableMeaning } from "@/components/revealable-meaning";
 import { useTts } from "./use-tts";
-import { Volume2, Turtle, RotateCcw } from "lucide-react";
+import { Volume2, Turtle, RotateCcw, Sparkles, Check, X, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 function shuffle<T>(arr: T[]): T[] {
@@ -82,7 +82,8 @@ export function ListenCard({ card, isNew, busy, onComplete }: Props) {
 
       <div className="flex flex-1 flex-col rounded-2xl border border-border/60 bg-card p-6 shadow-sm">
         {/* 음성 */}
-        <p className="text-center text-sm text-muted-foreground">
+        <p className="flex items-center gap-1.5 text-sm font-semibold text-violet-600 dark:text-violet-400">
+          <Sparkles className="h-4 w-4" />
           {t("listenPrompt")}
         </p>
         <div className="mt-4 flex justify-center gap-2">
@@ -122,12 +123,12 @@ export function ListenCard({ card, isNew, busy, onComplete }: Props) {
               onClick={() => removeAt(pos)}
               disabled={checked}
               className={cn(
-                "rounded-lg border px-3 py-1.5 text-sm font-medium",
+                "flex h-11 min-w-11 items-center justify-center rounded-lg border px-3 text-sm font-bold duration-300 animate-in zoom-in-95",
                 checked
                   ? correct
                     ? "border-emerald-500 bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300"
                     : "border-rose-500 bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-300"
-                  : "border-blue-400 bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300",
+                  : "border-violet-400 bg-violet-50 text-violet-700 dark:border-violet-800 dark:bg-violet-950 dark:text-violet-300",
               )}
             >
               {words[origIdx]}
@@ -143,7 +144,7 @@ export function ListenCard({ card, isNew, busy, onComplete }: Props) {
                 <button
                   key={i}
                   onClick={() => addWord(i)}
-                  className="rounded-lg border border-border px-3 py-1.5 text-sm transition-colors hover:border-blue-300"
+                  className="flex h-11 min-w-11 items-center justify-center rounded-lg border border-border px-3 text-sm font-medium transition-colors hover:border-violet-300 hover:bg-violet-50 hover:text-violet-700 dark:hover:border-violet-800 dark:hover:bg-violet-950 dark:hover:text-violet-300"
                 >
                   {w}
                 </button>
@@ -165,7 +166,12 @@ export function ListenCard({ card, isNew, busy, onComplete }: Props) {
                 <RotateCcw className="h-4 w-4" />
               </Button>
             )}
-            <Button disabled={!filled} onClick={() => setChecked(true)}>
+            <Button
+              disabled={!filled}
+              className="gap-1.5 bg-violet-600 text-white hover:bg-violet-600/90"
+              onClick={() => setChecked(true)}
+            >
+              <Check className="h-4 w-4" />
               {t("checkAnswer")}
             </Button>
           </div>
@@ -173,22 +179,32 @@ export function ListenCard({ card, isNew, busy, onComplete }: Props) {
           <div className="mt-5 flex flex-col gap-3">
             <p
               className={cn(
-                "text-center text-sm font-medium duration-300 animate-in fade-in slide-in-from-bottom-1",
+                "flex items-center justify-center gap-1.5 text-center text-sm font-medium duration-300 animate-in fade-in slide-in-from-bottom-1",
                 correct ? "text-emerald-600" : "text-rose-600",
               )}
             >
+              {correct ? (
+                <Check className="h-4 w-4 shrink-0" />
+              ) : (
+                <X className="h-4 w-4 shrink-0" />
+              )}
               {correct ? t("listenCorrect") : `${t("listenWrong")}: ${face.example}`}
             </p>
             <div className="rounded-xl bg-muted/50 p-4 text-center">
-              <p className="font-semibold">{face.example}</p>
+              <p className="font-semibold leading-relaxed">{face.example}</p>
               <RevealableMeaning
                 ko={face.exampleTrans}
                 className="mt-1 text-sm"
                 revealedClassName="text-muted-foreground"
               />
             </div>
-            <Button disabled={busy} onClick={() => onComplete(correct)}>
+            <Button
+              disabled={busy}
+              className="gap-1.5 bg-violet-600 text-white hover:bg-violet-600/90"
+              onClick={() => onComplete(correct)}
+            >
               {t("next")}
+              <ArrowRight className="h-4 w-4" />
             </Button>
           </div>
         )}
