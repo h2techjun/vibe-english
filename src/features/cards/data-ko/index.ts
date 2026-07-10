@@ -14,11 +14,15 @@ import { KO_B2_DECKS, KO_B2_CARDS } from "./b2";
 import { KO_C1_DECKS, KO_C1_CARDS } from "./c1";
 import { KO_C2_DECKS, KO_C2_CARDS } from "./c2";
 
+// ── 어휘(단어) 카드 — 회화 표현 덱과 별개인 단어장 (파일럿: A1만) ──
+import { KO_VOCAB_A1_DECKS, KO_VOCAB_A1_CARDS } from "./vocab-a1";
+
 /** 콘텐츠 버전 — 카드/덱/대화/시나리오 수정마다 +1 */
-export const SEED_VERSION_KO = 3;
+export const SEED_VERSION_KO = 4;
 
 export const ALL_DECKS_KO: Deck[] = [
   ...KO_A1_DECKS,
+  ...KO_VOCAB_A1_DECKS,
   ...KO_A2_DECKS,
   ...KO_B1_DECKS,
   ...KO_B2_DECKS,
@@ -26,7 +30,7 @@ export const ALL_DECKS_KO: Deck[] = [
   ...KO_C2_DECKS,
 ];
 
-// 낮은 레벨 먼저 — 같은 한국어 표제어는 먼저 선언된 카드(낮은 레벨)만 남긴다.
+// 회화 표현 먼저, 그 다음 어휘 — 같은 한국어 표제어는 먼저 선언된 카드만 남긴다.
 const RAW_CARDS: VocabCard[] = [
   ...KO_A1_CARDS,
   ...KO_A2_CARDS,
@@ -34,6 +38,7 @@ const RAW_CARDS: VocabCard[] = [
   ...KO_B2_CARDS,
   ...KO_C1_CARDS,
   ...KO_C2_CARDS,
+  ...KO_VOCAB_A1_CARDS,
 ];
 
 /** 한국어 표제어 기준 중복 키 (문장부호·공백 제거) */

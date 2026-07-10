@@ -110,9 +110,10 @@ export interface Deck {
  * 단어(어휘) 덱인지 판정 — deck id 가 "vocab-" 로 시작.
  * 회화 표현 덱(greetings, work 등)과 단어 덱(vocab-a1-...)을 구분한다.
  * 메인 학습은 회화 표현, 단어는 단어장으로 분리.
+ * ko 코스 덱은 시드 시 "ko:" prefix 가 붙으므로(예: "ko:vocab-a1") 먼저 벗기고 판정한다.
  */
 export function isVocabDeck(deckId: string): boolean {
-  return deckId.startsWith("vocab-");
+  return deckId.replace(/^ko:/, "").startsWith("vocab-");
 }
 
 /** level 이 min 레벨 이상인지 (CEFR 순서: A1 < A2 < B1 < B2 < C1 < C2) */

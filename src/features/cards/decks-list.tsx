@@ -54,8 +54,9 @@ export function DecksList() {
 
   if (!decks) return null;
 
-  // 회화/단어 필터 (ko 코스는 단어 덱이 없어 토글 숨김 → 회화 고정)
-  const effectiveView = course === "ko" ? "conversation" : view;
+  // 회화/단어 필터 (해당 코스에 단어 덱이 하나도 없으면 토글 숨기고 회화 고정)
+  const hasVocabDecks = decks.some((d) => isVocabDeck(d.id));
+  const effectiveView = hasVocabDecks ? view : "conversation";
   const visible = decks.filter((d) =>
     effectiveView === "vocab" ? isVocabDeck(d.id) : !isVocabDeck(d.id),
   );
@@ -70,8 +71,8 @@ export function DecksList() {
 
   return (
     <div className="flex flex-col gap-5">
-      {/* 회화/단어 토글 (en 코스 전용 — ko 코스는 단어 덱 없음) */}
-      {course === "en" && (
+      {/* 회화/단어 토글 (현재 코스에 단어 덱이 있을 때만 노출) */}
+      {hasVocabDecks && (
         <div className="flex gap-1 rounded-lg bg-muted p-1 text-sm">
           {(["conversation", "vocab"] as const).map((v) => (
             <button
