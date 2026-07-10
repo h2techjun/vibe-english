@@ -18,8 +18,9 @@ import type { Scenario } from "@/types/scenario";
  * 통합 콘텐츠 버전 — 어느 코스든 콘텐츠 수정 시 +1.
  * (구 영어 빌드 SEED_VERSION 11 을 승계해 12부터 시작 — 기존 사용자 재적재 보장)
  * 13: ko 코스 단어장 파일럿(vocab-a1, #47) 추가.
+ * 14: ko 코스 단어장 a2~c2 확대(vocab-a2~c2, 각 30단어 = 총 180).
  */
-const SEED_VERSION = 13;
+const SEED_VERSION = 14;
 
 interface SeedContent {
   cards: VocabCard[];
