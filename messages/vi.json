@@ -58,7 +58,35 @@
       "B2": "Tôi muốn bày tỏ quan điểm và cảm xúc bằng tiếng Hàn",
       "C1": "Tự tin trong công việc và tình huống chuyên môn",
       "C2": "Hướng tới sắc thái như người bản xứ"
+    },
+    "recommended": "Đề xuất",
+    "wizard": {
+      "step": "{current} / {total}",
+      "back": "Quay lại",
+      "next": "Tiếp theo",
+      "start": "Bắt đầu học"
+    },
+    "lang": {
+      "title": "Bạn muốn học gì?",
+      "subtitle": "Chọn ngôn ngữ của bạn, ngôn ngữ cần học sẽ được xác định.",
+      "learns": "Sẽ học"
+    },
+    "summary": {
+      "title": "Sẵn sàng rồi! 🎉",
+      "langLabel": "Sẽ học",
+      "levelLabel": "Cấp độ bắt đầu",
+      "note": "Thẻ sẽ quay lại ngay trước khi bạn quên. Xem thẻ đầu tiên nhé?"
     }
+  },
+  "home": {
+    "startCta": "Bắt đầu học hôm nay",
+    "startSub": "Ôn {review} · Mới {fresh}",
+    "caughtUpTitle": "Hoàn thành hôm nay! 🎉",
+    "caughtUpSub": "Hiện không có thẻ cần ôn. Bắt đầu chủ đề mới nhé?",
+    "browseDecks": "Xem chủ đề",
+    "levelProgress": "Tiến độ cấp độ",
+    "vocabTitle": "Từ vựng",
+    "vocabSub": "{n} từ"
   },
   "common": {
     "loading": "Đang tải...",
@@ -170,6 +198,7 @@
     "slow": "Chậm",
     "ttsUnsupported": "Trình duyệt này không hỗ trợ phát giọng nói.",
     "loading": "Đang chuẩn bị thẻ...",
+    "loadError": "Không tải được nội dung. Vui lòng tải lại trang.",
     "showMeaning": "Hiện nghĩa",
     "modeDialogue": "Hội thoại",
     "dialogueSingle": "Câu đơn",

@@ -68,6 +68,11 @@ export interface AppSettings {
   alwaysShowKorean?: boolean;
   /** 하루 학습 목표 카드 수 (동기 게이지용) */
   dailyGoal?: number;
+  /**
+   * 마지막으로 고른 학습 모드. 다음 세션 기본값 복원용.
+   * 미설정(신규자)이면 첫 세션은 가벼운 flashcard 로 시작한다.
+   */
+  lastMode?: "build" | "flashcard" | "cloze" | "listen" | "dialogue";
 }
 
 export const DEFAULT_SETTINGS: AppSettings = {

@@ -58,7 +58,35 @@
       "B2": "I want to express opinions and feelings in Korean",
       "C1": "Comfortable in work and professional situations",
       "C2": "Up to native-level nuance"
+    },
+    "recommended": "Recommended",
+    "wizard": {
+      "step": "{current} / {total}",
+      "back": "Back",
+      "next": "Next",
+      "start": "Start learning"
+    },
+    "lang": {
+      "title": "What do you want to learn?",
+      "subtitle": "Pick your language and we'll set what you learn.",
+      "learns": "You'll learn"
+    },
+    "summary": {
+      "title": "You're all set! 🎉",
+      "langLabel": "Learning",
+      "levelLabel": "Start level",
+      "note": "Cards come back right before you forget. Ready for your first one?"
     }
+  },
+  "home": {
+    "startCta": "Start today's study",
+    "startSub": "Review {review} · New {fresh}",
+    "caughtUpTitle": "All done for today! 🎉",
+    "caughtUpSub": "Nothing due to review right now. Start a new topic?",
+    "browseDecks": "Browse topics",
+    "levelProgress": "Level progress",
+    "vocabTitle": "Vocabulary",
+    "vocabSub": "{n} words"
   },
   "common": {
     "loading": "Loading...",
@@ -170,6 +198,7 @@
     "slow": "Slow",
     "ttsUnsupported": "This browser doesn't support speech playback.",
     "loading": "Preparing your cards...",
+    "loadError": "Couldn't load content. Please refresh the page.",
     "showMeaning": "Show meaning",
     "modeDialogue": "Dialogue",
     "dialogueSingle": "Single",

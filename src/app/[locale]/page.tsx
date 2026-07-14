@@ -16,7 +16,6 @@ export default async function LandingPage({ params }: Props) {
   setRequestLocale(locale);
   const t = await getTranslations("landing");
   const tApp = await getTranslations("app");
-  const tNav = await getTranslations("nav");
 
   const features = [
     { icon: Brain, key: "srs" as const },
@@ -37,12 +36,7 @@ export default async function LandingPage({ params }: Props) {
             </span>
             {BRAND.name}
           </Link>
-          <div className="flex items-center gap-2">
-            <LanguageToggle />
-            <Button variant="ghost" size="sm">
-              {tNav("signIn")}
-            </Button>
-          </div>
+          <LanguageToggle />
         </div>
       </header>
 
@@ -63,7 +57,7 @@ export default async function LandingPage({ params }: Props) {
                 size="lg"
                 className="gap-2"
                 nativeButton={false}
-                render={<Link href="/study" prefetch={false} />}
+                render={<Link href="/home" prefetch={false} />}
               >
                 {t("hero.ctaPrimary")} <ArrowRight className="h-4 w-4" />
               </Button>
@@ -71,7 +65,7 @@ export default async function LandingPage({ params }: Props) {
                 size="lg"
                 variant="outline"
                 nativeButton={false}
-                render={<Link href="/decks" prefetch={false} />}
+                render={<a href="#how-it-works" />}
               >
                 {t("hero.ctaSecondary")}
               </Button>
@@ -95,7 +89,10 @@ export default async function LandingPage({ params }: Props) {
           </div>
         </section>
 
-        <section className="mx-auto w-full max-w-4xl px-4 py-20">
+        <section
+          id="how-it-works"
+          className="mx-auto w-full max-w-4xl scroll-mt-16 px-4 py-20"
+        >
           <h2 className="text-center text-3xl font-bold tracking-tight">
             {t("howItWorks.title")}
           </h2>

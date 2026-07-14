@@ -58,7 +58,35 @@
       "B2": "의견·감정을 영어로 표현하고 싶어요",
       "C1": "업무·전문 상황에서 능숙하게",
       "C2": "원어민 수준 뉘앙스까지"
+    },
+    "recommended": "추천",
+    "wizard": {
+      "step": "{current} / {total}",
+      "back": "뒤로",
+      "next": "다음",
+      "start": "학습 시작하기"
+    },
+    "lang": {
+      "title": "무엇을 배우고 싶으세요?",
+      "subtitle": "당신의 언어를 고르면 배울 언어가 정해져요.",
+      "learns": "배울 언어"
+    },
+    "summary": {
+      "title": "준비 끝! 🎉",
+      "langLabel": "배울 언어",
+      "levelLabel": "시작 레벨",
+      "note": "매일 잊을 만할 때 카드가 다시 찾아와요. 첫 카드를 만나볼까요?"
     }
+  },
+  "home": {
+    "startCta": "오늘 학습 시작",
+    "startSub": "복습 {review} · 신규 {fresh}",
+    "caughtUpTitle": "오늘 학습 완료! 🎉",
+    "caughtUpSub": "지금은 복습할 카드가 없어요. 새 주제를 시작해볼까요?",
+    "browseDecks": "주제 둘러보기",
+    "levelProgress": "레벨 진도",
+    "vocabTitle": "단어장",
+    "vocabSub": "단어 {n}개"
   },
   "common": {
     "loading": "불러오는 중...",
@@ -170,6 +198,7 @@
     "slow": "느리게",
     "ttsUnsupported": "이 브라우저는 음성 재생을 지원하지 않아요.",
     "loading": "학습 카드를 준비하고 있어요...",
+    "loadError": "콘텐츠를 불러오지 못했어요. 페이지를 새로고침해 주세요.",
     "showMeaning": "뜻 보기",
     "modeDialogue": "대화",
     "dialogueSingle": "한 마디",

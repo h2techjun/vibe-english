@@ -58,7 +58,35 @@
       "B2": "想用韩语表达观点和情感",
       "C1": "希望在工作和专业场合应对自如",
       "C2": "追求母语者级别的语感"
+    },
+    "recommended": "推荐",
+    "wizard": {
+      "step": "{current} / {total}",
+      "back": "返回",
+      "next": "下一步",
+      "start": "开始学习"
+    },
+    "lang": {
+      "title": "你想学什么？",
+      "subtitle": "选择你的语言，学习目标就确定了。",
+      "learns": "将学习"
+    },
+    "summary": {
+      "title": "准备就绪！🎉",
+      "langLabel": "学习目标",
+      "levelLabel": "起始等级",
+      "note": "卡片会在你快遗忘时再次出现。来看第一张吧？"
     }
+  },
+  "home": {
+    "startCta": "开始今日学习",
+    "startSub": "复习 {review} · 新卡 {fresh}",
+    "caughtUpTitle": "今日学习完成！🎉",
+    "caughtUpSub": "现在没有要复习的卡片。开始新主题吧？",
+    "browseDecks": "浏览主题",
+    "levelProgress": "等级进度",
+    "vocabTitle": "单词本",
+    "vocabSub": "{n} 个单词"
   },
   "common": {
     "loading": "加载中...",
@@ -170,6 +198,7 @@
     "slow": "慢速",
     "ttsUnsupported": "此浏览器不支持语音播放。",
     "loading": "正在准备卡片...",
+    "loadError": "无法加载内容。请刷新页面。",
     "showMeaning": "显示释义",
     "modeDialogue": "对话",
     "dialogueSingle": "单句",

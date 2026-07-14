@@ -61,7 +61,20 @@ const MIN_BANK = 5;
 const MAX_BANK = 8;
 
 /**
- * 정답 유닛 전체 + 오답 유닛(pool 에서 정답과 안 겹치는 것 중 랜덤 N개)을 섞는다.
+ * 오답 유닛 후보가 정답과 "같은 결"인지 판별한다.
+ * en 코스는 pool 이 여러 카드에서 나온 유닛을 섞어 담는데, 짧은 단어(글자 단위 분해)와
+ * 여러 단어 표현(단어 단위 분해)이 같은 배열에 공존한다. 글자 조립 문제에 통짜 단어가,
+ * 단어 조립 문제에 낱글자가 오답으로 섞이면 뱅크가 시각적으로 깨지므로 길이로 결을 맞춘다
+ * (단일 글자 정답 ↔ 1글자 후보만, 단어 정답 ↔ 2글자 이상 후보만). ko 코스는 음절이 항상
+ * 1글자라 전부 같은 결이므로 필터가 사실상 no-op.
+ */
+function sameGrain(unit: string, answerUnits: string[]): boolean {
+  const letterMode = answerUnits.every((u) => u.length === 1);
+  return letterMode ? unit.length === 1 : unit.length > 1;
+}
+
+/**
+ * 정답 유닛 전체 + 오답 유닛(pool 에서 정답과 안 겹치고 결이 같은 것 중 랜덤 N개)을 섞는다.
  * N 은 전체 뱅크가 5~8개가 되도록 정답 길이 기준으로 계산한다
  * (정답 유닛이 이미 5개 이상이면 오답을 추가하지 않는다).
  */
@@ -79,6 +92,7 @@ export function buildBank(
   const seen = new Set(answerUnits.map((u) => normalizeUnit(u, course)));
   const distractors: string[] = [];
   for (const unit of shuffle(pool)) {
+    if (!sameGrain(unit, answerUnits)) continue;
     const key = normalizeUnit(unit, course);
     if (!key || seen.has(key)) continue;
     seen.add(key);

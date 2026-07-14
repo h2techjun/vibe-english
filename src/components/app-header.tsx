@@ -5,6 +5,7 @@ import { usePathname } from "@/i18n/navigation";
 import { LanguageToggle } from "@/components/language-toggle";
 
 const TITLE_KEYS: Record<string, string> = {
+  "/home": "home",
   "/study": "study",
   "/decks": "decks",
   "/progress": "progress",

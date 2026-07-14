@@ -29,15 +29,18 @@ export async function getProgressMap(): Promise<Map<string, CardProgress>> {
  * 오늘 학습할 큐를 만든다.
  * 복습 대상(due <= now) 먼저 → 신규 카드(레벨·덱 순) 한도까지.
  *
- * - deckId 없음(학습 탭): **회화 표현만**(단어 제외) + 신규는 startLevel 이상 레벨만.
+ * - deckId 없음 · vocab=false(학습 탭 기본): **회화 표현만**(단어 제외) + 신규는 startLevel 이상.
+ * - deckId 없음 · vocab=true(단어장 세션): **단어 덱만**(회화 제외) + 신규는 startLevel 이상.
  * - deckId 있음(특정 덱): 그 덱만(회화/단어 무관), 신규는 레벨 무관 전부.
  *
- * @param deckId 특정 덱만 학습할 때 (없으면 회화 표현 전체)
+ * @param deckId 특정 덱만 학습할 때 (없으면 코스 전체)
+ * @param vocab  deckId 없을 때 회화 대신 단어장(vocab-*) 카드를 큐로 (기본 false)
  */
 export async function buildStudyQueue(
   now: Date,
   deckId: string | undefined,
   course: Course,
+  vocab = false,
 ): Promise<StudyQueue> {
   const settings = await getSettings();
   const [allCards, decks, progressList] = await Promise.all([
@@ -55,8 +58,8 @@ export async function buildStudyQueue(
   const due: { card: VocabCard; due: number }[] = [];
   const fresh: VocabCard[] = [];
   for (const card of allCards) {
-    // 학습 탭(deckId 없음)에서는 단어 덱 제외 → 회화 표현만
-    if (!deckId && isVocabDeck(card.deck)) continue;
+    // 학습 탭(deckId 없음): 단어장 세션이면 회화 제외, 기본이면 단어 제외
+    if (!deckId && isVocabDeck(card.deck) !== vocab) continue;
 
     const p = progressMap.get(card.id);
     if (!p) {

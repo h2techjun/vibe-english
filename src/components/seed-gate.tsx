@@ -30,7 +30,7 @@ export function SeedGate({ children }: { children: React.ReactNode }) {
   if (error) {
     return (
       <div className="flex flex-1 items-center justify-center p-8 text-center text-sm text-destructive">
-        콘텐츠를 불러오지 못했어요. 페이지를 새로고침해 주세요.
+        {t("loadError")}
       </div>
     );
   }

@@ -3,7 +3,7 @@
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "@/lib/db";
 import { startLevelOf, useCourse } from "@/lib/course";
-import { LevelOnboarding } from "@/features/onboarding/level-onboarding";
+import { OnboardingWizard } from "@/features/onboarding/onboarding-wizard";
 
 /**
  * 현재 코스의 시작 레벨이 설정될 때까지 온보딩 레벨 선택을 띄운다.
@@ -17,8 +17,8 @@ export function LevelGate({ children }: { children: React.ReactNode }) {
   // 로딩 중 (settings 조회 전)
   if (settings === undefined) return null;
 
-  // 현재 코스의 시작 레벨 미설정 → 온보딩
-  if (!startLevelOf(settings, course)) return <LevelOnboarding />;
+  // 현재 코스의 시작 레벨 미설정 → 온보딩 위저드
+  if (!startLevelOf(settings, course)) return <OnboardingWizard />;
 
   return <>{children}</>;
 }

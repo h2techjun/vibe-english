@@ -91,6 +91,18 @@ export function DecksList() {
         </div>
       )}
 
+      {/* 단어장 뷰: 레벨별로 흩어진 단어 덱을 한 세션으로 묶어 학습 */}
+      {effectiveView === "vocab" && (
+        <Button
+          nativeButton={false}
+          className="gap-1.5"
+          render={<Link href="/study?vocab=1" prefetch={false} />}
+        >
+          <BookText className="h-4 w-4" />
+          {t("startAll")}
+        </Button>
+      )}
+
       {CEFR_LEVELS.filter((l) => byLevel.has(l)).map((level) => {
         const levelDecks = byLevel.get(level)!;
         return (

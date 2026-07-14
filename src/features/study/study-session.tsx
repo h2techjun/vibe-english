@@ -58,12 +58,31 @@ const GRADE_KEY: Record<ReviewGrade, "again" | "hard" | "good" | "easy"> = {
   [Rating.Easy]: "easy",
 };
 
+/**
+ * 세션 시작 모드 결정.
+ * - 마지막에 고른 모드가 있으면 복원(선호 유지).
+ * - 학습 이력이 전혀 없는 신규자는 가장 무거운 build 대신
+ *   가벼운 flashcard 로 첫 세션을 열어 진입 마찰을 낮춘다.
+ * - 단어장 세션에는 dialogue 가 없으므로 flashcard 로 대체한다.
+ */
+function resolveStartMode(
+  last: StudyMode | undefined,
+  isNewUser: boolean,
+  vocab: boolean,
+): StudyMode {
+  let m: StudyMode = last ?? (isNewUser ? "flashcard" : "build");
+  if (vocab && m === "dialogue") m = "flashcard";
+  return m;
+}
+
 export function StudySession() {
   const t = useTranslations("study");
   const searchParams = useSearchParams();
   const { course } = useCourse();
   const deckId = searchParams.get("deck") ?? undefined;
   const weak = searchParams.get("weak") === "1";
+  // 단어장 세션 — deckId 없이 vocab-* 덱만 큐로 (홈/주제 탭의 단어장 진입)
+  const vocab = searchParams.get("vocab") === "1";
   const [status, setStatus] = useState<Status>("loading");
   const [queue, setQueue] = useState<VocabCard[]>([]);
   const [counts, setCounts] = useState({ review: 0, fresh: 0 });
@@ -109,16 +128,17 @@ export function StudySession() {
     /* eslint-enable react-hooks/set-state-in-effect */
     (async () => {
       const now = new Date();
-      const [q, pm, allCards] = await Promise.all([
+      const [q, pm, allCards, settingsRow] = await Promise.all([
         weak
           ? getWeakCards(course).then((r) => ({
               cards: r.cards,
               reviewCount: r.cards.length,
               newCount: 0,
             }))
-          : buildStudyQueue(now, deckId, course),
+          : buildStudyQueue(now, deckId, course, vocab),
         getProgressMap(),
         db.cards.where("course").equals(course).toArray(),
+        db.settings.get("main"),
       ]);
       if (!mounted) return;
       setQueue(q.cards);
@@ -126,18 +146,24 @@ export function StudySession() {
       setProgressMap(pm);
       setWordPool(buildWordPool(allCards, course));
       setUnitPool(buildUnitPool(allCards, course));
+      // 약점 복습은 위에서 flashcard 로 고정했으므로 그 외 세션만 기본 모드 결정
+      if (!weak) {
+        setMode(resolveStartMode(settingsRow?.lastMode, pm.size === 0, vocab));
+      }
       setStatus(q.cards.length === 0 ? "empty" : "studying");
     })();
     return () => {
       mounted = false;
     };
     // course 변경(언어 토글 = 코스 전환) 시에도 큐를 새 코스로 재구성한다
-  }, [deckId, weak, reloadKey, course]);
+  }, [deckId, weak, vocab, reloadKey, course]);
 
   function switchMode(next: StudyMode) {
     if (next === mode) return;
     setRevealed(false);
     setMode(next);
+    // 다음 세션 기본값으로 복원되도록 선택 모드를 저장한다
+    void db.settings.update("main", { lastMode: next });
   }
 
   /** 콤보 갱신 — 정답이면 +1, 오답이면 리셋 */
@@ -232,10 +258,14 @@ export function StudySession() {
     </div>
   );
 
-  // 모드 토글 (플래시카드 / 빈칸 / 듣기 / 대화). 약점 복습 모드에선 숨김.
+  // 모드 토글 (조립 / 플래시카드 / 빈칸 / 듣기 / 대화). 약점 복습 모드에선 숨김.
+  // 대화(dialogue)는 코스 전역 회화 콘텐츠라 단어장 세션에선 제외한다.
+  const modeOptions: StudyMode[] = vocab
+    ? ["build", "flashcard", "cloze", "listen"]
+    : ["build", "flashcard", "cloze", "listen", "dialogue"];
   const modeToggle = weak ? null : (
     <div className="mb-3 flex gap-1 rounded-lg bg-muted p-1 text-xs sm:text-sm">
-      {(["build", "flashcard", "cloze", "listen", "dialogue"] as const).map((m) => (
+      {modeOptions.map((m) => (
         <button
           key={m}
           onClick={() => switchMode(m)}

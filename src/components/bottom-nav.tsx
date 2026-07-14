@@ -3,9 +3,10 @@
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-import { GraduationCap, Layers, BarChart3, Settings } from "lucide-react";
+import { Home, GraduationCap, Layers, BarChart3, Settings } from "lucide-react";
 
 const TABS = [
+  { href: "/home", key: "home", icon: Home },
   { href: "/study", key: "study", icon: GraduationCap },
   { href: "/decks", key: "decks", icon: Layers },
   { href: "/progress", key: "progress", icon: BarChart3 },
