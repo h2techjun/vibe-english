@@ -114,7 +114,7 @@
     "weakNone": "No weak cards 👍",
     "badge": "Badges",
     "streakLabel": "Streak",
-    "streakDays": "{n} days",
+    "streakDays": "{n, plural, one {# day} other {# days}}",
     "streakZero": "Start today",
     "learned": "Cards learned",
     "due": "Due for review",
