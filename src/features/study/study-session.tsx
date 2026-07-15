@@ -10,10 +10,11 @@ import type { CardProgress, ReviewGrade } from "@/types/srs";
 import { Rating } from "@/types/srs";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Loader2, PartyPopper, Coffee, Target, Share2 } from "lucide-react";
+import { Loader2, PartyPopper, Target, Share2, Repeat, Layers } from "lucide-react";
 import { toast } from "sonner";
 import {
   buildStudyQueue,
+  buildPracticeQueue,
   getProgressMap,
   applyGrade,
   getWeakCards,
@@ -28,6 +29,7 @@ import { ListenCard } from "./listen-card";
 import { BuildCard } from "./build-card";
 import { DialogueSession } from "./dialogue-session";
 import { ScenarioSession } from "./scenario-session";
+import { useTts } from "./use-tts";
 import { buildWordPool } from "./cloze";
 import { buildUnitPool } from "./build";
 import { buildShareGrid, shareResult } from "./share";
@@ -69,9 +71,12 @@ function resolveStartMode(
   last: StudyMode | undefined,
   isNewUser: boolean,
   vocab: boolean,
+  ttsSupported: boolean,
 ): StudyMode {
   let m: StudyMode = last ?? (isNewUser ? "flashcard" : "build");
   if (vocab && m === "dialogue") m = "flashcard";
+  // TTS 미지원 브라우저에서 listen 복원 시 풀이 불가 → flashcard 로 대체
+  if (!ttsSupported && m === "listen") m = "flashcard";
   return m;
 }
 
@@ -79,10 +84,14 @@ export function StudySession() {
   const t = useTranslations("study");
   const searchParams = useSearchParams();
   const { course } = useCourse();
+  // TTS 미지원 브라우저(음성 없음)에선 듣기 모드가 풀이 불가라 노출을 막는다.
+  const { supported: ttsSupported } = useTts();
   const deckId = searchParams.get("deck") ?? undefined;
   const weak = searchParams.get("weak") === "1";
   // 단어장 세션 — deckId 없이 vocab-* 덱만 큐로 (홈/주제 탭의 단어장 진입)
   const vocab = searchParams.get("vocab") === "1";
+  // 홈/주제/완료화면에서 자유 연습 링크(/study?practice=1)로 바로 진입
+  const practiceParam = searchParams.get("practice") === "1";
   const [status, setStatus] = useState<Status>("loading");
   const [queue, setQueue] = useState<VocabCard[]>([]);
   const [counts, setCounts] = useState({ review: 0, fresh: 0 });
@@ -98,6 +107,8 @@ export function StudySession() {
   const [wordPool, setWordPool] = useState<string[]>([]);
   const [unitPool, setUnitPool] = useState<string[]>([]);
   const [reloadKey, setReloadKey] = useState(0);
+  // 자유 연습 — due 무관하게 계속 학습 (오늘 분량 소진·한 모드 완료 후 막힘 방지)
+  const [practice, setPractice] = useState(false);
   // 세션 콤보 (연속 정답) — 동기 부여용
   const [combo, setCombo] = useState(0);
   const [bestCombo, setBestCombo] = useState(0);
@@ -135,7 +146,13 @@ export function StudySession() {
               reviewCount: r.cards.length,
               newCount: 0,
             }))
-          : buildStudyQueue(now, deckId, course, vocab),
+          : practice || practiceParam
+            ? buildPracticeQueue(course, deckId, vocab).then((cards) => ({
+                cards,
+                reviewCount: 0,
+                newCount: 0,
+              }))
+            : buildStudyQueue(now, deckId, course, vocab),
         getProgressMap(),
         db.cards.where("course").equals(course).toArray(),
         db.settings.get("main"),
@@ -148,7 +165,14 @@ export function StudySession() {
       setUnitPool(buildUnitPool(allCards, course));
       // 약점 복습은 위에서 flashcard 로 고정했으므로 그 외 세션만 기본 모드 결정
       if (!weak) {
-        setMode(resolveStartMode(settingsRow?.lastMode, pm.size === 0, vocab));
+        setMode(
+          resolveStartMode(
+            settingsRow?.lastMode,
+            pm.size === 0,
+            vocab,
+            ttsSupported,
+          ),
+        );
       }
       setStatus(q.cards.length === 0 ? "empty" : "studying");
     })();
@@ -156,7 +180,7 @@ export function StudySession() {
       mounted = false;
     };
     // course 변경(언어 토글 = 코스 전환) 시에도 큐를 새 코스로 재구성한다
-  }, [deckId, weak, vocab, reloadKey, course]);
+  }, [deckId, weak, vocab, reloadKey, course, practice, practiceParam, ttsSupported]);
 
   function switchMode(next: StudyMode) {
     if (next === mode) return;
@@ -184,6 +208,15 @@ export function StudySession() {
       setRevealed(false);
       setIndex(next);
     }
+  }
+
+  /**
+   * 자유 연습 시작/계속 — due 무관하게 큐를 새로 셔플해 이어서 학습한다.
+   * 오늘 분량을 다 끝냈거나 한 모드만 해도 막히지 않도록 하는 핵심 동선.
+   */
+  function startPractice() {
+    setPractice(true);
+    setReloadKey((k) => k + 1);
   }
 
   async function handleClozeAnswer(correct: boolean) {
@@ -260,9 +293,14 @@ export function StudySession() {
 
   // 모드 토글 (조립 / 플래시카드 / 빈칸 / 듣기 / 대화). 약점 복습 모드에선 숨김.
   // 대화(dialogue)는 코스 전역 회화 콘텐츠라 단어장 세션에선 제외한다.
-  const modeOptions: StudyMode[] = vocab
-    ? ["build", "flashcard", "cloze", "listen"]
-    : ["build", "flashcard", "cloze", "listen", "dialogue"];
+  const modeOptions: StudyMode[] = [
+    "build",
+    "flashcard",
+    "cloze",
+    // 듣기는 TTS 지원 시에만, 대화는 단어장 세션 제외
+    ...(ttsSupported ? (["listen"] as StudyMode[]) : []),
+    ...(vocab ? [] : (["dialogue"] as StudyMode[])),
+  ];
   const modeToggle = weak ? null : (
     <div className="mb-3 flex gap-1 rounded-lg bg-muted p-1 text-xs sm:text-sm">
       {modeOptions.map((m) => (
@@ -320,15 +358,18 @@ export function StudySession() {
   }
 
   if (status === "empty") {
+    // due 카드가 없을 때 = 오늘 복습을 다 끝낸 것. 막다른길 대신 자유 연습으로 이어가게 한다.
     return (
       <CenteredCard
-        icon={<Coffee className="h-10 w-10 text-muted-foreground" />}
-        title={t("emptyTitle")}
-        desc={t("emptyDesc")}
+        icon={<PartyPopper className="h-10 w-10 text-emerald-500" />}
+        title={t("caughtUpTitle")}
+        desc={t("caughtUpDesc")}
       >
-        <Button nativeButton={false} render={<Link href="/decks" prefetch={false} />}>
-          {t("goDecks")}
-        </Button>
+        <StudyNextActions
+          weak={stats?.weak ?? 0}
+          isWeakSession={weak}
+          onPractice={startPractice}
+        />
       </CenteredCard>
     );
   }
@@ -352,9 +393,18 @@ export function StudySession() {
           <SummaryTile value={stats?.streak ?? 0} label={t("statStreak")} />
         </div>
 
+        {/* 오늘 총 학습량 — 진도 피드백 */}
+        {stats && (
+          <p className="text-xs text-muted-foreground">
+            {t("todayTotal", { n: stats.today })}
+          </p>
+        )}
+
+        {/* 다음 행동 — 자유 연습·공유·약점·주제·홈 (막다른길 제거) */}
         <div className="flex flex-wrap justify-center gap-2">
-          <Button onClick={() => setReloadKey((k) => k + 1)}>
-            {t("studyAgain")}
+          <Button onClick={startPractice} className="gap-1.5">
+            <Repeat className="h-4 w-4" />
+            {t("practiceContinue")}
           </Button>
           <Button
             variant="outline"
@@ -368,8 +418,24 @@ export function StudySession() {
             <Share2 className="h-4 w-4" />
             {t("shareResult")}
           </Button>
+          {stats && stats.weak > 0 && !weak && (
+            <Button
+              variant="outline"
+              nativeButton={false}
+              render={<Link href="/study?weak=1" prefetch={false} />}
+            >
+              {t("weakReview")}
+            </Button>
+          )}
           <Button
             variant="outline"
+            nativeButton={false}
+            render={<Link href="/decks" prefetch={false} />}
+          >
+            {t("goDecks")}
+          </Button>
+          <Button
+            variant="ghost"
             nativeButton={false}
             render={<Link href="/" prefetch={false} />}
           >
@@ -502,6 +568,52 @@ function Confetti() {
           {e}
         </span>
       ))}
+    </div>
+  );
+}
+
+/** empty/done 공용 '다음 행동' 버튼 그룹 — 자유 연습·약점·주제·홈 (막다른길 제거) */
+function StudyNextActions({
+  weak,
+  isWeakSession,
+  onPractice,
+}: {
+  weak: number;
+  isWeakSession: boolean;
+  onPractice: () => void;
+}) {
+  const t = useTranslations("study");
+  return (
+    <div className="flex flex-wrap justify-center gap-2">
+      <Button onClick={onPractice} className="gap-1.5">
+        <Repeat className="h-4 w-4" />
+        {t("practiceStart")}
+      </Button>
+      {weak > 0 && !isWeakSession && (
+        <Button
+          variant="outline"
+          nativeButton={false}
+          render={<Link href="/study?weak=1" prefetch={false} />}
+        >
+          {t("weakReview")}
+        </Button>
+      )}
+      <Button
+        variant="outline"
+        className="gap-1.5"
+        nativeButton={false}
+        render={<Link href="/decks" prefetch={false} />}
+      >
+        <Layers className="h-4 w-4" />
+        {t("goDecks")}
+      </Button>
+      <Button
+        variant="ghost"
+        nativeButton={false}
+        render={<Link href="/" prefetch={false} />}
+      >
+        {t("backHome")}
+      </Button>
     </div>
   );
 }

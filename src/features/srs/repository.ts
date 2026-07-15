@@ -6,6 +6,7 @@ import { db } from "@/lib/db";
 import type { VocabCard, CefrLevel, Course } from "@/types/card";
 import { isVocabDeck, isLevelAtLeast } from "@/types/card";
 import { startLevelOf } from "@/lib/course";
+import { shuffle } from "@/lib/utils";
 import type { Dialogue } from "@/types/dialogue";
 import type { Scenario } from "@/types/scenario";
 import type { CardProgress, ReviewGrade } from "@/types/srs";
@@ -95,6 +96,38 @@ export async function buildStudyQueue(
     reviewCount: reviewQueue.length,
     newCount: newQueue.length,
   };
+}
+
+/**
+ * 자유 연습 큐 — SRS due 와 무관하게 계속 학습할 수 있는 큐.
+ * "오늘 분량(due+신규)을 다 해도, 한 모드만 해도 막히지 않기" 위한 것.
+ * 이미 학습한 카드를 포함해 코스(또는 덱)의 카드를 셔플해 무한히 재노출한다.
+ * 채점은 study-session 이 기존 경로(applyGrade)로 처리하므로 어떤 모드로
+ * 다시 풀든 스트릭·통계·복습 스케줄에 반영된다.
+ *
+ * @param deckId 특정 덱만 (없으면 코스 전체)
+ * @param vocab  deckId 없을 때 단어장(vocab-*)으로 (기본 false = 회화)
+ * @param limit  한 세션 카드 수 (기본 20)
+ */
+export async function buildPracticeQueue(
+  course: Course,
+  deckId: string | undefined,
+  vocab = false,
+  limit = 20,
+): Promise<VocabCard[]> {
+  const settings = await getSettings();
+  const allCards = deckId
+    ? await db.cards.where("deck").equals(deckId).toArray()
+    : await db.cards.where("course").equals(course).toArray();
+  const startLevel = startLevelOf(settings, course);
+  const pool = allCards.filter((card) => {
+    if (deckId) return true;
+    if (isVocabDeck(card.deck) !== vocab) return false;
+    // 시작 레벨 이상만 (그 아래는 안다고 가정 — buildStudyQueue 와 동일 정책)
+    if (startLevel && !isLevelAtLeast(card.level, startLevel)) return false;
+    return true;
+  });
+  return shuffle(pool).slice(0, limit);
 }
 
 /**

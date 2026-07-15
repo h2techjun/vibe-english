@@ -90,10 +90,13 @@ export function BuildCard({ card, isNew, unitPool, busy, onAnswer }: Props) {
     if (correct) {
       setSolved(true);
     } else {
+      // 첫 불일치 위치부터 되돌린다 — 마지막 타일만 튕기면 정작 올바른 끝 타일이
+      // 빠지고 앞쪽 오답이 슬롯에 남아 "어디가 틀렸는지" 알 수 없게 되기 때문.
+      const firstWrong = next.findIndex((idx, i) => bank[idx] !== answerUnits[i]);
       setShaking(true);
       window.setTimeout(() => {
         setShaking(false);
-        setPlaced((p) => p.slice(0, -1));
+        setPlaced((p) => p.slice(0, firstWrong < 0 ? p.length - 1 : firstWrong));
       }, SHAKE_MS);
     }
   }
@@ -214,7 +217,6 @@ export function BuildCard({ card, isNew, unitPool, busy, onAnswer }: Props) {
               exampleTrans={face.exampleTrans}
               score={solved ? (isNew ? 80 : 120) : undefined}
               correct={solved}
-              shareLabel=""
               nextLabel={t("next")}
               onNext={handleNext}
             />

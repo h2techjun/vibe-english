@@ -8,17 +8,8 @@
  *    그 외(여러 단어/긴 표현)는 단어 단위.
  */
 import { toSyllables, isHangulSyllable, choseongHint } from "@/lib/hangul";
+import { shuffle } from "@/lib/utils";
 import type { VocabCard, Course } from "@/types/card";
-
-/** Fisher-Yates 셔플. cloze.ts 에 동일 패턴이 있지만 비공개라 로컬로 재구현. */
-function shuffle<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
 
 /** 유닛 비교용 정규화. en 은 대소문자 무시, ko 음절은 대소문자 개념이 없어 그대로. */
 function normalizeUnit(unit: string, course: Course): string {

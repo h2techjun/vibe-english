@@ -85,7 +85,8 @@
     "browseDecks": "浏览主题",
     "levelProgress": "等级进度",
     "vocabTitle": "单词本",
-    "vocabSub": "{n} 个单词"
+    "vocabSub": "{n} 个单词",
+    "practice": "自由练习"
   },
   "common": {
     "loading": "加载中...",
@@ -220,6 +221,13 @@
     "statCards": "已学",
     "statCombo": "最高连击",
     "statStreak": "连续",
+    "caughtUpTitle": "今日复习完成！🎉",
+    "caughtUpDesc": "现在没有需要复习的卡片。用自由练习继续巩固吧？",
+    "practiceStart": "自由练习",
+    "practiceContinue": "继续学习",
+    "weakReview": "复习弱项",
+    "todayTotal": "今日已学 {n} 个",
+    "reset": "重置",
     "interval": {
       "min": "{n}分",
       "hour": "{n}时",

@@ -18,7 +18,8 @@ interface Props {
   score?: number;
   /** 정답 여부 — 기본 true(정답 톤 emerald). false면 오답 톤(rose)으로 표시 */
   correct?: boolean;
-  shareLabel: string;
+  /** 공유 버튼 라벨 — onShare 가 있을 때만 필요 */
+  shareLabel?: string;
   nextLabel: string;
   /** 없으면 공유 버튼을 숨김 */
   onShare?: () => void;

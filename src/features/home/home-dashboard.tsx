@@ -23,6 +23,7 @@ import {
   Layers,
   BarChart3,
   BookText,
+  Repeat,
 } from "lucide-react";
 
 export function HomeDashboard() {
@@ -106,15 +107,25 @@ export function HomeDashboard() {
                 {t("caughtUpSub")}
               </p>
             </div>
-            <Button
-              variant="outline"
-              className="gap-1.5"
-              nativeButton={false}
-              render={<Link href="/decks" prefetch={false} />}
-            >
-              <Layers className="h-4 w-4" />
-              {t("browseDecks")}
-            </Button>
+            <div className="flex flex-wrap justify-center gap-2">
+              <Button
+                className="gap-1.5"
+                nativeButton={false}
+                render={<Link href="/study?practice=1" prefetch={false} />}
+              >
+                <Repeat className="h-4 w-4" />
+                {t("practice")}
+              </Button>
+              <Button
+                variant="outline"
+                className="gap-1.5"
+                nativeButton={false}
+                render={<Link href="/decks" prefetch={false} />}
+              >
+                <Layers className="h-4 w-4" />
+                {t("browseDecks")}
+              </Button>
+            </div>
           </CardContent>
         </Card>
       ) : (

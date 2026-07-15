@@ -85,7 +85,8 @@
     "browseDecks": "Browse topics",
     "levelProgress": "Level progress",
     "vocabTitle": "Vocabulary",
-    "vocabSub": "{n} words"
+    "vocabSub": "{n} words",
+    "practice": "Free practice"
   },
   "common": {
     "loading": "Loading...",
@@ -220,6 +221,13 @@
     "statCards": "Studied",
     "statCombo": "Best combo",
     "statStreak": "Streak",
+    "caughtUpTitle": "All caught up! 🎉",
+    "caughtUpDesc": "No cards due right now. Keep going with free practice?",
+    "practiceStart": "Free practice",
+    "practiceContinue": "Keep practicing",
+    "weakReview": "Review weak spots",
+    "todayTotal": "{n} studied today",
+    "reset": "Reset",
     "interval": {
       "min": "{n}m",
       "hour": "{n}h",

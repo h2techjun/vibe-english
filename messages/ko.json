@@ -85,7 +85,8 @@
     "browseDecks": "주제 둘러보기",
     "levelProgress": "레벨 진도",
     "vocabTitle": "단어장",
-    "vocabSub": "단어 {n}개"
+    "vocabSub": "단어 {n}개",
+    "practice": "자유 연습"
   },
   "common": {
     "loading": "불러오는 중...",
@@ -220,6 +221,13 @@
     "statCards": "학습",
     "statCombo": "최고 콤보",
     "statStreak": "연속",
+    "caughtUpTitle": "오늘 복습 완료! 🎉",
+    "caughtUpDesc": "지금 복습할 카드가 없어요. 자유 연습으로 계속 익혀볼까요?",
+    "practiceStart": "자유 연습",
+    "practiceContinue": "계속 학습",
+    "weakReview": "약점 복습",
+    "todayTotal": "오늘 {n}개 학습",
+    "reset": "초기화",
     "interval": {
       "min": "{n}분",
       "hour": "{n}시간",

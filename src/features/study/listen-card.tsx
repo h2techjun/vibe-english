@@ -10,16 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { RevealableMeaning } from "@/components/revealable-meaning";
 import { useTts } from "./use-tts";
 import { Volume2, Turtle, RotateCcw, Sparkles, Check, X, ArrowRight } from "lucide-react";
-import { cn } from "@/lib/utils";
-
-function shuffle<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
+import { cn, shuffle } from "@/lib/utils";
 
 interface Props {
   card: VocabCard;
@@ -34,7 +25,12 @@ export function ListenCard({ card, isNew, busy, onComplete }: Props) {
   const { course, src } = useCourse();
   const face = getCardFace(card, course, src);
 
-  const words = useMemo(() => face.example.split(/\s+/), [face.example]);
+  // 앞뒤 공백·빈 토큰을 제거한다 — 안 하면 split 이 선/후행 빈 문자열을 만들어
+  // 텍스트 없는 유령 타일이 생기고 발화도 깨진다.
+  const words = useMemo(
+    () => face.example.trim().split(/\s+/).filter(Boolean),
+    [face.example],
+  );
   const shuffled = useMemo(
     () => shuffle(words.map((w, i) => ({ w, i }))),
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -62,6 +58,11 @@ export function ListenCard({ card, isNew, busy, onComplete }: Props) {
   function removeAt(pos: number) {
     if (checked) return;
     setAnswer((a) => a.filter((_, p) => p !== pos));
+  }
+
+  // 예문이 1단어 이하라 순서 맞추기가 무의미하면 뜻만 보여주고 통과
+  if (words.length < 2) {
+    return <ListenFallback card={card} onContinue={() => onComplete(true)} />;
   }
 
   return (
@@ -161,6 +162,7 @@ export function ListenCard({ card, isNew, busy, onComplete }: Props) {
                 variant="ghost"
                 size="sm"
                 className="gap-1.5"
+                aria-label={t("reset")}
                 onClick={() => setAnswer([])}
               >
                 <RotateCcw className="h-4 w-4" />
@@ -208,6 +210,35 @@ export function ListenCard({ card, isNew, busy, onComplete }: Props) {
             </Button>
           </div>
         )}
+      </div>
+    </div>
+  );
+}
+
+/** 예문이 짧아 순서 맞추기가 무의미한 카드용 간이 표시 (cloze/build Fallback 과 동형) */
+function ListenFallback({
+  card,
+  onContinue,
+}: {
+  card: VocabCard;
+  onContinue: () => void;
+}) {
+  const t = useTranslations("study");
+  const { course, src } = useCourse();
+  const face = getCardFace(card, course, src);
+  return (
+    <div className="flex flex-1 flex-col rounded-2xl border border-border/60 bg-card p-6 shadow-sm">
+      <p className="text-2xl font-bold">{face.term}</p>
+      {face.pronPrimary && (
+        <p className="mt-1 font-mono text-sm text-muted-foreground">
+          {face.pronPrimary}
+        </p>
+      )}
+      <p className="mt-3 text-lg font-semibold text-blue-700 dark:text-blue-300">
+        {face.meaning}
+      </p>
+      <div className="mt-auto flex justify-center pt-6">
+        <Button onClick={onContinue}>{t("next")}</Button>
       </div>
     </div>
   );

@@ -85,7 +85,8 @@
     "browseDecks": "Xem chủ đề",
     "levelProgress": "Tiến độ cấp độ",
     "vocabTitle": "Từ vựng",
-    "vocabSub": "{n} từ"
+    "vocabSub": "{n} từ",
+    "practice": "Luyện tập tự do"
   },
   "common": {
     "loading": "Đang tải...",
@@ -220,6 +221,13 @@
     "statCards": "Đã học",
     "statCombo": "Chuỗi đúng cao nhất",
     "statStreak": "Chuỗi ngày",
+    "caughtUpTitle": "Đã ôn xong hôm nay! 🎉",
+    "caughtUpDesc": "Hiện không có thẻ cần ôn. Tiếp tục củng cố bằng luyện tập tự do nhé?",
+    "practiceStart": "Luyện tập tự do",
+    "practiceContinue": "Tiếp tục học",
+    "weakReview": "Ôn điểm yếu",
+    "todayTotal": "Đã học {n} hôm nay",
+    "reset": "Đặt lại",
     "interval": {
       "min": "{n} phút",
       "hour": "{n} giờ",

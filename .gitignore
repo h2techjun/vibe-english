@@ -58,7 +58,7 @@ releases/
 # Playwright MCP 검증 아티팩트
 .playwright-mcp/
 # QA 스크린샷 (전수검사 산출물, 루트)
-/qa-*.png
+/qa*.png
 /loopla-korean-dark.png
 
 # Python (임시 검증 스크립트)
