@@ -6,7 +6,7 @@ import { db } from "@/lib/db";
 import type { VocabCard, CefrLevel, Course } from "@/types/card";
 import { isVocabDeck, isLevelAtLeast } from "@/types/card";
 import { startLevelOf } from "@/lib/course";
-import { shuffle } from "@/lib/utils";
+import { shuffle, dayKey } from "@/lib/utils";
 import type { Dialogue } from "@/types/dialogue";
 import type { Scenario } from "@/types/scenario";
 import type { CardProgress, ReviewGrade } from "@/types/srs";
@@ -44,12 +44,13 @@ export async function buildStudyQueue(
   vocab = false,
 ): Promise<StudyQueue> {
   const settings = await getSettings();
-  const [allCards, decks, progressList] = await Promise.all([
+  const [allCards, decks, progressList, logs] = await Promise.all([
     deckId
       ? db.cards.where("deck").equals(deckId).toArray()
       : db.cards.where("course").equals(course).toArray(),
     db.decks.toArray(),
     db.progress.toArray(),
+    db.studyLog.toArray(),
   ]);
   const progressMap = new Map(progressList.map((p) => [p.cardId, p]));
   const deckOrder = new Map(decks.map((d) => [d.id, d.order]));
@@ -89,7 +90,20 @@ export async function buildStudyQueue(
     settings.dailyReviewLimit > 0
       ? due.slice(0, settings.dailyReviewLimit)
       : due;
-  const newQueue = fresh.slice(0, settings.dailyNewLimit);
+  // 오늘(로컬) 이미 학습한 신규 카드 수를 dailyNewLimit 에서 차감한다.
+  // studyLog prevState===New = 그 카드의 첫 학습(New→Learning) → 오늘 날짜의 고유
+  // cardId 수가 "오늘 소진한 신규". (기존엔 'progress 없는 카드' 기준이라 세션을
+  // 다시 열 때마다 신규 한도가 리셋돼 사실상 무제한이었음.)
+  const todayKey = dayKey(nowMs);
+  const todayNewIds = new Set(
+    logs
+      .filter(
+        (l) => l.prevState === State.New && dayKey(l.reviewedAt) === todayKey,
+      )
+      .map((l) => l.cardId),
+  );
+  const remainingNew = Math.max(0, settings.dailyNewLimit - todayNewIds.size);
+  const newQueue = fresh.slice(0, remainingNew);
 
   return {
     cards: [...reviewQueue.map((d) => d.card), ...newQueue],

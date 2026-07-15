@@ -14,6 +14,7 @@ import {
   type Course,
 } from "@/types/card";
 import { startLevelOf } from "@/lib/course";
+import { dayKey } from "@/lib/utils";
 
 export interface LevelStat {
   level: CefrLevel;
@@ -43,12 +44,6 @@ export interface StudyStats {
    * 다음 레벨을 제안한다 (C2 상한).
    */
   levelUp: { from: CefrLevel; next: CefrLevel } | null;
-}
-
-/** epoch ms → 로컬 날짜 키 (YYYY-M-D) */
-function dayKey(ms: number): string {
-  const d = new Date(ms);
-  return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
 }
 
 /** 레벨업 판정 기준 (시작 레벨 회화 카드 학습 비율) */

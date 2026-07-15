@@ -17,3 +17,12 @@ export function shuffle<T>(arr: T[]): T[] {
   }
   return a
 }
+
+/**
+ * epoch ms → 로컬 날짜 키 (YYYY-M-D). "같은 날" 판정용 —
+ * 스트릭(stats), 일일 신규 한도(repository) 등이 공유한다.
+ */
+export function dayKey(ms: number): string {
+  const d = new Date(ms)
+  return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`
+}
