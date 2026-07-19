@@ -31,7 +31,17 @@ export function LanguageToggle() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger render={<Button variant="ghost" size="sm" />}>
+      {/* 테두리(outline)+44px 터치 타깃 — 모바일에서 "배울 언어 바꾸기"를 쉽게
+          찾고 누르게 한다(기존 ghost sm=28px는 손가락으로 놓치기 쉬웠음). */}
+      <DropdownMenuTrigger
+        render={
+          <Button
+            variant="outline"
+            size="sm"
+            className="min-h-11 gap-1.5 font-semibold"
+          />
+        }
+      >
         <Globe className="h-4 w-4" />
         {LABELS[locale]}
       </DropdownMenuTrigger>
