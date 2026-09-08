@@ -42,9 +42,6 @@ yarn-error.log*
 next-env.d.ts
 
 # PWA service worker (Phase 6, generated build artifact)
-public/sw.js
-public/sw.js.map
-public/swe-worker-*.js
 
 # Vibe project conventions
 releases/

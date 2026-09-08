@@ -13,7 +13,7 @@
 - **예문 듣기** — 브라우저 내장 TTS(Web Speech API), 외부 호출 없음
 - **진도 추적** — 일일 스트릭, 레벨별 진도, 최근 7일 학습량
 - **완전 로컬** — 데이터는 IndexedDB에 저장, 인터넷 없이 학습 가능, 가입/키 불필요
-- **PWA** — 홈 화면 설치 + 서비스 워커 오프라인 캐싱 + 복습 알림
+- **PWA** — 홈 화면 설치 + 수제 서비스 워커(`public/sw.js`) 오프라인 캐싱 + 복습 알림(앱 열 때 하루 1회, 백그라운드 푸시 없음)
 - **한/영 UI 토글** — 글로벌 확장 대비
 
 ## 🛠 기술 스택
@@ -26,7 +26,7 @@
 | SRS | ts-fsrs (FSRS 알고리즘) |
 | TTS | Web Speech API (브라우저 내장) |
 | i18n | next-intl (ko/en) |
-| PWA | manifest 설치형 + 서비스 워커 (@serwist/turbopack, 오프라인 캐싱) |
+| PWA | manifest 설치형 + 수제 서비스 워커 `public/sw.js` (정적 export 호환, 오프라인 캐싱·알림) |
 | 배포 | Vercel |
 
 ## 🚀 실행
@@ -51,7 +51,6 @@ src/
 ├── app/[locale]/        # 로케일 분기 라우팅 (ko, en)
 │   ├── layout.tsx       # 루트 레이아웃 + NextIntlClientProvider
 │   ├── page.tsx         # 랜딩 페이지
-│   └── sw.ts            # Serwist 서비스 워커
 ├── components/
 │   ├── ui/              # shadcn/ui 프리미티브
 │   └── language-toggle.tsx

@@ -32,7 +32,7 @@ export function ReminderMount() {
       const due = await db.progress.where("due").belowOrEqual(nowMs).count();
       if (cancelled || due <= 0) return;
 
-      showReviewNotification(t("notifTitle"), t("notifBody", { n: due }));
+      await showReviewNotification(t("notifTitle"), t("notifBody", { n: due }));
       await db.settings.update("main", { lastNotifiedDay: today });
     })();
     return () => {
