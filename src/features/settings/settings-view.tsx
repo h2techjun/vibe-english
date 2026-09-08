@@ -68,14 +68,14 @@ export function SettingsView() {
                 key={level}
                 onClick={() => update(startLevelPatch(course, level))}
                 className={cn(
-                  "flex flex-col items-center gap-0.5 rounded-lg border p-2.5 text-center transition-colors",
+                  "flex min-h-14 flex-col items-center justify-center gap-0.5 rounded-xl border-2 p-2.5 text-center transition-colors motion-reduce:transition-none",
                   startLevelOf(s, course) === level
-                    ? "border-blue-500 bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300"
-                    : "border-border/60 hover:border-blue-300",
+                    ? "border-primary bg-primary/10 text-primary"
+                    : "border-border/60 hover:border-primary/50",
                 )}
               >
                 <span className="text-sm font-bold">{level}</span>
-                <span className="text-[10px] text-muted-foreground">
+                <span className="text-xs text-muted-foreground">
                   {CEFR_LABELS[level][lang]}
                 </span>
               </button>
@@ -121,13 +121,15 @@ export function SettingsView() {
       {/* 발음 */}
       <Section title={t("audio")}>
         <Row label={t("ttsSpeed")}>
-          <div className="flex gap-1 rounded-lg bg-muted p-1">
+          <div role="radiogroup" aria-label={t("ttsSpeed")} className="flex gap-1 rounded-xl bg-muted p-1">
             {SPEEDS.map(({ key, value }) => (
               <button
                 key={key}
+                role="radio"
+                aria-checked={Math.abs(s.ttsRate - value) < 0.01}
                 onClick={() => update({ ttsRate: value })}
                 className={cn(
-                  "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
+                  "min-h-10 rounded-lg px-3 text-sm font-semibold transition-colors motion-reduce:transition-none",
                   Math.abs(s.ttsRate - value) < 0.01
                     ? "bg-background text-foreground shadow-sm"
                     : "text-muted-foreground hover:text-foreground",
@@ -210,7 +212,7 @@ function ResetDialog({ t }: { t: ReturnType<typeof useTranslations> }) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         render={
-          <Button variant="destructive" size="sm" className="gap-1.5" />
+          <Button variant="destructive" className="min-h-11 gap-1.5" />
         }
       >
         <Trash2 className="h-4 w-4" />
@@ -288,14 +290,16 @@ function Stepper({
   onChange: (v: number) => void;
   format?: (v: number) => string;
 }) {
+  const t = useTranslations("settings");
   return (
     <div className="flex items-center gap-2">
       <Button
         variant="outline"
-        size="icon-sm"
+        size="icon"
+        className="size-11"
         disabled={value <= min}
         onClick={() => onChange(Math.max(min, value - step))}
-        aria-label="decrease"
+        aria-label={t("decrease")}
       >
         <Minus className="h-4 w-4" />
       </Button>
@@ -304,10 +308,11 @@ function Stepper({
       </span>
       <Button
         variant="outline"
-        size="icon-sm"
+        size="icon"
+        className="size-11"
         disabled={value >= max}
         onClick={() => onChange(Math.min(max, value + step))}
-        aria-label="increase"
+        aria-label={t("increase")}
       >
         <Plus className="h-4 w-4" />
       </Button>

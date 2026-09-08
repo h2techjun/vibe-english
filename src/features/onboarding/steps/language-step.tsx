@@ -32,10 +32,10 @@ export function LanguageStep() {
               if (!selected) router.replace(pathname, { locale: opt.locale });
             }}
             className={cn(
-              "flex items-center gap-3 rounded-2xl border-2 p-4 text-left transition-all active:scale-[0.98]",
+              "flex min-h-16 items-center gap-3 rounded-2xl border-2 p-4 text-left transition-all active:scale-[0.98] motion-reduce:transition-none",
               selected
-                ? "border-blue-400 bg-blue-50 shadow-sm dark:border-blue-600 dark:bg-blue-950/40"
-                : "border-border/60 bg-card hover:border-blue-300 hover:bg-blue-50/40 dark:hover:bg-blue-950/20",
+                ? "border-primary bg-primary/10 shadow-sm"
+                : "border-border/60 bg-card hover:border-primary/50",
             )}
           >
             <span
@@ -53,7 +53,7 @@ export function LanguageStep() {
               </p>
             </div>
             {selected && (
-              <Check className="h-5 w-5 shrink-0 text-blue-600 dark:text-blue-400" />
+              <Check className="h-5 w-5 shrink-0 text-primary" aria-hidden />
             )}
           </button>
         );

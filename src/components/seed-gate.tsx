@@ -29,7 +29,7 @@ export function SeedGate({ children }: { children: React.ReactNode }) {
 
   if (error) {
     return (
-      <div className="flex flex-1 items-center justify-center p-8 text-center text-sm text-destructive">
+      <div className="flex min-h-dvh items-center justify-center p-8 text-center text-sm text-destructive">
         {t("loadError")}
       </div>
     );
@@ -37,7 +37,7 @@ export function SeedGate({ children }: { children: React.ReactNode }) {
 
   if (!ready) {
     return (
-      <div className="flex flex-1 flex-col items-center justify-center gap-3 p-8 text-muted-foreground">
+      <div className="flex min-h-dvh flex-col items-center justify-center gap-3 p-8 text-muted-foreground">
         <Loader2 className="h-6 w-6 animate-spin" />
         <p className="text-sm">{t("loading")}</p>
       </div>

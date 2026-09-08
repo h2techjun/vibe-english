@@ -10,22 +10,33 @@ import { getStudyStats } from "@/features/progress/stats";
 import { buildStudyQueue } from "@/features/srs/repository";
 import { CEFR_LABELS, isVocabDeck } from "@/types/card";
 import { LEVEL_TILE } from "@/features/onboarding/onboarding-config";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { GoalRing } from "./goal-ring";
 import { cn } from "@/lib/utils";
 import {
   Flame,
-  PartyPopper,
   Play,
   AlertTriangle,
   Layers,
-  BarChart3,
   BookText,
   Repeat,
+  ChevronRight,
+  Sparkles,
 } from "lucide-react";
 
+/** 시간대 인사 키 — 아침(5~11)·낮(11~18)·저녁(그 외) */
+function greetingKey(hour: number): "morning" | "afternoon" | "evening" {
+  if (hour >= 5 && hour < 11) return "morning";
+  if (hour >= 11 && hour < 18) return "afternoon";
+  return "evening";
+}
+
+/**
+ * 홈 — "오늘 할 일 하나"에 집중한다.
+ * 순서: 인사 → 학습 시작 CTA(가장 크게) → 스트릭·목표 요약 → 바로가기 → 레벨 진도.
+ * 통계 카드가 CTA 위에 있어 첫 화면에서 시작 버튼이 밀렸던 구조(2026-09-08 실측)를
+ * Duolingo 식 "CTA 최우선"으로 뒤집었다.
+ */
 export function HomeDashboard() {
   const t = useTranslations("home");
   const tp = useTranslations("progress");
@@ -37,7 +48,6 @@ export function HomeDashboard() {
     () => buildStudyQueue(new Date(), undefined, course),
     [course],
   );
-  // 현재 코스의 단어장(vocab-*) 카드 수 — 단어장 진입 CTA 노출 판단
   const vocabCount = useLiveQuery(
     () =>
       db.cards
@@ -56,140 +66,149 @@ export function HomeDashboard() {
   const review = queue?.reviewCount ?? 0;
   const fresh = queue?.newCount ?? 0;
   const caughtUp = queue !== undefined && review + fresh === 0;
+  const greet = greetingKey(new Date().getHours());
 
   return (
-    <div className="flex flex-col gap-4">
-      {/* 스트릭 히어로 */}
-      <Card className="border-border/60 bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-950/40 dark:to-amber-950/30">
-        <CardContent className="flex items-center gap-4 p-5">
-          <span className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-orange-100 dark:bg-orange-900/50">
-            <Flame className="h-7 w-7 text-orange-500" />
+    <div className="flex flex-col gap-5">
+      {/* 인사 */}
+      <div>
+        <h2 className="text-2xl font-black tracking-tight">
+          {t(`greeting.${greet}`)}
+        </h2>
+        <p className="mt-0.5 text-sm text-muted-foreground">
+          {reached ? t("greetingDone") : t("greetingSub")}
+        </p>
+      </div>
+
+      {/* 오늘 학습 CTA — 화면에서 가장 큰 요소 */}
+      {caughtUp ? (
+        <Link
+          href="/study?practice=1"
+          prefetch={false}
+          className="btn-arcade flex min-h-24 items-center gap-4 rounded-3xl bg-emerald-600 p-5 text-white transition-transform active:scale-[0.99] motion-reduce:transition-none"
+        >
+          <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-white/20">
+            <Repeat className="h-6 w-6" aria-hidden />
           </span>
-          <div className="min-w-0 flex-1">
-            <p className="text-sm text-muted-foreground">{tp("streakLabel")}</p>
-            <p className="text-2xl font-bold">
+          <span className="min-w-0 flex-1">
+            <span className="block text-lg font-black leading-tight">
+              {t("caughtUpTitle")}
+            </span>
+            <span className="mt-0.5 block text-sm opacity-90">
+              {t("caughtUpSub")}
+            </span>
+          </span>
+          <ChevronRight className="h-5 w-5 shrink-0 opacity-80" aria-hidden />
+        </Link>
+      ) : (
+        <Link
+          href="/study"
+          prefetch={false}
+          className="btn-arcade flex min-h-24 items-center gap-4 rounded-3xl bg-primary p-5 text-primary-foreground transition-transform active:scale-[0.99] motion-reduce:transition-none"
+        >
+          <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-white/20">
+            <Play className="h-6 w-6 fill-current" aria-hidden />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-lg font-black leading-tight">
+              {t("startCta")}
+            </span>
+            {queue !== undefined && (
+              <span className="mt-0.5 block text-sm opacity-90">
+                {t("startSub", { review, fresh })}
+              </span>
+            )}
+          </span>
+          <ChevronRight className="h-5 w-5 shrink-0 opacity-80" aria-hidden />
+        </Link>
+      )}
+
+      {/* 스트릭 · 오늘 목표 — 한 줄 요약 */}
+      <div className="grid grid-cols-2 gap-3">
+        <div className="flex items-center gap-3 rounded-2xl border border-border/60 bg-card p-4">
+          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-orange-500/15">
+            <Flame
+              className={cn(
+                "h-6 w-6",
+                stats.streak > 0 ? "text-orange-500" : "text-muted-foreground",
+              )}
+              aria-hidden
+            />
+          </span>
+          <div className="min-w-0">
+            <p className="text-xs text-muted-foreground">{tp("streakLabel")}</p>
+            <p className="truncate text-lg font-black leading-tight">
               {stats.streak > 0
                 ? tp("streakDays", { n: stats.streak })
                 : tp("streakZero")}
             </p>
           </div>
-          {stats.streak >= 7 && (
-            <span className="text-3xl" title={tp("badge")}>
-              {stats.streak >= 100 ? "👑" : stats.streak >= 30 ? "⭐" : "🔥"}
-            </span>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* 오늘 목표 링 */}
-      <Card className="border-border/60">
-        <CardContent className="flex items-center gap-5 p-5">
-          <GoalRing done={stats.today} goal={goal} reached={reached} />
-          <div className="min-w-0 flex-1">
-            <p className="text-sm font-semibold">{tp("todayGoal")}</p>
-            <p className="mt-1 text-sm text-muted-foreground">
-              {reached
-                ? tp("goalDone")
-                : tp("goalProgress", { done: stats.today, goal })}
+        </div>
+        <div className="flex items-center gap-3 rounded-2xl border border-border/60 bg-card p-3">
+          <GoalRing
+            done={stats.today}
+            goal={goal}
+            reached={reached}
+            size="sm"
+            label={`${tp("todayGoal")} ${tp("goalProgress", { done: stats.today, goal })}`}
+          />
+          <div className="min-w-0">
+            <p className="text-xs text-muted-foreground">{tp("todayGoal")}</p>
+            <p className="text-lg font-black leading-tight tabular-nums">
+              {stats.today}
+              <span className="text-sm font-medium text-muted-foreground">
+                {" "}
+                / {goal}
+              </span>
             </p>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
-      {/* 다음 할 일 CTA */}
-      {caughtUp ? (
-        <Card className="border-emerald-300/60 bg-emerald-50/60 dark:border-emerald-800/60 dark:bg-emerald-950/30">
-          <CardContent className="flex flex-col items-center gap-3 p-6 text-center">
-            <PartyPopper className="h-9 w-9 text-emerald-500" />
-            <div>
-              <p className="font-bold">{t("caughtUpTitle")}</p>
-              <p className="mt-0.5 text-sm text-muted-foreground">
-                {t("caughtUpSub")}
-              </p>
-            </div>
-            <div className="flex flex-wrap justify-center gap-2">
-              <Button
-                className="gap-1.5"
-                nativeButton={false}
-                render={<Link href="/study?practice=1" prefetch={false} />}
-              >
-                <Repeat className="h-4 w-4" />
-                {t("practice")}
-              </Button>
-              <Button
-                variant="outline"
-                className="gap-1.5"
-                nativeButton={false}
-                render={<Link href="/decks" prefetch={false} />}
-              >
-                <Layers className="h-4 w-4" />
-                {t("browseDecks")}
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      ) : (
-        <Button
-          size="lg"
-          className="h-auto flex-col items-start gap-0.5 py-4 font-bold"
-          nativeButton={false}
-          render={<Link href="/study" prefetch={false} />}
-        >
-          <span className="flex items-center gap-2 text-base">
-            <Play className="h-4 w-4 fill-current" />
-            {t("startCta")}
-          </span>
-          {queue !== undefined && (
-            <span className="pl-6 text-xs font-medium opacity-90">
-              {t("startSub", { review, fresh })}
-            </span>
-          )}
-        </Button>
-      )}
+      {/* 바로가기 — 약점 · 단어장 · 주제 */}
+      <div className="flex flex-col gap-2">
+        {stats.weak > 0 && (
+          <QuickLink
+            href="/study?weak=1"
+            icon={<AlertTriangle className="h-5 w-5 text-amber-500" aria-hidden />}
+            title={tp("weakFocus")}
+            sub={tp("weakCount", { n: stats.weak })}
+          />
+        )}
+        {vocabCount !== undefined && vocabCount > 0 && (
+          <QuickLink
+            href="/study?vocab=1"
+            icon={<BookText className="h-5 w-5 text-sky-400" aria-hidden />}
+            title={t("vocabTitle")}
+            sub={t("vocabSub", { n: vocabCount })}
+          />
+        )}
+        <QuickLink
+          href="/decks"
+          icon={<Layers className="h-5 w-5 text-violet-400" aria-hidden />}
+          title={t("browseDecks")}
+          sub={t("browseDecksSub")}
+        />
+      </div>
 
-      {/* 약점 집중 */}
-      {stats.weak > 0 && (
-        <Button
-          variant="outline"
-          nativeButton={false}
-          className="justify-start gap-2 border-amber-300 text-amber-700 dark:border-amber-700 dark:text-amber-300"
-          render={<Link href="/study?weak=1" prefetch={false} />}
-        >
-          <AlertTriangle className="h-4 w-4" />
-          {tp("weakFocus")} · {tp("weakCount", { n: stats.weak })}
-        </Button>
-      )}
-
-      {/* 단어장 진입 — 기본 학습 큐(회화)에서 빠진 단어 덱을 노출 */}
-      {vocabCount !== undefined && vocabCount > 0 && (
-        <Button
-          variant="outline"
-          nativeButton={false}
-          className="justify-start gap-2"
-          render={<Link href="/study?vocab=1" prefetch={false} />}
-        >
-          <BookText className="h-4 w-4" />
-          {t("vocabTitle")} · {t("vocabSub", { n: vocabCount })}
-        </Button>
-      )}
-
-      {/* 레벨 진도 시각화 */}
+      {/* 레벨 진도 */}
       {stats.levels.length > 0 && (
         <section className="flex flex-col gap-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-muted-foreground">
+            <h3 className="flex items-center gap-1.5 text-sm font-bold text-muted-foreground">
+              <Sparkles className="h-4 w-4" aria-hidden />
               {t("levelProgress")}
-            </h2>
+            </h3>
             <Link
               href="/progress"
               prefetch={false}
-              className="flex items-center gap-1 text-xs font-medium text-blue-600 dark:text-blue-400"
+              className="flex min-h-11 items-center gap-0.5 text-sm font-semibold text-primary"
             >
-              <BarChart3 className="h-3.5 w-3.5" />
-              {tp("byLevel")}
+              {t("seeAll")}
+              <ChevronRight className="h-4 w-4" aria-hidden />
             </Link>
           </div>
-          <div className="flex flex-col gap-2.5">
+          <div className="flex flex-col gap-2.5 rounded-2xl border border-border/60 bg-card p-4">
             {stats.levels.map((lv) => (
               <div key={lv.level} className="flex items-center gap-3">
                 <span
@@ -197,19 +216,20 @@ export function HomeDashboard() {
                     "grid h-7 w-7 shrink-0 place-items-center rounded-lg text-[11px] font-black",
                     LEVEL_TILE[lv.level],
                     currentLevel === lv.level &&
-                      "ring-2 ring-offset-1 ring-blue-400 ring-offset-background",
+                      "ring-2 ring-primary ring-offset-2 ring-offset-card",
                   )}
                 >
                   {lv.level}
                 </span>
-                <span className="w-16 shrink-0 text-xs text-muted-foreground">
+                <span className="w-14 shrink-0 text-xs text-muted-foreground">
                   {CEFR_LABELS[lv.level][locale]}
                 </span>
                 <Progress
                   value={lv.total > 0 ? (lv.learned / lv.total) * 100 : 0}
                   className="h-2"
+                  aria-label={`${lv.level} ${lv.learned}/${lv.total}`}
                 />
-                <span className="w-12 shrink-0 text-right text-xs tabular-nums text-muted-foreground">
+                <span className="w-14 shrink-0 text-right text-xs tabular-nums text-muted-foreground">
                   {lv.learned}/{lv.total}
                 </span>
               </div>
@@ -218,5 +238,34 @@ export function HomeDashboard() {
         </section>
       )}
     </div>
+  );
+}
+
+function QuickLink({
+  href,
+  icon,
+  title,
+  sub,
+}: {
+  href: string;
+  icon: React.ReactNode;
+  title: string;
+  sub: string;
+}) {
+  return (
+    <Link
+      href={href}
+      prefetch={false}
+      className="flex min-h-14 items-center gap-3 rounded-2xl border border-border/60 bg-card px-4 py-3 transition-colors hover:border-primary/50 motion-reduce:transition-none"
+    >
+      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-muted">
+        {icon}
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="block font-bold leading-tight">{title}</span>
+        <span className="block text-xs text-muted-foreground">{sub}</span>
+      </span>
+      <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
+    </Link>
   );
 }

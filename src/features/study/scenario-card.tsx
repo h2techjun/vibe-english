@@ -8,8 +8,9 @@ import { Rating } from "@/types/srs";
 import { REVIEW_GRADES } from "@/features/srs/scheduler";
 import { learnText, meaningText, noteText } from "@/lib/card-view";
 import { useCourse } from "@/lib/course";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { ActionBar } from "./ui/action-bar";
+import { CardMeta } from "./ui/card-meta";
 import { RevealableMeaning } from "@/components/revealable-meaning";
 import { useTts } from "./use-tts";
 import { Volume2, Lightbulb } from "lucide-react";
@@ -95,26 +96,19 @@ export function ScenarioCard({ scenario, isNew, busy, onGrade }: Props) {
 
   return (
     <div className="flex flex-1 flex-col">
-      <div className="mb-3 flex items-center gap-2">
-        <Badge variant="secondary">{scenario.level}</Badge>
-        <Badge
-          variant="outline"
-          className={
-            isNew
-              ? "border-blue-300 text-blue-600 dark:border-blue-700 dark:text-blue-400"
-              : "border-amber-300 text-amber-600 dark:border-amber-700 dark:text-amber-400"
-          }
-        >
-          {isNew ? t("new") : t("review")}
-        </Badge>
-        <span className="ml-auto flex items-center gap-1 text-xs text-muted-foreground">
+      <CardMeta
+        level={scenario.level}
+        isNew={isNew}
+        right={
+        <span className="flex items-center gap-1 text-xs text-muted-foreground">
           {learnText(scenario.title, course)} ·
           <RevealableMeaning
             ko={meaningText(scenario.title, course, src)}
             className="text-xs"
           />
         </span>
-      </div>
+        }
+      />
 
       <p className="mb-2 text-xs text-muted-foreground">
         {t("progress", {
@@ -215,13 +209,17 @@ export function ScenarioCard({ scenario, isNew, busy, onGrade }: Props) {
             ))}
           </div>
 
-          <div className="flex justify-center pt-2">
-            <Button disabled={!allFilled} onClick={nextTurn}>
+          <ActionBar>
+            <Button
+              disabled={!allFilled}
+              onClick={nextTurn}
+              className="btn-arcade min-h-12 w-full text-base font-black"
+            >
               {turnIndex + 1 >= scenario.turns.length
                 ? t("checkAnswer")
                 : t("next")}
             </Button>
-          </div>
+          </ActionBar>
         </div>
       ) : (
         <div className="mt-4 flex flex-col gap-4">
@@ -248,7 +246,7 @@ export function ScenarioCard({ scenario, isNew, busy, onGrade }: Props) {
                           key={`${ti}-${bi}-${oi}`}
                           className="flex items-baseline gap-2"
                         >
-                          <span className="shrink-0 text-sm font-medium text-blue-600 dark:text-blue-400">
+                          <span className="shrink-0 text-sm font-medium text-primary">
                             {learnText(o, course)}
                           </span>
                           <span className="text-xs text-muted-foreground">
@@ -262,14 +260,15 @@ export function ScenarioCard({ scenario, isNew, busy, onGrade }: Props) {
             </div>
           )}
 
-          <div className="grid grid-cols-4 gap-2">
+          <ActionBar>
+          <div className="grid grid-cols-4 gap-2" role="group" aria-label={t("rateLabel")}>
             {REVIEW_GRADES.map((g) => (
               <button
                 key={g}
                 disabled={busy}
                 onClick={() => onGrade(g)}
                 className={cn(
-                  "rounded-lg px-2 py-2.5 text-sm font-semibold transition-opacity disabled:opacity-50",
+                  "min-h-14 rounded-xl px-2 py-2.5 text-sm font-black transition-opacity disabled:opacity-50",
                   GRADE_STYLES[g],
                 )}
               >
@@ -277,6 +276,7 @@ export function ScenarioCard({ scenario, isNew, busy, onGrade }: Props) {
               </button>
             ))}
           </div>
+          </ActionBar>
         </div>
       )}
     </div>

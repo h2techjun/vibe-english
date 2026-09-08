@@ -11,27 +11,28 @@
     "progress": "진도",
     "settings": "설정",
     "signUp": "회원가입",
-    "signOut": "로그아웃"
+    "signOut": "로그아웃",
+    "label": "주 메뉴"
   },
   "landing": {
     "hero": {
-      "title": "기억력 곡선에 맞춰 잊을 만할 때 다시 만나는 생활 영어",
-      "subtitle": "초보부터 전문가까지, FSRS 알고리즘이 당신의 복습 타이밍을 자동으로 계산합니다.",
+      "title": "잊을 만하면 다시 만나는 생활 영어",
+      "subtitle": "초보부터 전문가까지, 잊기 직전에 카드가 다시 찾아와요. 매일 10분이면 충분해요.",
       "ctaPrimary": "지금 시작하기",
       "ctaSecondary": "어떻게 작동하나요?"
     },
     "features": {
       "srs": {
-        "title": "SRS 간격 반복 학습",
-        "desc": "에빙하우스 망각곡선 기반 FSRS 알고리즘으로 효율 극대화"
+        "title": "잊기 전에 다시 만나요",
+        "desc": "망각곡선에 맞춰 복습 타이밍을 자동으로 잡아줘요"
       },
       "pronunciation": {
         "title": "발음기호 + 한국어 발음",
-        "desc": "모든 표현에 IPA와 한국어 발음 병기. 부담 없이 익힙니다"
+        "desc": "모든 표현에 발음기호와 한국어 발음을 같이 적어뒀어요. 부담 없이 익혀요"
       },
       "levels": {
         "title": "단계별 커리큘럼",
-        "desc": "A1 입문부터 C2 전문가까지 6단계로 차근차근"
+        "desc": "A1 입문부터 C2 전문가까지 6단계로 차근차근 올라가요"
       },
       "ai": {
         "title": "빈칸 채우기 퀴즈",
@@ -39,11 +40,11 @@
       }
     },
     "howItWorks": {
-      "title": "이렇게 학습합니다",
-      "step1": "오늘 복습할 카드를 받습니다",
-      "step2": "표현 + 발음 + 예문을 학습합니다",
-      "step3": "체감 난이도를 평가하면 다음 복습일이 자동 계산됩니다",
-      "step4": "레벨별 진도를 보며 다음 단계로 나아갑니다"
+      "title": "이렇게 배워요",
+      "step1": "오늘 복습할 카드를 받아요",
+      "step2": "표현·발음·예문을 함께 익혀요",
+      "step3": "얼마나 어려웠는지 고르면 다음 복습일이 알아서 잡혀요",
+      "step4": "레벨별 진도를 보며 다음 단계로 올라가요"
     }
   },
   "onboarding": {
@@ -66,8 +67,8 @@
       "start": "학습 시작하기"
     },
     "lang": {
-      "title": "무엇을 배우고 싶으세요?",
-      "subtitle": "당신의 언어를 고르면 배울 언어가 정해져요.",
+      "title": "어떤 언어가 편하세요?",
+      "subtitle": "편한 언어를 고르면 배울 언어가 정해져요.",
       "learns": "배울 언어"
     },
     "summary": {
@@ -78,19 +79,27 @@
     }
   },
   "home": {
-    "startCta": "오늘 학습 시작",
-    "startSub": "복습 {review} · 신규 {fresh}",
-    "caughtUpTitle": "오늘 학습 완료! 🎉",
-    "caughtUpSub": "지금은 복습할 카드가 없어요. 새 주제를 시작해볼까요?",
+    "startCta": "오늘 학습 시작하기",
+    "startSub": "복습 {review}장 · 새 표현 {fresh}장",
+    "caughtUpTitle": "오늘 복습 끝! 🎉",
+    "caughtUpSub": "자유 연습으로 더 익혀볼까요?",
     "browseDecks": "주제 둘러보기",
     "levelProgress": "레벨 진도",
     "vocabTitle": "단어장",
     "vocabSub": "단어 {n}개",
-    "practice": "자유 연습"
+    "greeting": {
+      "morning": "좋은 아침이에요 ☀️",
+      "afternoon": "안녕하세요 👋",
+      "evening": "좋은 저녁이에요 🌙"
+    },
+    "greetingSub": "잊기 전에 오늘 한 바퀴 돌아볼까요?",
+    "greetingDone": "오늘 목표 달성! 더 해도 좋고, 쉬어도 좋아요.",
+    "browseDecksSub": "인사·여행·업무… 상황별로 골라 배워요",
+    "seeAll": "전체 보기"
   },
   "common": {
     "loading": "불러오는 중...",
-    "error": "오류가 발생했습니다",
+    "error": "문제가 생겼어요",
     "retry": "다시 시도",
     "save": "저장",
     "cancel": "취소",
@@ -156,13 +165,15 @@
     "notifDenied": "브라우저에서 알림이 차단되어 있어요. 브라우저 설정에서 허용해주세요.",
     "data": "데이터 관리",
     "resetData": "학습 데이터 초기화",
-    "resetDataDesc": "모든 진도와 학습 기록을 삭제합니다. 카드 콘텐츠는 유지됩니다.",
+    "resetDataDesc": "모든 진도와 학습 기록을 지워요. 카드 콘텐츠는 그대로예요.",
     "resetConfirmTitle": "학습 데이터를 초기화할까요?",
-    "resetConfirmDesc": "되돌릴 수 없습니다. 모든 진도·스트릭·기록이 사라집니다.",
+    "resetConfirmDesc": "되돌릴 수 없어요. 모든 진도·스트릭·기록이 사라져요.",
     "reset": "초기화",
     "cancel": "취소",
-    "saved": "저장되었습니다",
-    "resetDone": "초기화되었습니다"
+    "saved": "저장했어요",
+    "resetDone": "초기화했어요",
+    "decrease": "줄이기",
+    "increase": "늘리기"
   },
   "study": {
     "rate": {
@@ -174,24 +185,19 @@
     "today": "오늘의 학습",
     "new": "신규",
     "review": "복습",
-    "modeBuild": "조립",
-    "challengeTitle": "오늘의 챌린지",
-    "buildPrompt": "뜻을 보고 단어를 조립하세요",
+    "buildPrompt": "뜻을 보고 타일을 순서대로 눌러요",
     "bankLabel": "탭해서 채우기",
-    "modeFlashcard": "플래시카드",
-    "modeCloze": "빈칸 채우기",
-    "modeListen": "듣기",
-    "listenPrompt": "듣고 단어를 순서대로 놓으세요",
+    "listenPrompt": "듣고 단어를 순서대로 놓아요",
     "replay": "다시 듣기",
     "listenCorrect": "정확해요! 🎉",
-    "listenWrong": "정답은",
+    "listenWrong": "아쉬워요, 정답 문장은 이거예요",
     "shadow": "따라 말하기",
     "shadowHint": "소리 내어 따라 말해보세요",
-    "clozePrompt": "빈칸에 알맞은 단어를 고르세요",
+    "clozePrompt": "빈칸에 알맞은 단어를 골라요",
     "clozeCorrect": "정답이에요! 🎉",
-    "clozeWrong": "아쉬워요. 정답은",
+    "clozeWrong": "아쉬워요, 정답은 이거예요",
     "next": "다음",
-    "tapToFlip": "탭하면 뜻이 보여요",
+    "tapToFlip": "카드를 탭하면 뜻이 보여요",
     "showAnswer": "정답 보기",
     "example": "예문",
     "listen": "듣기",
@@ -200,7 +206,6 @@
     "loading": "학습 카드를 준비하고 있어요...",
     "loadError": "콘텐츠를 불러오지 못했어요. 페이지를 새로고침해 주세요.",
     "showMeaning": "뜻 보기",
-    "modeDialogue": "대화",
     "dialogueSingle": "한 마디",
     "dialogueScenario": "시나리오",
     "dialoguePrompt": "이렇게 답해보세요",
@@ -208,10 +213,10 @@
     "expressionNotes": "표현 노트 · 언제 어떤 느낌으로",
     "checkAnswer": "정답 확인",
     "emptyTitle": "지금은 학습할 카드가 없어요",
-    "emptyDesc": "복습 시점이 된 카드가 없어요. 잠시 후 다시 오거나 새 주제를 시작해보세요.",
+    "emptyDesc": "복습 시점이 된 카드가 없어요. 잠시 후 다시 오거나 새 주제를 시작해봐요.",
     "goDecks": "주제 둘러보기",
-    "doneTitle": "오늘 학습 완료 🎉",
-    "doneDesc": "{count}장을 학습했어요. 꾸준함이 실력이 됩니다!",
+    "doneTitle": "오늘 학습 끝! 🎉",
+    "doneDesc": "{count}장을 익혔어요. 꾸준함이 실력이 돼요!",
     "backHome": "홈으로",
     "studyAgain": "이어서 더 학습",
     "shareResult": "결과 공유",
@@ -224,7 +229,7 @@
     "caughtUpTitle": "오늘 복습 완료! 🎉",
     "caughtUpDesc": "지금 복습할 카드가 없어요. 자유 연습으로 계속 익혀볼까요?",
     "practiceStart": "자유 연습",
-    "practiceContinue": "계속 학습",
+    "practiceContinue": "계속 학습하기",
     "weakReview": "약점 복습",
     "todayTotal": "오늘 {n}개 학습",
     "reset": "초기화",
@@ -232,6 +237,30 @@
       "min": "{n}분",
       "hour": "{n}시간",
       "day": "{n}일"
-    }
+    },
+    "close": "학습 닫기",
+    "sessionProgress": "이번 학습 진행",
+    "modePick": "학습 방식",
+    "modePickDesc": "지금 세션에서 바로 바뀌어요. 다음에도 이 방식으로 시작해요.",
+    "mode": {
+      "build": "조립",
+      "flashcard": "플래시카드",
+      "cloze": "빈칸 채우기",
+      "listen": "듣기",
+      "dialogue": "대화"
+    },
+    "modeDesc": {
+      "build": "뜻을 보고 글자 타일을 순서대로 눌러 표현을 완성해요",
+      "flashcard": "표현을 보고 떠올린 뒤 뜻을 확인하고 난이도를 평가해요",
+      "cloze": "예문의 빈칸에 들어갈 단어를 보기에서 골라요",
+      "listen": "음성을 듣고 단어를 순서대로 놓아 문장을 만들어요",
+      "dialogue": "상대의 말에 자연스럽게 답하는 회화 연습이에요"
+    },
+    "rateLabel": "이 카드 난이도 평가",
+    "pickOption": "보기를 눌러 답해요",
+    "removeTile": "{tile} 빼기",
+    "buildCorrect": "정답이에요! 🎉",
+    "buildWrong": "아쉬워요, 정답은 이거예요",
+    "accuracyBadge": "정확도 {pct}%"
   }
 }

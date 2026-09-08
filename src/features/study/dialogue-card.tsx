@@ -8,8 +8,9 @@ import { Rating } from "@/types/srs";
 import { REVIEW_GRADES } from "@/features/srs/scheduler";
 import { learnText, meaningText, noteText } from "@/lib/card-view";
 import { useCourse } from "@/lib/course";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { ActionBar } from "./ui/action-bar";
+import { CardMeta } from "./ui/card-meta";
 import { RevealableMeaning } from "@/components/revealable-meaning";
 import { useTts } from "./use-tts";
 import { Volume2, MessageSquareQuote, Lightbulb } from "lucide-react";
@@ -85,26 +86,19 @@ export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
 
   return (
     <div className="flex flex-1 flex-col">
-      <div className="mb-3 flex items-center gap-2">
-        <Badge variant="secondary">{dialogue.level}</Badge>
-        <Badge
-          variant="outline"
-          className={
-            isNew
-              ? "border-blue-300 text-blue-600 dark:border-blue-700 dark:text-blue-400"
-              : "border-amber-300 text-amber-600 dark:border-amber-700 dark:text-amber-400"
-          }
-        >
-          {isNew ? t("new") : t("review")}
-        </Badge>
-        <span className="ml-auto flex items-center gap-1 text-xs text-muted-foreground">
+      <CardMeta
+        level={dialogue.level}
+        isNew={isNew}
+        right={
+        <span className="flex items-center gap-1 text-xs text-muted-foreground">
           {learnText(dialogue.context, course)} ·
           <RevealableMeaning
             ko={meaningText(dialogue.context, course, src)}
             className="text-xs"
           />
         </span>
-      </div>
+        }
+      />
 
       {/* 상대 말 */}
       <div className="rounded-2xl rounded-bl-sm border border-border/60 bg-muted/50 p-4">
@@ -199,11 +193,15 @@ export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
             ))}
           </div>
 
-          <div className="mt-auto flex justify-center pt-6">
-            <Button disabled={!allFilled} onClick={() => setCompleted(true)}>
+          <ActionBar>
+            <Button
+              disabled={!allFilled}
+              onClick={() => setCompleted(true)}
+              className="btn-arcade min-h-12 w-full text-base font-black"
+            >
               {t("checkAnswer")}
             </Button>
-          </div>
+          </ActionBar>
         </>
       ) : (
         <>
@@ -239,7 +237,7 @@ export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
                         key={`${bi}-${oi}`}
                         className="flex items-baseline gap-2"
                       >
-                        <span className="shrink-0 text-sm font-medium text-blue-600 dark:text-blue-400">
+                        <span className="shrink-0 text-sm font-medium text-primary">
                           {learnText(o, course)}
                         </span>
                         <span className="text-xs text-muted-foreground">
@@ -293,15 +291,16 @@ export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
             </ul>
           </div>
 
-          {/* FSRS 자가 평가 */}
-          <div className="mt-5 grid grid-cols-4 gap-2">
+          {/* FSRS 자가 평가 — 하단 고정 */}
+          <ActionBar>
+          <div className="grid grid-cols-4 gap-2" role="group" aria-label={t("rateLabel")}>
             {REVIEW_GRADES.map((g) => (
               <button
                 key={g}
                 disabled={busy}
                 onClick={() => onGrade(g)}
                 className={cn(
-                  "rounded-lg px-2 py-2.5 text-sm font-semibold transition-opacity disabled:opacity-50",
+                  "min-h-14 rounded-xl px-2 py-2.5 text-sm font-black transition-opacity disabled:opacity-50",
                   GRADE_STYLES[g],
                 )}
               >
@@ -309,6 +308,7 @@ export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
               </button>
             ))}
           </div>
+          </ActionBar>
         </>
       )}
     </div>

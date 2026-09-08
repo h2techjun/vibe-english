@@ -11,7 +11,8 @@
     "progress": "Progress",
     "settings": "Settings",
     "signUp": "Sign up",
-    "signOut": "Sign out"
+    "signOut": "Sign out",
+    "label": "Main menu"
   },
   "landing": {
     "hero": {
@@ -66,8 +67,8 @@
       "start": "Start learning"
     },
     "lang": {
-      "title": "What do you want to learn?",
-      "subtitle": "Pick your language and we'll set what you learn.",
+      "title": "Which language do you speak?",
+      "subtitle": "Pick the language you're comfortable with — that sets what you'll learn.",
       "learns": "You'll learn"
     },
     "summary": {
@@ -79,14 +80,22 @@
   },
   "home": {
     "startCta": "Start today's study",
-    "startSub": "Review {review} · New {fresh}",
+    "startSub": "{review} to review · {fresh} new",
     "caughtUpTitle": "All done for today! 🎉",
     "caughtUpSub": "Nothing due to review right now. Start a new topic?",
     "browseDecks": "Browse topics",
     "levelProgress": "Level progress",
     "vocabTitle": "Vocabulary",
     "vocabSub": "{n} words",
-    "practice": "Free practice"
+    "greeting": {
+      "morning": "Good morning ☀️",
+      "afternoon": "Hi there 👋",
+      "evening": "Good evening 🌙"
+    },
+    "greetingSub": "A quick round before you forget?",
+    "greetingDone": "Goal reached! Keep going or take a break.",
+    "browseDecksSub": "Greetings, travel, work… pick a situation",
+    "seeAll": "See all"
   },
   "common": {
     "loading": "Loading...",
@@ -162,7 +171,9 @@
     "reset": "Reset",
     "cancel": "Cancel",
     "saved": "Saved",
-    "resetDone": "Reset complete"
+    "resetDone": "Reset complete",
+    "decrease": "Decrease",
+    "increase": "Increase"
   },
   "study": {
     "rate": {
@@ -174,24 +185,19 @@
     "today": "Today's Study",
     "new": "New",
     "review": "Review",
-    "modeBuild": "Build",
-    "challengeTitle": "Today's Challenge",
     "buildPrompt": "Assemble the word from its meaning",
     "bankLabel": "Tap to fill",
-    "modeFlashcard": "Flashcard",
-    "modeCloze": "Fill in the blank",
-    "modeListen": "Listen",
     "listenPrompt": "Listen and arrange the words in order",
     "replay": "Replay",
     "listenCorrect": "Correct! 🎉",
-    "listenWrong": "Answer",
+    "listenWrong": "Not quite — here's the sentence",
     "shadow": "Shadow",
     "shadowHint": "Say it out loud after the audio",
     "clozePrompt": "Choose the word for the blank",
     "clozeCorrect": "Correct! 🎉",
-    "clozeWrong": "Not quite. The answer is",
+    "clozeWrong": "Not quite — here's the answer",
     "next": "Next",
-    "tapToFlip": "Tap to see the meaning",
+    "tapToFlip": "Tap the card to see the meaning",
     "showAnswer": "Show answer",
     "example": "Example",
     "listen": "Listen",
@@ -200,7 +206,6 @@
     "loading": "Preparing your cards...",
     "loadError": "Couldn't load content. Please refresh the page.",
     "showMeaning": "Show meaning",
-    "modeDialogue": "Dialogue",
     "dialogueSingle": "Single",
     "dialogueScenario": "Scenario",
     "dialoguePrompt": "Try answering like this",
@@ -232,6 +237,30 @@
       "min": "{n}m",
       "hour": "{n}h",
       "day": "{n}d"
-    }
+    },
+    "close": "Close study",
+    "sessionProgress": "Session progress",
+    "modePick": "Study mode",
+    "modePickDesc": "Switches right away and becomes your default next time.",
+    "mode": {
+      "build": "Build",
+      "flashcard": "Flashcard",
+      "cloze": "Fill in the blank",
+      "listen": "Listen",
+      "dialogue": "Dialogue"
+    },
+    "modeDesc": {
+      "build": "See the meaning, tap the tiles in order to build the phrase",
+      "flashcard": "Recall the meaning, reveal it, then rate how hard it was",
+      "cloze": "Pick the word that fits the blank in the example",
+      "listen": "Listen, then arrange the words to rebuild the sentence",
+      "dialogue": "Practice replying naturally in a conversation"
+    },
+    "rateLabel": "Rate this card",
+    "pickOption": "Tap an option to answer",
+    "removeTile": "Remove {tile}",
+    "buildCorrect": "Correct! 🎉",
+    "buildWrong": "Not quite — here's the answer",
+    "accuracyBadge": "Accuracy {pct}%"
   }
 }

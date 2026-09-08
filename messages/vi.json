@@ -11,7 +11,8 @@
     "progress": "Tiến độ",
     "settings": "Cài đặt",
     "signUp": "Đăng ký",
-    "signOut": "Đăng xuất"
+    "signOut": "Đăng xuất",
+    "label": "Menu chính"
   },
   "landing": {
     "hero": {
@@ -86,7 +87,15 @@
     "levelProgress": "Tiến độ cấp độ",
     "vocabTitle": "Từ vựng",
     "vocabSub": "{n} từ",
-    "practice": "Luyện tập tự do"
+    "greeting": {
+      "morning": "Chào buổi sáng ☀️",
+      "afternoon": "Xin chào 👋",
+      "evening": "Chào buổi tối 🌙"
+    },
+    "greetingSub": "Ôn một vòng trước khi quên nhé?",
+    "greetingDone": "Đạt mục tiêu hôm nay! Học tiếp hay nghỉ đều được.",
+    "browseDecksSub": "Chào hỏi, du lịch, công việc… chọn theo tình huống",
+    "seeAll": "Xem tất cả"
   },
   "common": {
     "loading": "Đang tải...",
@@ -162,7 +171,9 @@
     "reset": "Đặt lại",
     "cancel": "Hủy",
     "saved": "Đã lưu",
-    "resetDone": "Đặt lại xong"
+    "resetDone": "Đặt lại xong",
+    "decrease": "Giảm",
+    "increase": "Tăng"
   },
   "study": {
     "rate": {
@@ -174,13 +185,8 @@
     "today": "Học hôm nay",
     "new": "Mới",
     "review": "Ôn tập",
-    "modeBuild": "Ghép từ",
-    "challengeTitle": "Thử thách hôm nay",
     "buildPrompt": "Ghép từ dựa trên nghĩa",
     "bankLabel": "Chạm để điền",
-    "modeFlashcard": "Thẻ ghi nhớ",
-    "modeCloze": "Điền chỗ trống",
-    "modeListen": "Nghe",
     "listenPrompt": "Nghe và sắp xếp các từ theo thứ tự",
     "replay": "Phát lại",
     "listenCorrect": "Chính xác! 🎉",
@@ -200,7 +206,6 @@
     "loading": "Đang chuẩn bị thẻ...",
     "loadError": "Không tải được nội dung. Vui lòng tải lại trang.",
     "showMeaning": "Hiện nghĩa",
-    "modeDialogue": "Hội thoại",
     "dialogueSingle": "Câu đơn",
     "dialogueScenario": "Tình huống",
     "dialoguePrompt": "Thử trả lời như thế này",
@@ -232,6 +237,30 @@
       "min": "{n} phút",
       "hour": "{n} giờ",
       "day": "{n} ngày"
-    }
+    },
+    "close": "Đóng bài học",
+    "sessionProgress": "Tiến độ phiên học",
+    "modePick": "Cách học",
+    "modePickDesc": "Đổi ngay lập tức và sẽ là mặc định cho lần sau.",
+    "mode": {
+      "build": "Ghép chữ",
+      "flashcard": "Thẻ ghi nhớ",
+      "cloze": "Điền vào chỗ trống",
+      "listen": "Nghe",
+      "dialogue": "Hội thoại"
+    },
+    "modeDesc": {
+      "build": "Xem nghĩa rồi chạm các ô chữ theo thứ tự để ghép thành câu",
+      "flashcard": "Nhớ lại nghĩa, mở đáp án rồi đánh giá độ khó",
+      "cloze": "Chọn từ phù hợp với chỗ trống trong câu ví dụ",
+      "listen": "Nghe rồi sắp xếp các từ để dựng lại câu",
+      "dialogue": "Luyện trả lời tự nhiên trong hội thoại"
+    },
+    "rateLabel": "Đánh giá thẻ này",
+    "pickOption": "Chạm một lựa chọn để trả lời",
+    "removeTile": "Bỏ {tile}",
+    "buildCorrect": "Chính xác! 🎉",
+    "buildWrong": "Chưa đúng — đây là đáp án",
+    "accuracyBadge": "Độ chính xác {pct}%"
   }
 }

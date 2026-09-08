@@ -34,7 +34,7 @@ export function LevelStep({
             aria-checked={selected}
             onClick={() => onChange(level)}
             className={cn(
-              "relative flex items-center gap-3 rounded-2xl border-2 p-4 text-left transition-all active:scale-[0.98]",
+              "relative flex min-h-16 items-center gap-3 rounded-2xl border-2 p-4 text-left transition-all active:scale-[0.98] motion-reduce:transition-none",
               selected
                 ? cn("shadow-sm", LEVEL_SELECTED[level])
                 : "border-border/60 bg-card hover:border-border",

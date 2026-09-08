@@ -6,10 +6,14 @@ import { cn } from "@/lib/utils"
 
 function Progress({
   className,
+  trackClassName,
   children,
   value,
   ...props
-}: ProgressPrimitive.Root.Props) {
+}: ProgressPrimitive.Root.Props & {
+  /** 트랙 높이·색 등 오버라이드 (예: "h-2.5") */
+  trackClassName?: string
+}) {
   return (
     <ProgressPrimitive.Root
       value={value}
@@ -18,7 +22,7 @@ function Progress({
       {...props}
     >
       {children}
-      <ProgressTrack>
+      <ProgressTrack className={trackClassName}>
         <ProgressIndicator />
       </ProgressTrack>
     </ProgressPrimitive.Root>

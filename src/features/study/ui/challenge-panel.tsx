@@ -20,18 +20,18 @@ interface Props {
  */
 export function ChallengePanel({ title, prompt, hint, children }: Props) {
   return (
-    <div className="flex flex-1 flex-col rounded-2xl border border-border/60 bg-card p-6 shadow-sm">
-      <p className="flex items-center gap-1.5 text-sm font-semibold text-violet-600 dark:text-violet-400">
-        <Sparkles className="h-4 w-4" />
+    <div className="flex flex-1 flex-col rounded-2xl border border-border/60 bg-card p-5 shadow-sm">
+      <p className="flex items-center gap-1.5 text-sm font-semibold text-primary">
+        <Sparkles className="h-4 w-4" aria-hidden />
         {title}
       </p>
 
       <div className="mt-4 flex flex-col items-center gap-3 text-center">
-        <div className="text-xl font-bold leading-relaxed sm:text-2xl">
+        <div className="text-2xl font-black leading-relaxed tracking-tight sm:text-3xl">
           {prompt}
         </div>
         {hint && (
-          <span className="rounded-full border border-violet-300 bg-violet-50 px-3 py-1 text-sm font-medium text-violet-700 dark:border-violet-800 dark:bg-violet-950 dark:text-violet-300">
+          <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-sm font-bold text-primary">
             {hint}
           </span>
         )}

@@ -11,7 +11,8 @@
     "progress": "进度",
     "settings": "设置",
     "signUp": "注册",
-    "signOut": "退出登录"
+    "signOut": "退出登录",
+    "label": "主菜单"
   },
   "landing": {
     "hero": {
@@ -86,7 +87,15 @@
     "levelProgress": "等级进度",
     "vocabTitle": "单词本",
     "vocabSub": "{n} 个单词",
-    "practice": "自由练习"
+    "greeting": {
+      "morning": "早上好 ☀️",
+      "afternoon": "你好 👋",
+      "evening": "晚上好 🌙"
+    },
+    "greetingSub": "趁还没忘，今天来一轮吧？",
+    "greetingDone": "今日目标达成！继续也行，休息也行。",
+    "browseDecksSub": "问候、旅行、工作…按场景挑选学习",
+    "seeAll": "查看全部"
   },
   "common": {
     "loading": "加载中...",
@@ -162,7 +171,9 @@
     "reset": "重置",
     "cancel": "取消",
     "saved": "已保存",
-    "resetDone": "重置完成"
+    "resetDone": "重置完成",
+    "decrease": "减少",
+    "increase": "增加"
   },
   "study": {
     "rate": {
@@ -174,13 +185,8 @@
     "today": "今日学习",
     "new": "新",
     "review": "复习",
-    "modeBuild": "拼词",
-    "challengeTitle": "今日挑战",
     "buildPrompt": "看释义拼出单词",
     "bankLabel": "点击填入",
-    "modeFlashcard": "闪卡",
-    "modeCloze": "填空",
-    "modeListen": "听力",
     "listenPrompt": "听音频，把词按顺序排列",
     "replay": "重播",
     "listenCorrect": "正确！🎉",
@@ -200,7 +206,6 @@
     "loading": "正在准备卡片...",
     "loadError": "无法加载内容。请刷新页面。",
     "showMeaning": "显示释义",
-    "modeDialogue": "对话",
     "dialogueSingle": "单句",
     "dialogueScenario": "情景",
     "dialoguePrompt": "试着这样回答",
@@ -232,6 +237,30 @@
       "min": "{n}分",
       "hour": "{n}时",
       "day": "{n}天"
-    }
+    },
+    "close": "关闭学习",
+    "sessionProgress": "本次学习进度",
+    "modePick": "学习方式",
+    "modePickDesc": "立即切换，下次也会以此方式开始。",
+    "mode": {
+      "build": "拼字",
+      "flashcard": "闪卡",
+      "cloze": "填空",
+      "listen": "听力",
+      "dialogue": "对话"
+    },
+    "modeDesc": {
+      "build": "看释义，按顺序点选字块拼出表达",
+      "flashcard": "先回忆再查看释义，并评价难易度",
+      "cloze": "从选项中选出例句空格里的词",
+      "listen": "听音频，把单词按顺序排成句子",
+      "dialogue": "练习自然地回应对方的话"
+    },
+    "rateLabel": "评价这张卡片",
+    "pickOption": "点选选项作答",
+    "removeTile": "移除 {tile}",
+    "buildCorrect": "答对了！🎉",
+    "buildWrong": "差一点，正确答案是",
+    "accuracyBadge": "正确率 {pct}%"
   }
 }

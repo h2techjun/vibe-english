@@ -23,8 +23,11 @@ export function useTts() {
   const langPrefix = lang.split("-")[0];
   // 설정의 발음 속도를 실제로 반영한다 (기존엔 어디서도 안 읽혀 무효 설정이었음).
   const settings = useLiveQuery(() => db.settings.get("main"));
-  if (settings?.ttsRate !== undefined) cachedTtsRate = settings.ttsRate;
   const baseRate = settings?.ttsRate ?? cachedTtsRate ?? 0.95;
+  // 모듈 캐시 갱신은 렌더 밖(effect)에서 — 렌더 중 외부 변수 대입은 react-hooks/globals 위반
+  useEffect(() => {
+    if (settings?.ttsRate !== undefined) cachedTtsRate = settings.ttsRate;
+  }, [settings?.ttsRate]);
 
   const [supported, setSupported] = useState(true);
   const [speaking, setSpeaking] = useState(false);

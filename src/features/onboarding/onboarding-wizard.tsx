@@ -8,6 +8,7 @@ import type { CefrLevel } from "@/types/card";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ArrowLeft, ArrowRight, Loader2, Rocket } from "lucide-react";
+import { BRAND } from "@/lib/brand";
 import { RECOMMENDED_LEVEL } from "./onboarding-config";
 import { LanguageStep } from "./steps/language-step";
 import { LevelStep } from "./steps/level-step";
@@ -50,7 +51,15 @@ export function OnboardingWizard() {
   }
 
   return (
-    <div className="flex flex-1 flex-col py-2">
+    <div className="mx-auto flex min-h-dvh w-full max-w-lg flex-col px-4 py-4">
+      {/* 브랜드 — 온보딩은 앱 크롬(헤더·탭바) 없이 전체화면이라 로고만 작게 */}
+      <div className="mb-4 flex items-center gap-2 text-base font-black tracking-tight">
+        <span className="grid h-7 w-7 place-items-center rounded-lg bg-primary text-xs font-black text-primary-foreground">
+          {BRAND.logoMark}
+        </span>
+        {BRAND.name}
+      </div>
+
       {/* 진행 헤더 */}
       <div className="mb-5 flex flex-col gap-3">
         <div
@@ -65,14 +74,14 @@ export function OnboardingWizard() {
             <span
               key={i}
               className={cn(
-                "h-1.5 flex-1 rounded-full transition-colors",
-                i < step ? "bg-blue-500" : "bg-muted",
+                "h-2 flex-1 rounded-full transition-colors",
+                i < step ? "bg-primary" : "bg-muted",
               )}
             />
           ))}
         </div>
         <div className="flex flex-col gap-1 text-center">
-          <h1 className="text-2xl font-bold">{titles[step].title}</h1>
+          <h1 className="text-2xl font-black tracking-tight">{titles[step].title}</h1>
           {titles[step].subtitle && (
             <p className="mx-auto max-w-sm text-sm text-muted-foreground">
               {titles[step].subtitle}
@@ -92,11 +101,11 @@ export function OnboardingWizard() {
       </div>
 
       {/* 스티키 푸터 */}
-      <div className="sticky bottom-0 mt-4 flex items-center gap-2 bg-background/95 py-3 backdrop-blur">
+      <div className="sticky bottom-0 mt-4 flex items-center gap-2 bg-background/95 pb-safe pt-3 backdrop-blur">
         {step > 1 && (
           <Button
             variant="ghost"
-            className="gap-1.5"
+            className="min-h-12 gap-1.5"
             disabled={committing}
             onClick={() => setStep((s) => s - 1)}
           >
@@ -105,7 +114,7 @@ export function OnboardingWizard() {
           </Button>
         )}
         <Button
-          className="flex-1 gap-1.5 font-bold"
+          className="btn-arcade min-h-12 flex-1 gap-1.5 text-base font-black"
           size="lg"
           disabled={committing}
           onClick={next}

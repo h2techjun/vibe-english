@@ -4,14 +4,11 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useLiveQuery } from "dexie-react-hooks";
-import { Link } from "@/i18n/navigation";
 import type { VocabCard } from "@/types/card";
 import type { CardProgress, ReviewGrade } from "@/types/srs";
 import { Rating } from "@/types/srs";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { Loader2, PartyPopper, Target, Share2, Repeat, Layers } from "lucide-react";
-import { toast } from "sonner";
+import { Loader2, Eye } from "lucide-react";
 import {
   buildStudyQueue,
   buildPracticeQueue,
@@ -32,19 +29,13 @@ import { ScenarioSession } from "./scenario-session";
 import { useTts } from "./use-tts";
 import { buildWordPool } from "./cloze";
 import { buildUnitPool } from "./build";
-import { buildShareGrid, shareResult } from "./share";
+import { StudyTopbar } from "./ui/study-topbar";
+import { ModePicker, type StudyMode } from "./ui/mode-picker";
+import { ActionBar } from "./ui/action-bar";
+import { StudyDone, StudyEmpty } from "./study-done";
 import { cn } from "@/lib/utils";
 
 type Status = "loading" | "studying" | "empty" | "done";
-type StudyMode = "build" | "flashcard" | "cloze" | "listen" | "dialogue";
-
-const MODE_LABEL: Record<StudyMode, string> = {
-  build: "modeBuild",
-  flashcard: "modeFlashcard",
-  cloze: "modeCloze",
-  listen: "modeListen",
-  dialogue: "modeDialogue",
-};
 
 const GRADE_STYLES: Record<ReviewGrade, string> = {
   [Rating.Again]: "bg-rose-600 hover:bg-rose-600/90 text-white",
@@ -94,7 +85,6 @@ export function StudySession() {
   const practiceParam = searchParams.get("practice") === "1";
   const [status, setStatus] = useState<Status>("loading");
   const [queue, setQueue] = useState<VocabCard[]>([]);
-  const [counts, setCounts] = useState({ review: 0, fresh: 0 });
   const [progressMap, setProgressMap] = useState<Map<string, CardProgress>>(
     new Map(),
   );
@@ -112,13 +102,11 @@ export function StudySession() {
   // 세션 콤보 (연속 정답) — 동기 부여용
   const [combo, setCombo] = useState(0);
   const [bestCombo, setBestCombo] = useState(0);
-  // 세션 정답/오답 이력 — 완료 화면 Wordle 식 공유용
+  // 세션 정답/오답 이력 — 완료 화면 정확도·Wordle 식 공유용
   const [results, setResults] = useState<boolean[]>([]);
 
-  // 오늘 허브 스트립 (스트릭·목표) — DB 변경 시 자동 갱신
+  // 스트릭 — 상단바 🔥 표시. DB 변경 시 자동 갱신
   const stats = useLiveQuery(() => getStudyStats(course), [course]);
-  const settings = useLiveQuery(() => db.settings.get("main"));
-  const goal = settings?.dailyGoal ?? 20;
 
   useEffect(() => {
     let mounted = true;
@@ -133,7 +121,7 @@ export function StudySession() {
     setResults([]);
     setStatus("loading");
     if (weak) {
-      setMode("flashcard"); // 약점 복습은 플래시카드 고정 (모드 토글 숨김)
+      setMode("flashcard"); // 약점 복습은 플래시카드 고정 (모드 선택 숨김)
       setDlgSub("single");
     }
     /* eslint-enable react-hooks/set-state-in-effect */
@@ -159,7 +147,6 @@ export function StudySession() {
       ]);
       if (!mounted) return;
       setQueue(q.cards);
-      setCounts({ review: q.reviewCount, fresh: q.newCount });
       setProgressMap(pm);
       setWordPool(buildWordPool(allCards, course));
       setUnitPool(buildUnitPool(allCards, course));
@@ -262,78 +249,39 @@ export function StudySession() {
     }
   }
 
-  // 오늘 허브 스트립 — 스트릭 🔥 + 오늘 목표 게이지 (모든 모드 상단 공통)
-  const todayHeader = stats && (
-    <div className="mb-3 flex items-center gap-3 rounded-xl border border-border/60 bg-card px-3 py-2 text-xs">
-      <span
-        className={cn(
-          "flex shrink-0 items-center gap-1 font-bold tabular-nums",
-          stats.streak > 0 ? "text-orange-500" : "text-muted-foreground",
-        )}
-      >
-        🔥 {stats.streak}
-      </span>
-      <div className="flex flex-1 items-center gap-2">
-        <Target className="h-3.5 w-3.5 shrink-0 text-blue-500" />
-        <Progress
-          value={Math.min(100, (stats.today / goal) * 100)}
-          className="h-1.5"
-        />
-        <span className="shrink-0 tabular-nums text-muted-foreground">
-          {stats.today}/{goal}
-        </span>
-      </div>
-      {status === "studying" && (
-        <span className="hidden shrink-0 text-muted-foreground sm:inline">
-          {t("review")} {counts.review} · {t("new")} {counts.fresh}
-        </span>
-      )}
-    </div>
-  );
-
-  // 모드 토글 (조립 / 플래시카드 / 빈칸 / 듣기 / 대화). 약점 복습 모드에선 숨김.
+  // 학습 방식 목록 (조립 / 플래시카드 / 빈칸 / 듣기 / 대화). 약점 복습 모드에선 숨김.
   // 대화(dialogue)는 코스 전역 회화 콘텐츠라 단어장 세션에선 제외한다.
   const modeOptions: StudyMode[] = [
     "build",
     "flashcard",
     "cloze",
-    // 듣기는 TTS 지원 시에만, 대화는 단어장 세션 제외
     ...(ttsSupported ? (["listen"] as StudyMode[]) : []),
     ...(vocab ? [] : (["dialogue"] as StudyMode[])),
   ];
-  const modeToggle = weak ? null : (
-    <div className="mb-3 flex gap-1 rounded-lg bg-muted p-1 text-xs sm:text-sm">
-      {modeOptions.map((m) => (
-        <button
-          key={m}
-          onClick={() => switchMode(m)}
-          className={cn(
-            "flex-1 rounded-md py-1.5 font-medium transition-colors",
-            mode === m
-              ? "bg-background text-foreground shadow-sm"
-              : "text-muted-foreground hover:text-foreground",
-          )}
-        >
-          {t(MODE_LABEL[m])}
-        </button>
-      ))}
-    </div>
+  const modePicker = weak ? undefined : (
+    <ModePicker value={mode} options={modeOptions} onChange={switchMode} />
   );
+  const streak = stats?.streak;
 
   // 대화 모드는 별도 큐(dialogues/scenarios)라 카드 상태(status)와 무관.
   // 안에서 한 마디(단발) / 시나리오(멀티턴) 서브 토글.
   if (mode === "dialogue") {
     return (
       <div className="flex flex-1 flex-col">
-        {todayHeader}
-        {modeToggle}
-        <div className="mb-3 flex gap-1 self-center rounded-full border bg-muted/50 p-0.5 text-xs">
+        <StudyTopbar right={modePicker} streak={streak} />
+        <div
+          role="tablist"
+          aria-label={t("mode.dialogue")}
+          className="mb-3 flex gap-1 self-center rounded-full border bg-muted/50 p-0.5 text-sm"
+        >
           {(["single", "scenario"] as const).map((s) => (
             <button
               key={s}
+              role="tab"
+              aria-selected={dlgSub === s}
               onClick={() => setDlgSub(s)}
               className={cn(
-                "rounded-full px-3 py-1 font-medium transition-colors",
+                "min-h-10 rounded-full px-4 font-semibold transition-colors motion-reduce:transition-none",
                 dlgSub === s
                   ? "bg-background text-foreground shadow-sm"
                   : "text-muted-foreground hover:text-foreground",
@@ -351,130 +299,69 @@ export function StudySession() {
   if (status === "loading") {
     return (
       <div className="flex flex-1 flex-col items-center justify-center gap-3 text-muted-foreground">
-        <Loader2 className="h-6 w-6 animate-spin" />
+        <Loader2 className="h-6 w-6 animate-spin" aria-hidden />
         <p className="text-sm">{t("loading")}</p>
       </div>
     );
   }
 
   if (status === "empty") {
-    // due 카드가 없을 때 = 오늘 복습을 다 끝낸 것. 막다른길 대신 자유 연습으로 이어가게 한다.
     return (
-      <CenteredCard
-        icon={<PartyPopper className="h-10 w-10 text-emerald-500" />}
-        title={t("caughtUpTitle")}
-        desc={t("caughtUpDesc")}
-      >
-        <StudyNextActions
+      <div className="flex flex-1 flex-col">
+        <StudyTopbar right={modePicker} streak={streak} />
+        <StudyEmpty
           weak={stats?.weak ?? 0}
           isWeakSession={weak}
           onPractice={startPractice}
         />
-      </CenteredCard>
+      </div>
     );
   }
 
   if (status === "done") {
     return (
-      <div className="relative flex flex-1 flex-col items-center justify-center gap-5 text-center">
-        <Confetti />
-        <PartyPopper className="h-12 w-12 text-amber-500 duration-500 animate-in zoom-in" />
-        <div className="space-y-1">
-          <h2 className="text-2xl font-bold">{t("doneTitle")}</h2>
-          <p className="max-w-xs text-sm text-muted-foreground">
-            {t("doneDesc", { count: studied })}
-          </p>
-        </div>
-
-        {/* 세션 보상 요약 — 학습 수 · 최고 콤보 · 스트릭 */}
-        <div className="grid w-full max-w-xs grid-cols-3 gap-2 duration-500 animate-in fade-in slide-in-from-bottom-2">
-          <SummaryTile value={studied} label={t("statCards")} />
-          <SummaryTile value={`🔥${bestCombo}`} label={t("statCombo")} />
-          <SummaryTile value={stats?.streak ?? 0} label={t("statStreak")} />
-        </div>
-
-        {/* 오늘 총 학습량 — 진도 피드백 */}
-        {stats && (
-          <p className="text-xs text-muted-foreground">
-            {t("todayTotal", { n: stats.today })}
-          </p>
-        )}
-
-        {/* 다음 행동 — 자유 연습·공유·약점·주제·홈 (막다른길 제거) */}
-        <div className="flex flex-wrap justify-center gap-2">
-          <Button onClick={startPractice} className="gap-1.5">
-            <Repeat className="h-4 w-4" />
-            {t("practiceContinue")}
-          </Button>
-          <Button
-            variant="outline"
-            className="gap-1.5"
-            onClick={async () => {
-              const outcome = await shareResult(buildShareGrid(results));
-              if (outcome === "copied") toast.success(t("shareCopied"));
-              else if (outcome === "failed") toast.error(t("shareFailed"));
-            }}
-          >
-            <Share2 className="h-4 w-4" />
-            {t("shareResult")}
-          </Button>
-          {stats && stats.weak > 0 && !weak && (
-            <Button
-              variant="outline"
-              nativeButton={false}
-              render={<Link href="/study?weak=1" prefetch={false} />}
-            >
-              {t("weakReview")}
-            </Button>
-          )}
-          <Button
-            variant="outline"
-            nativeButton={false}
-            render={<Link href="/decks" prefetch={false} />}
-          >
-            {t("goDecks")}
-          </Button>
-          <Button
-            variant="ghost"
-            nativeButton={false}
-            render={<Link href="/" prefetch={false} />}
-          >
-            {t("backHome")}
-          </Button>
-        </div>
+      <div className="flex flex-1 flex-col">
+        <StudyTopbar value={100} streak={streak} />
+        <StudyDone
+          studied={studied}
+          results={results}
+          bestCombo={bestCombo}
+          streak={streak ?? 0}
+          todayTotal={stats?.today ?? 0}
+          onContinue={startPractice}
+        />
       </div>
     );
   }
 
   // studying
+  const progressPct = ((index + (revealed ? 0.5 : 0)) / queue.length) * 100;
+
   return (
     <div className="flex flex-1 flex-col">
-      {todayHeader}
-      {modeToggle}
+      <StudyTopbar value={progressPct} right={modePicker} streak={streak} />
 
-      <div className="mb-3 flex items-center gap-3">
-        <Progress
-          value={((index + (revealed ? 0.5 : 0)) / queue.length) * 100}
-          className="h-2"
-        />
+      {/* 카드 위치·콤보 */}
+      <div className="mb-2 flex items-center justify-between text-xs text-muted-foreground">
+        <span className="tabular-nums">
+          {t("progress", { current: index + 1, total: queue.length })}
+        </span>
         {combo >= 2 && (
           <span
             key={combo}
-            className="shrink-0 text-xs font-bold text-orange-500 duration-300 animate-in zoom-in"
+            className="font-black text-orange-500 duration-300 animate-in zoom-in motion-reduce:animate-none"
+            aria-live="polite"
           >
             🔥 ×{combo}
           </span>
         )}
-        <span className="shrink-0 text-xs tabular-nums text-muted-foreground">
-          {t("progress", { current: index + 1, total: queue.length })}
-        </span>
       </div>
 
       {/* 카드 전환 애니메이션 — 새 카드가 오른쪽에서 슬라이드 인 */}
       {current && (
         <div
           key={current.id}
-          className="flex flex-1 flex-col duration-300 animate-in fade-in slide-in-from-right-4"
+          className="flex flex-1 flex-col duration-300 animate-in fade-in slide-in-from-right-4 motion-reduce:animate-none"
         >
           {mode === "build" && (
             <BuildCard
@@ -487,12 +374,44 @@ export function StudySession() {
           )}
 
           {mode === "flashcard" && (
-            <Flashcard
-              card={current}
-              revealed={revealed}
-              isNew={isNew}
-              onReveal={() => setRevealed(true)}
-            />
+            <>
+              <Flashcard
+                card={current}
+                revealed={revealed}
+                isNew={isNew}
+                onReveal={() => setRevealed(true)}
+              />
+              <ActionBar>
+                {revealed && preview ? (
+                  <div
+                    className="grid grid-cols-4 gap-2 duration-200 animate-in fade-in motion-reduce:animate-none"
+                    role="group"
+                    aria-label={t("rateLabel")}
+                  >
+                    {REVIEW_GRADES.map((g) => (
+                      <button
+                        key={g}
+                        disabled={busy}
+                        onClick={() => handleGrade(g)}
+                        className={`flex min-h-14 flex-col items-center justify-center gap-0.5 rounded-xl px-1 py-2 text-sm font-black transition-opacity disabled:opacity-50 ${GRADE_STYLES[g]}`}
+                      >
+                        {t(`rate.${GRADE_KEY[g]}`)}
+                        <span className="text-[11px] font-medium opacity-90">
+                          {formatInterval(preview[g])}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <Button
+                    onClick={() => setRevealed(true)}
+                    className="btn-arcade min-h-12 w-full gap-2 text-base font-black"
+                  >
+                    <Eye className="h-4 w-4" aria-hidden /> {t("showAnswer")}
+                  </Button>
+                )}
+              </ActionBar>
+            </>
           )}
 
           {mode === "cloze" && (
@@ -515,128 +434,6 @@ export function StudySession() {
           )}
         </div>
       )}
-
-      {/* 플래시카드 평가 버튼 (공개 후 활성) */}
-      {mode === "flashcard" && revealed && preview && (
-        <div className="mt-4 grid grid-cols-4 gap-2 duration-200 animate-in fade-in">
-          {REVIEW_GRADES.map((g) => (
-            <button
-              key={g}
-              disabled={busy}
-              onClick={() => handleGrade(g)}
-              className={`flex flex-col items-center gap-0.5 rounded-lg px-2 py-2.5 text-sm font-semibold transition-opacity disabled:opacity-50 ${GRADE_STYLES[g]}`}
-            >
-              {t(`rate.${GRADE_KEY[g]}`)}
-              <span className="text-[10px] font-normal opacity-90">
-                {formatInterval(preview[g])}
-              </span>
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
-/** 완료 화면 요약 타일 */
-function SummaryTile({
-  value,
-  label,
-}: {
-  value: number | string;
-  label: string;
-}) {
-  return (
-    <div className="rounded-xl border border-border/60 bg-card p-3">
-      <p className="text-lg font-bold tabular-nums">{value}</p>
-      <p className="text-[10px] text-muted-foreground">{label}</p>
-    </div>
-  );
-}
-
-/** 완료 컨페티 — CSS 애니메이션만 사용 (외부 의존성 없음) */
-function Confetti() {
-  const items = ["🎉", "⭐", "🔥", "💯", "🎊", "✨"];
-  return (
-    <div className="pointer-events-none absolute inset-x-0 top-1/3 flex justify-center gap-5">
-      {items.map((e, i) => (
-        <span
-          key={i}
-          className="animate-confetti text-2xl"
-          style={{ animationDelay: `${i * 130}ms` }}
-        >
-          {e}
-        </span>
-      ))}
-    </div>
-  );
-}
-
-/** empty/done 공용 '다음 행동' 버튼 그룹 — 자유 연습·약점·주제·홈 (막다른길 제거) */
-function StudyNextActions({
-  weak,
-  isWeakSession,
-  onPractice,
-}: {
-  weak: number;
-  isWeakSession: boolean;
-  onPractice: () => void;
-}) {
-  const t = useTranslations("study");
-  return (
-    <div className="flex flex-wrap justify-center gap-2">
-      <Button onClick={onPractice} className="gap-1.5">
-        <Repeat className="h-4 w-4" />
-        {t("practiceStart")}
-      </Button>
-      {weak > 0 && !isWeakSession && (
-        <Button
-          variant="outline"
-          nativeButton={false}
-          render={<Link href="/study?weak=1" prefetch={false} />}
-        >
-          {t("weakReview")}
-        </Button>
-      )}
-      <Button
-        variant="outline"
-        className="gap-1.5"
-        nativeButton={false}
-        render={<Link href="/decks" prefetch={false} />}
-      >
-        <Layers className="h-4 w-4" />
-        {t("goDecks")}
-      </Button>
-      <Button
-        variant="ghost"
-        nativeButton={false}
-        render={<Link href="/" prefetch={false} />}
-      >
-        {t("backHome")}
-      </Button>
-    </div>
-  );
-}
-
-function CenteredCard({
-  icon,
-  title,
-  desc,
-  children,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  desc: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="flex flex-1 flex-col items-center justify-center gap-4 text-center">
-      {icon}
-      <div className="space-y-1">
-        <h2 className="text-xl font-bold">{title}</h2>
-        <p className="max-w-xs text-sm text-muted-foreground">{desc}</p>
-      </div>
-      {children}
     </div>
   );
 }

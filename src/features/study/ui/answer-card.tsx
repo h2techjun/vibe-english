@@ -1,13 +1,11 @@
 "use client";
 
-import { Check, X, Share2, ArrowRight, Sparkles } from "lucide-react";
+import { Check, X, Share2, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 interface Props {
-  /** 패널 제목 — 예: "정답 · 학습 카드" (선택) */
-  title?: string;
-  /** 완성된 조립 타일 (음절/스펠링 단위) — 없으면 타일 행을 숨김 */
+  /** 완성된 조립 타일 (음절/스펠링 단위) — 데스크톱에서만 표시 (모바일 시트는 좌 패널에 이미 있음) */
   tiles?: string[];
   term: string;
   pron?: string;
@@ -18,6 +16,8 @@ interface Props {
   score?: number;
   /** 정답 여부 — 기본 true(정답 톤 emerald). false면 오답 톤(rose)으로 표시 */
   correct?: boolean;
+  /** 정오 한 줄 — "정답이에요!" / "아쉬워요" */
+  statusLabel?: string;
   /** 공유 버튼 라벨 — onShare 가 있을 때만 필요 */
   shareLabel?: string;
   nextLabel: string;
@@ -27,12 +27,10 @@ interface Props {
 }
 
 /**
- * 학습 화면 우측 '정답 — 학습 카드'.
- * 완성 결과(타일)·term/발음/정오/점수·뜻·예문과 공유·다음 CTA 를 감싸는
- * 공통 프레임. 인터랙션 로직은 갖지 않는 순수 프레젠테이션 컴포넌트.
+ * '정답 — 학습 카드'. 모바일에선 StudyShell 이 바텀시트로 띄우고, 데스크톱에선 우측 패널.
+ * 정오 색 배너 + 아이콘(색약 대비) + term/뜻/예문 + 하단 고정 '다음'.
  */
 export function AnswerCard({
-  title,
   tiles,
   term,
   pron,
@@ -41,6 +39,7 @@ export function AnswerCard({
   exampleTrans,
   score,
   correct,
+  statusLabel,
   shareLabel,
   nextLabel,
   onShare,
@@ -49,27 +48,62 @@ export function AnswerCard({
   const isCorrect = correct ?? true;
 
   return (
-    <div className="flex flex-1 flex-col rounded-2xl border border-border/60 bg-card p-6 shadow-sm">
-      {title && (
-        <p className="flex items-center gap-1.5 text-sm font-semibold text-emerald-600 dark:text-emerald-400">
-          <Sparkles className="h-4 w-4" />
-          {title}
+    <div className="flex flex-1 flex-col md:rounded-2xl md:border md:border-border/60 md:bg-card md:shadow-sm">
+      {/* 정오 배너 */}
+      <div
+        role="status"
+        className={cn(
+          "flex items-center gap-2 rounded-t-3xl px-5 py-3 md:rounded-t-2xl",
+          isCorrect ? "bg-emerald-500/15" : "bg-rose-500/15",
+        )}
+      >
+        <span
+          className={cn(
+            "grid h-7 w-7 shrink-0 place-items-center rounded-full text-white",
+            isCorrect ? "bg-emerald-500" : "bg-rose-500",
+          )}
+        >
+          {isCorrect ? (
+            <Check className="h-4 w-4" aria-hidden />
+          ) : (
+            <X className="h-4 w-4" aria-hidden />
+          )}
+        </span>
+        <p
+          className={cn(
+            "font-black",
+            isCorrect ? "text-emerald-300" : "text-rose-300",
+          )}
+        >
+          {statusLabel}
         </p>
-      )}
+        {typeof score === "number" && (
+          <span
+            className={cn(
+              "ml-auto rounded-full px-2 py-0.5 text-xs font-black tabular-nums",
+              isCorrect
+                ? "bg-emerald-500/20 text-emerald-300"
+                : "bg-rose-500/20 text-rose-300",
+            )}
+          >
+            +{score}
+          </span>
+        )}
+      </div>
 
-      <div className="mt-4 flex flex-1 flex-col items-center justify-center gap-4 text-center">
-        {/* 완성 타일 (조립 모드에서 넘어온 결과) — 오답 공개(revealed)면 rose 톤 */}
+      <div className="flex flex-1 flex-col items-center gap-3 px-5 py-4 text-center">
+        {/* 완성 타일 — 데스크톱 전용 */}
         {tiles && tiles.length > 0 && (
-          <div className="flex flex-wrap justify-center gap-1.5">
+          <div className="hidden flex-wrap justify-center gap-1.5 md:flex">
             {tiles.map((tile, i) => (
               <span
                 key={i}
                 style={{ animationDelay: `${i * 60}ms` }}
                 className={cn(
-                  "flex h-11 min-w-11 items-center justify-center rounded-lg border px-2 text-lg font-bold duration-300 animate-in zoom-in-95",
+                  "flex h-11 min-w-11 items-center justify-center rounded-lg border-2 px-2 text-lg font-black duration-300 animate-in zoom-in-95 motion-reduce:animate-none",
                   isCorrect
-                    ? "border-emerald-500 bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300"
-                    : "border-rose-500 bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-300",
+                    ? "border-emerald-500 bg-emerald-950 text-emerald-300"
+                    : "border-rose-500 bg-rose-950 text-rose-300",
                 )}
               >
                 {tile}
@@ -78,59 +112,50 @@ export function AnswerCard({
           </div>
         )}
 
-        {/* term · 발음 · 정오 · 점수 */}
-        <div className="flex flex-wrap items-center justify-center gap-2">
-          <span className="text-2xl font-bold">{term}</span>
+        {/* term · 발음 */}
+        <div className="flex flex-wrap items-baseline justify-center gap-x-2">
+          <span className="text-2xl font-black">{term}</span>
           {pron && (
-            <span className="font-mono text-base text-muted-foreground">
-              {pron}
-            </span>
-          )}
-          {isCorrect ? (
-            <Check className="h-5 w-5 shrink-0 text-emerald-500" />
-          ) : (
-            <X className="h-5 w-5 shrink-0 text-rose-500" />
-          )}
-          {typeof score === "number" && (
-            <span
-              className={cn(
-                "rounded-full px-2 py-0.5 text-xs font-bold tabular-nums",
-                isCorrect
-                  ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300"
-                  : "bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-300",
-              )}
-            >
-              +{score}
-            </span>
+            <span className="font-mono text-sm text-muted-foreground">{pron}</span>
           )}
         </div>
 
         {/* 뜻 */}
-        <p className="text-lg font-semibold text-blue-700 dark:text-blue-300">
-          {meaning}
-        </p>
+        <p className="text-lg font-bold text-primary">{meaning}</p>
 
         {/* 예문 */}
-        <div className="w-full rounded-xl bg-muted/50 p-4 text-left">
+        <div className="w-full rounded-xl bg-muted/50 p-3 text-left">
           <p className="text-sm font-medium leading-relaxed">{example}</p>
           <p className="mt-1 text-sm text-muted-foreground">{exampleTrans}</p>
         </div>
       </div>
 
-      {/* 공유 · 다음 */}
-      <div className="mt-6 flex items-center justify-center gap-2">
+      {/* 공유 · 다음 — 시트 하단 고정 */}
+      <div className="sticky bottom-0 flex items-center gap-2 border-t border-border/60 bg-background/95 px-4 pb-safe pt-3 backdrop-blur md:static md:rounded-b-2xl md:border-0 md:bg-transparent md:pb-4">
         {onShare && (
-          <Button variant="outline" className="gap-1.5" onClick={onShare}>
-            <Share2 className="h-4 w-4" />
+          <Button
+            variant="outline"
+            className="min-h-12 shrink-0 gap-1.5"
+            onClick={onShare}
+          >
+            <Share2 className="h-4 w-4" aria-hidden />
             {shareLabel}
           </Button>
         )}
         <Button
-          className="gap-1.5 bg-violet-600 text-white hover:bg-violet-600/90"
+          className={cn(
+            "btn-arcade min-h-12 flex-1 gap-1.5 text-base font-black text-white",
+            isCorrect
+              ? "bg-emerald-500 hover:bg-emerald-500/90"
+              : "bg-rose-500 hover:bg-rose-500/90",
+          )}
+          style={{
+            boxShadow: `0 4px 0 0 ${isCorrect ? "oklch(0.45 0.15 160)" : "oklch(0.45 0.18 20)"}`,
+          }}
           onClick={onNext}
         >
           {nextLabel}
-          <ArrowRight className="h-4 w-4" />
+          <ArrowRight className="h-4 w-4" aria-hidden />
         </Button>
       </div>
     </div>

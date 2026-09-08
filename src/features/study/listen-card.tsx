@@ -6,10 +6,11 @@ import type { VocabCard } from "@/types/card";
 import { getCardFace } from "@/lib/card-view";
 import { useCourse } from "@/lib/course";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { RevealableMeaning } from "@/components/revealable-meaning";
+import { ActionBar, FeedbackBar } from "./ui/action-bar";
+import { CardMeta } from "./ui/card-meta";
 import { useTts } from "./use-tts";
-import { Volume2, Turtle, RotateCcw, Sparkles, Check, X, ArrowRight } from "lucide-react";
+import { Volume2, Turtle, RotateCcw, Sparkles, Check } from "lucide-react";
 import { cn, shuffle } from "@/lib/utils";
 
 interface Props {
@@ -67,51 +68,39 @@ export function ListenCard({ card, isNew, busy, onComplete }: Props) {
 
   return (
     <div className="flex flex-1 flex-col">
-      <div className="mb-3 flex items-center gap-2">
-        <Badge variant="secondary">{card.level}</Badge>
-        <Badge
-          variant="outline"
-          className={
-            isNew
-              ? "border-blue-300 text-blue-600 dark:border-blue-700 dark:text-blue-400"
-              : "border-amber-300 text-amber-600 dark:border-amber-700 dark:text-amber-400"
-          }
-        >
-          {isNew ? t("new") : t("review")}
-        </Badge>
-      </div>
+      <CardMeta level={card.level} isNew={isNew} />
 
-      <div className="flex flex-1 flex-col rounded-2xl border border-border/60 bg-card p-6 shadow-sm">
+      <div className="flex flex-1 flex-col rounded-2xl border border-border/60 bg-card p-5 shadow-sm">
         {/* 음성 */}
-        <p className="flex items-center gap-1.5 text-sm font-semibold text-violet-600 dark:text-violet-400">
-          <Sparkles className="h-4 w-4" />
+        <p className="flex items-center gap-1.5 text-sm font-semibold text-primary">
+          <Sparkles className="h-4 w-4" aria-hidden />
           {t("listenPrompt")}
         </p>
         <div className="mt-4 flex justify-center gap-2">
           <Button
             variant="outline"
-            size="sm"
-            className="gap-1.5"
+            className="min-h-12 gap-1.5 px-5"
             disabled={!supported}
             onClick={() => speak(face.example)}
           >
-            <Volume2 className="h-4 w-4" /> {t("replay")}
+            <Volume2 className="h-4 w-4" aria-hidden /> {t("replay")}
           </Button>
           <Button
             variant="outline"
-            size="sm"
-            className="gap-1.5"
+            className="min-h-12 gap-1.5 px-5"
             disabled={!supported}
             onClick={() => speak(face.example, { rate: 0.6 })}
           >
-            <Turtle className="h-4 w-4" /> {t("slow")}
+            <Turtle className="h-4 w-4" aria-hidden /> {t("slow")}
           </Button>
         </div>
 
         {/* 답란 */}
         <div
+          role="group"
+          aria-label={t("listenPrompt")}
           className={cn(
-            "mt-5 flex min-h-14 flex-wrap content-start gap-2 rounded-xl border border-dashed border-border/60 p-3",
+            "mt-5 flex min-h-16 flex-wrap content-start gap-2 rounded-xl border-2 border-dashed border-border/60 p-3",
             checked &&
               (correct
                 ? "duration-300 animate-in zoom-in-95"
@@ -123,8 +112,9 @@ export function ListenCard({ card, isNew, busy, onComplete }: Props) {
               key={pos}
               onClick={() => removeAt(pos)}
               disabled={checked}
+              aria-label={checked ? undefined : t("removeTile", { tile: words[origIdx] })}
               className={cn(
-                "flex h-11 min-w-11 items-center justify-center rounded-lg border px-3 text-sm font-bold duration-300 animate-in zoom-in-95",
+                "flex h-12 min-w-12 items-center justify-center rounded-xl border-2 px-3 text-base font-bold duration-300 animate-in zoom-in-95 motion-reduce:animate-none",
                 checked
                   ? correct
                     ? "border-emerald-500 bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300"
@@ -145,7 +135,7 @@ export function ListenCard({ card, isNew, busy, onComplete }: Props) {
                 <button
                   key={i}
                   onClick={() => addWord(i)}
-                  className="flex h-11 min-w-11 items-center justify-center rounded-lg border border-border px-3 text-sm font-medium transition-colors hover:border-violet-300 hover:bg-violet-50 hover:text-violet-700 dark:hover:border-violet-800 dark:hover:bg-violet-950 dark:hover:text-violet-300"
+                  className="flex h-12 min-w-12 items-center justify-center rounded-xl border-2 border-border bg-background px-3 text-base font-semibold shadow-[0_3px_0_0_var(--border)] transition-all hover:border-primary/60 active:translate-y-[2px] active:shadow-none motion-reduce:transition-none"
                 >
                   {w}
                 </button>
@@ -154,14 +144,27 @@ export function ListenCard({ card, isNew, busy, onComplete }: Props) {
           </div>
         )}
 
-        {/* 확인 / 결과 */}
-        {!checked ? (
-          <div className="mt-auto flex items-center justify-center gap-2 pt-6">
+        {/* 결과 — 정답 문장 + 뜻 */}
+        {checked && (
+          <div className="mt-4 rounded-xl bg-muted/50 p-4 text-center duration-300 animate-in fade-in motion-reduce:animate-none">
+            <p className="font-semibold leading-relaxed">{face.example}</p>
+            <RevealableMeaning
+              ko={face.exampleTrans}
+              className="mt-1 text-sm"
+              revealedClassName="text-muted-foreground"
+            />
+          </div>
+        )}
+      </div>
+
+      {/* 확인 / 다음 — 하단 고정 */}
+      {!checked ? (
+        <ActionBar>
+          <div className="flex items-center gap-2">
             {answer.length > 0 && (
               <Button
-                variant="ghost"
-                size="sm"
-                className="gap-1.5"
+                variant="outline"
+                className="min-h-12 min-w-12 shrink-0"
                 aria-label={t("reset")}
                 onClick={() => setAnswer([])}
               >
@@ -170,47 +173,24 @@ export function ListenCard({ card, isNew, busy, onComplete }: Props) {
             )}
             <Button
               disabled={!filled}
-              className="gap-1.5 bg-violet-600 text-white hover:bg-violet-600/90"
+              className="btn-arcade min-h-12 flex-1 gap-1.5 text-base font-black"
               onClick={() => setChecked(true)}
             >
-              <Check className="h-4 w-4" />
+              <Check className="h-4 w-4" aria-hidden />
               {t("checkAnswer")}
             </Button>
           </div>
-        ) : (
-          <div className="mt-5 flex flex-col gap-3">
-            <p
-              className={cn(
-                "flex items-center justify-center gap-1.5 text-center text-sm font-medium duration-300 animate-in fade-in slide-in-from-bottom-1",
-                correct ? "text-emerald-600" : "text-rose-600",
-              )}
-            >
-              {correct ? (
-                <Check className="h-4 w-4 shrink-0" />
-              ) : (
-                <X className="h-4 w-4 shrink-0" />
-              )}
-              {correct ? t("listenCorrect") : `${t("listenWrong")}: ${face.example}`}
-            </p>
-            <div className="rounded-xl bg-muted/50 p-4 text-center">
-              <p className="font-semibold leading-relaxed">{face.example}</p>
-              <RevealableMeaning
-                ko={face.exampleTrans}
-                className="mt-1 text-sm"
-                revealedClassName="text-muted-foreground"
-              />
-            </div>
-            <Button
-              disabled={busy}
-              className="gap-1.5 bg-violet-600 text-white hover:bg-violet-600/90"
-              onClick={() => onComplete(correct)}
-            >
-              {t("next")}
-              <ArrowRight className="h-4 w-4" />
-            </Button>
-          </div>
-        )}
-      </div>
+        </ActionBar>
+      ) : (
+        <FeedbackBar
+          correct={correct}
+          title={correct ? t("listenCorrect") : t("listenWrong")}
+          detail={correct ? undefined : face.example}
+          nextLabel={t("next")}
+          disabled={busy}
+          onNext={() => onComplete(correct)}
+        />
+      )}
     </div>
   );
 }
@@ -234,12 +214,14 @@ function ListenFallback({
           {face.pronPrimary}
         </p>
       )}
-      <p className="mt-3 text-lg font-semibold text-blue-700 dark:text-blue-300">
+      <p className="mt-3 text-lg font-semibold text-primary">
         {face.meaning}
       </p>
-      <div className="mt-auto flex justify-center pt-6">
-        <Button onClick={onContinue}>{t("next")}</Button>
-      </div>
+      <ActionBar>
+        <Button onClick={onContinue} className="btn-arcade min-h-12 w-full text-base font-black">
+          {t("next")}
+        </Button>
+      </ActionBar>
     </div>
   );
 }

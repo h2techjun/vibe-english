@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { LanguageToggle } from "@/components/language-toggle";
+import { ReturningRedirect } from "@/components/returning-redirect";
 import { Brain, Mic2, GraduationCap, PencilLine, ArrowRight } from "lucide-react";
 import { BRAND } from "@/lib/brand";
 
@@ -28,10 +29,17 @@ export default async function LandingPage({ params }: Props) {
 
   return (
     <div className="flex flex-col flex-1">
+      {/* 온보딩을 마친 재방문자는 랜딩을 건너뛰고 홈으로 */}
+      <ReturningRedirect />
+
       <header className="sticky top-0 z-10 border-b border-border/40 bg-background/80 backdrop-blur">
         <div className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between px-4">
-          <Link href="/" prefetch={false} className="flex items-center gap-2 font-semibold">
-            <span className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-slate-900 to-blue-900 text-sm font-bold text-white">
+          <Link
+            href="/"
+            prefetch={false}
+            className="flex items-center gap-2 font-black tracking-tight"
+          >
+            <span className="grid h-8 w-8 place-items-center rounded-xl bg-primary text-sm font-black text-primary-foreground">
               {BRAND.logoMark}
             </span>
             {BRAND.name}
@@ -41,21 +49,21 @@ export default async function LandingPage({ params }: Props) {
       </header>
 
       <main className="flex-1">
-        <section className="mx-auto w-full max-w-6xl px-4 py-20 sm:py-28">
+        <section className="mx-auto w-full max-w-6xl px-4 py-16 sm:py-28">
           <div className="flex flex-col items-center text-center">
             <Badge variant="secondary" className="mb-6">
               {tApp("tagline")}
             </Badge>
-            <h1 className="max-w-3xl text-balance text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
+            <h1 className="max-w-3xl text-balance text-4xl font-black tracking-tight sm:text-5xl md:text-6xl">
               {t("hero.title")}
             </h1>
             <p className="mt-6 max-w-2xl text-balance text-lg text-muted-foreground">
               {t("hero.subtitle")}
             </p>
-            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-10 flex w-full max-w-sm flex-col gap-3 sm:w-auto sm:max-w-none sm:flex-row">
               <Button
                 size="lg"
-                className="gap-2"
+                className="btn-arcade min-h-14 gap-2 px-8 text-base font-black"
                 nativeButton={false}
                 render={<Link href="/home" prefetch={false} />}
               >
@@ -64,6 +72,7 @@ export default async function LandingPage({ params }: Props) {
               <Button
                 size="lg"
                 variant="outline"
+                className="min-h-14 px-6 text-base"
                 nativeButton={false}
                 render={<a href="#how-it-works" />}
               >
@@ -76,10 +85,10 @@ export default async function LandingPage({ params }: Props) {
         <section className="mx-auto w-full max-w-6xl px-4 py-16">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {features.map(({ icon: Icon, key }) => (
-              <Card key={key} className="border-border/60">
+              <Card key={key} className="rounded-2xl border-border/60">
                 <CardContent className="flex flex-col gap-3 p-6">
-                  <Icon className="h-8 w-8 text-blue-600 dark:text-blue-400" />
-                  <h3 className="font-semibold">{t(`features.${key}.title`)}</h3>
+                  <Icon className="h-8 w-8 text-primary" aria-hidden />
+                  <h3 className="font-bold">{t(`features.${key}.title`)}</h3>
                   <p className="text-sm text-muted-foreground">
                     {t(`features.${key}.desc`)}
                   </p>
@@ -93,16 +102,16 @@ export default async function LandingPage({ params }: Props) {
           id="how-it-works"
           className="mx-auto w-full max-w-4xl scroll-mt-16 px-4 py-20"
         >
-          <h2 className="text-center text-3xl font-bold tracking-tight">
+          <h2 className="text-center text-3xl font-black tracking-tight">
             {t("howItWorks.title")}
           </h2>
           <ol className="mt-12 space-y-4">
             {steps.map((s, idx) => (
               <li
                 key={s}
-                className="flex gap-4 rounded-lg border border-border/60 bg-card p-5"
+                className="flex gap-4 rounded-2xl border border-border/60 bg-card p-5"
               >
-                <span className="grid h-8 w-8 flex-shrink-0 place-items-center rounded-full bg-blue-600 text-sm font-semibold text-white">
+                <span className="grid h-8 w-8 flex-shrink-0 place-items-center rounded-full bg-primary text-sm font-black text-primary-foreground">
                   {idx + 1}
                 </span>
                 <p className="pt-1 text-base">{t(`howItWorks.${s}`)}</p>

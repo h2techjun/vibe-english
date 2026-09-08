@@ -53,12 +53,12 @@ export function ProgressView() {
       {/* 스트릭 */}
       <Card className="border-border/60 bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-950/40 dark:to-amber-950/30">
         <CardContent className="flex items-center gap-4 p-5">
-          <span className="grid h-14 w-14 place-items-center rounded-2xl bg-orange-100 dark:bg-orange-900/50">
+          <span className="grid h-14 w-14 place-items-center rounded-2xl bg-orange-500/15">
             <Flame className="h-7 w-7 text-orange-500" />
           </span>
           <div className="flex-1">
             <p className="text-sm text-muted-foreground">{t("streakLabel")}</p>
-            <p className="text-2xl font-bold">
+            <p className="text-2xl font-black">
               {stats.streak > 0 ? t("streakDays", { n: stats.streak }) : t("streakZero")}
             </p>
           </div>
@@ -76,7 +76,7 @@ export function ProgressView() {
         <CardContent className="p-4">
           <div className="flex items-center justify-between">
             <span className="flex items-center gap-1.5 text-sm font-medium">
-              <Target className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+              <Target className="h-4 w-4 text-primary" aria-hidden />
               {t("todayGoal")}
             </span>
             <span className="text-sm font-semibold tabular-nums">
@@ -134,9 +134,9 @@ export function ProgressView() {
         {tiles.map(({ icon: Icon, label, value }) => (
           <Card key={label} className="border-border/60">
             <CardContent className="flex items-center gap-3 p-4">
-              <Icon className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+              <Icon className="h-5 w-5 text-primary" aria-hidden />
               <div>
-                <p className="text-xl font-bold tabular-nums">{value}</p>
+                <p className="text-xl font-black tabular-nums">{value}</p>
                 <p className="text-xs text-muted-foreground">{label}</p>
               </div>
             </CardContent>
@@ -157,7 +157,7 @@ export function ProgressView() {
                 className={cn(
                   "w-9 justify-center",
                   currentLevel === lv.level &&
-                    "bg-blue-600 text-white ring-2 ring-blue-300 dark:ring-blue-700",
+                    "bg-primary text-primary-foreground ring-2 ring-primary/40",
                 )}
               >
                 {lv.level}
@@ -186,16 +186,16 @@ export function ProgressView() {
           <div className="flex items-end justify-between gap-2 rounded-xl border border-border/60 bg-card p-4">
             {stats.recent.map((d, i) => (
               <div key={i} className="flex flex-1 flex-col items-center gap-1.5">
-                <span className="text-[10px] tabular-nums text-muted-foreground">
+                <span className="text-xs tabular-nums text-muted-foreground">
                   {d.count > 0 ? d.count : ""}
                 </span>
                 <div
-                  className="w-full rounded-t bg-blue-500/80 transition-all"
+                  className="w-full rounded-t bg-primary/80 transition-all motion-reduce:transition-none"
                   style={{
                     height: `${Math.max(4, (d.count / maxRecent) * 64)}px`,
                   }}
                 />
-                <span className="text-[10px] text-muted-foreground">
+                <span className="text-xs text-muted-foreground">
                   {d.label}
                 </span>
               </div>

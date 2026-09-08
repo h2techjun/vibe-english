@@ -5,12 +5,13 @@ import { useTranslations } from "next-intl";
 import type { VocabCard } from "@/types/card";
 import { getCardFace } from "@/lib/card-view";
 import { useCourse } from "@/lib/course";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { StudyShell } from "./ui/study-shell";
 import { ChallengePanel } from "./ui/challenge-panel";
 import { AnswerCard } from "./ui/answer-card";
+import { ActionBar } from "./ui/action-bar";
+import { CardMeta } from "./ui/card-meta";
 import { splitUnits, buildBank, initialHint } from "./build";
 
 interface Props {
@@ -113,29 +114,19 @@ export function BuildCard({ card, isNew, unitPool, busy, onAnswer }: Props) {
 
   return (
     <div className="flex flex-1 flex-col">
-      <div className="mb-3 flex items-center gap-2">
-        <Badge variant="secondary">{card.level}</Badge>
-        <Badge
-          variant="outline"
-          className={
-            isNew
-              ? "border-blue-300 text-blue-600 dark:border-blue-700 dark:text-blue-400"
-              : "border-amber-300 text-amber-600 dark:border-amber-700 dark:text-amber-400"
-          }
-        >
-          {isNew ? t("new") : t("review")}
-        </Badge>
-      </div>
+      <CardMeta level={card.level} isNew={isNew} />
 
       <StudyShell
         left={
           <ChallengePanel
-            title={t("challengeTitle")}
+            title={t("buildPrompt")}
             prompt={face.meaning}
             hint={hint}
           >
             {/* 조립 슬롯 — 정답 길이만큼, 채운 칸=violet 실선 / 빈 칸=점선 */}
             <div
+              role="group"
+              aria-label={t("bankLabel")}
               className={cn(
                 "flex flex-wrap justify-center gap-2",
                 shaking && "animate-shake",
@@ -156,9 +147,10 @@ export function BuildCard({ card, isNew, unitPool, busy, onAnswer }: Props) {
                     key={i}
                     disabled={judged || shaking}
                     onClick={() => removeAt(i)}
+                    aria-label={judged ? undefined : t("removeTile", { tile: label })}
                     style={judged ? { animationDelay: `${i * 60}ms` } : undefined}
                     className={cn(
-                      "flex h-11 min-w-11 items-center justify-center rounded-lg border px-2 text-lg font-bold transition-colors disabled:cursor-default",
+                      "flex h-12 min-w-12 items-center justify-center rounded-xl border-2 px-2 text-lg font-black transition-colors disabled:cursor-default motion-reduce:transition-none",
                       judged
                         ? solved
                           ? "border-emerald-500 bg-emerald-50 text-emerald-700 duration-300 animate-in zoom-in-95 dark:bg-emerald-950 dark:text-emerald-300"
@@ -183,7 +175,7 @@ export function BuildCard({ card, isNew, unitPool, busy, onAnswer }: Props) {
                       key={idx}
                       onClick={() => addUnit(idx)}
                       disabled={shaking}
-                      className="flex h-11 min-w-11 items-center justify-center rounded-lg border border-border px-3 text-lg font-semibold transition-colors hover:border-violet-400 hover:bg-violet-50 disabled:cursor-default disabled:opacity-50 dark:hover:bg-violet-950"
+                      className="flex h-12 min-w-12 items-center justify-center rounded-xl border-2 border-border bg-background px-3 text-lg font-bold shadow-[0_3px_0_0_var(--border)] transition-all hover:border-primary/60 active:translate-y-[2px] active:shadow-none disabled:cursor-default disabled:opacity-50 motion-reduce:transition-none"
                     >
                       {unit}
                     </button>
@@ -192,18 +184,6 @@ export function BuildCard({ card, isNew, unitPool, busy, onAnswer }: Props) {
               </div>
             )}
 
-            {/* 포기하고 정답 보기 */}
-            {!judged && (
-              <div className="mt-auto flex justify-center pt-2">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setRevealed(true)}
-                >
-                  {t("showAnswer")}
-                </Button>
-              </div>
-            )}
           </ChallengePanel>
         }
         right={
@@ -217,12 +197,26 @@ export function BuildCard({ card, isNew, unitPool, busy, onAnswer }: Props) {
               exampleTrans={face.exampleTrans}
               score={solved ? (isNew ? 80 : 120) : undefined}
               correct={solved}
+              statusLabel={solved ? t("buildCorrect") : t("buildWrong")}
               nextLabel={t("next")}
               onNext={handleNext}
             />
           ) : undefined
         }
       />
+
+      {/* 포기하고 정답 보기 — 하단 고정. 정답 후엔 AnswerCard(바텀시트)의 '다음'이 대신한다 */}
+      {!judged && (
+        <ActionBar>
+          <Button
+            variant="outline"
+            className="min-h-12 w-full text-base font-bold"
+            onClick={() => setRevealed(true)}
+          >
+            {t("showAnswer")}
+          </Button>
+        </ActionBar>
+      )}
     </div>
   );
 }
@@ -249,12 +243,14 @@ function BuildFallback({
       {face.pronSecondary && (
         <p className="text-sm text-muted-foreground">[{face.pronSecondary}]</p>
       )}
-      <p className="mt-3 text-lg font-semibold text-blue-700 dark:text-blue-300">
+      <p className="mt-3 text-lg font-semibold text-primary">
         {face.meaning}
       </p>
-      <div className="mt-auto flex justify-center pt-6">
-        <Button onClick={onContinue}>{t("next")}</Button>
-      </div>
+      <ActionBar>
+        <Button onClick={onContinue} className="btn-arcade min-h-12 w-full text-base font-black">
+          {t("next")}
+        </Button>
+      </ActionBar>
     </div>
   );
 }

@@ -90,18 +90,20 @@
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
+  /* 브랜드 액센트 — violet. 흰색 primary 는 다크 배경에서 "버튼 같지 않게" 보여
+     핵심 CTA(오늘 학습 시작·다음)가 눈에 띄지 않았다(2026-09-08 실측). */
+  --primary: oklch(0.6 0.22 293);
+  --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
+  --muted-foreground: oklch(0.74 0 0);
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  --ring: oklch(0.6 0.22 293);
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
@@ -166,6 +168,23 @@
 
 .animate-confetti {
   animation: loopla-confetti 1.4s ease-out forwards;
+}
+
+/* ── 아케이드 톤 CTA — 하드 섀도우 + 눌림. 핵심 행동(학습 시작·다음)에만 쓴다. ── */
+.btn-arcade {
+  box-shadow: 0 4px 0 0 oklch(0.42 0.2 293);
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease;
+}
+.btn-arcade:active:not(:disabled) {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 0 oklch(0.42 0.2 293);
+}
+
+/* 홈 인디케이터·제스처 바 아래로 하단 고정 요소가 숨지 않게 한다 (iOS/Android). */
+.pb-safe {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
 }
 
 /* 접근성 — 모션 민감 사용자는 학습 애니메이션(셰이크·컨페티·enter/exit)을 끈다.

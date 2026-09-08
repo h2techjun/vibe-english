@@ -6,10 +6,11 @@ import type { VocabCard } from "@/types/card";
 import { getCardFace } from "@/lib/card-view";
 import { useCourse } from "@/lib/course";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useTts } from "./use-tts";
-import { Volume2, Turtle, Eye, Mic } from "lucide-react";
+import { CardMeta } from "./ui/card-meta";
+import { Volume2, Turtle, Mic } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface Props {
   card: VocabCard;
@@ -18,6 +19,10 @@ interface Props {
   onReveal: () => void;
 }
 
+/**
+ * 플래시카드 — 카드 전체가 탭 영역이다(뒤집기). "정답 보기" 주 버튼과 평가 버튼은
+ * study-session 의 하단 고정 ActionBar 에 있다. 듣기 버튼은 탭 전파를 막는다.
+ */
 export function Flashcard({ card, revealed, isNew, onReveal }: Props) {
   const t = useTranslations("study");
   const { speak, supported } = useTts();
@@ -33,28 +38,39 @@ export function Flashcard({ card, revealed, isNew, onReveal }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [card.id]);
 
+  function stop(e: React.MouseEvent) {
+    e.stopPropagation();
+  }
+
   return (
     <div className="flex flex-1 flex-col">
-      {/* 메타 뱃지 */}
-      <div className="mb-3 flex items-center gap-2">
-        <Badge variant="secondary">{card.level}</Badge>
-        <Badge
-          variant="outline"
-          className={
-            isNew
-              ? "border-blue-300 text-blue-600 dark:border-blue-700 dark:text-blue-400"
-              : "border-amber-300 text-amber-600 dark:border-amber-700 dark:text-amber-400"
-          }
-        >
-          {isNew ? t("new") : t("review")}
-        </Badge>
-      </div>
+      <CardMeta level={card.level} isNew={isNew} />
 
-      {/* 카드 본체 */}
-      <div className="flex flex-1 flex-col rounded-2xl border border-border/60 bg-card p-6 shadow-sm">
+      {/* 카드 본체 — 공개 전엔 어디를 눌러도 뒤집힌다 */}
+      <div
+        role={revealed ? undefined : "button"}
+        tabIndex={revealed ? undefined : 0}
+        aria-label={revealed ? undefined : t("tapToFlip")}
+        onClick={revealed ? undefined : onReveal}
+        onKeyDown={
+          revealed
+            ? undefined
+            : (e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  onReveal();
+                }
+              }
+        }
+        className={cn(
+          "flex flex-1 flex-col rounded-3xl border-2 border-border/60 bg-card p-6 shadow-sm",
+          !revealed &&
+            "cursor-pointer transition-colors hover:border-primary/50 focus-visible:border-primary focus-visible:outline-none motion-reduce:transition-none",
+        )}
+      >
         {/* 앞면: 학습 대상 표현 + 발음 */}
-        <div className="flex flex-col items-center gap-2 text-center">
-          <p className="text-2xl font-bold leading-snug sm:text-3xl">
+        <div className="flex flex-col items-center gap-2 pt-4 text-center">
+          <p className="text-3xl font-black leading-snug tracking-tight sm:text-4xl">
             {face.term}
           </p>
           {face.pronPrimary && (
@@ -70,40 +86,44 @@ export function Flashcard({ card, revealed, isNew, onReveal }: Props) {
         </div>
 
         {/* 듣기 버튼 */}
-        <div className="mt-4 flex justify-center gap-2">
+        <div className="mt-5 flex justify-center gap-2">
           <Button
             variant="outline"
-            size="sm"
-            className="gap-1.5"
+            className="min-h-11 gap-1.5"
             disabled={!supported}
-            onClick={() => speak(face.term)}
+            onClick={(e) => {
+              stop(e);
+              speak(face.term);
+            }}
           >
-            <Volume2 className="h-4 w-4" /> {t("listen")}
+            <Volume2 className="h-4 w-4" aria-hidden /> {t("listen")}
           </Button>
           <Button
             variant="outline"
-            size="sm"
-            className="gap-1.5"
+            className="min-h-11 gap-1.5"
             disabled={!supported}
-            onClick={() => speak(face.term, { rate: 0.6 })}
+            onClick={(e) => {
+              stop(e);
+              speak(face.term, { rate: 0.6 });
+            }}
           >
-            <Turtle className="h-4 w-4" /> {t("slow")}
+            <Turtle className="h-4 w-4" aria-hidden /> {t("slow")}
           </Button>
           <Button
             variant="outline"
-            size="sm"
-            className="gap-1.5"
+            className="min-h-11 gap-1.5"
             disabled={!supported}
-            onClick={() => {
+            onClick={(e) => {
+              stop(e);
               speak(face.term, { rate: 0.7 });
               setShadowing(true);
             }}
           >
-            <Mic className="h-4 w-4" /> {t("shadow")}
+            <Mic className="h-4 w-4" aria-hidden /> {t("shadow")}
           </Button>
         </div>
         {shadowing && (
-          <p className="mt-2 text-center text-xs font-medium text-blue-500">
+          <p className="mt-2 text-center text-xs font-medium text-primary">
             🗣️ {t("shadowHint")}
           </p>
         )}
@@ -115,21 +135,21 @@ export function Flashcard({ card, revealed, isNew, onReveal }: Props) {
 
         {/* 뒷면: 뜻 + 예문 (공개 시) */}
         {revealed ? (
-          <div className="mt-5 flex flex-col gap-4">
+          <div className="mt-5 flex flex-col gap-4 duration-300 animate-in fade-in slide-in-from-bottom-2 motion-reduce:animate-none">
             <Separator />
-            <p className="text-center text-xl font-semibold text-blue-700 dark:text-blue-300">
+            <p className="text-center text-2xl font-black text-primary">
               {face.meaning}
             </p>
 
-            <div className="rounded-xl bg-muted/50 p-4">
+            <div className="rounded-2xl bg-muted/50 p-4">
               <div className="flex items-start justify-between gap-2">
                 <p className="text-sm font-medium leading-relaxed">
                   {face.example}
                 </p>
                 <Button
                   variant="ghost"
-                  size="icon-sm"
-                  className="shrink-0"
+                  size="icon"
+                  className="min-h-11 min-w-11 shrink-0"
                   disabled={!supported}
                   onClick={() => speak(face.example)}
                   aria-label={t("listen")}
@@ -149,12 +169,9 @@ export function Flashcard({ card, revealed, isNew, onReveal }: Props) {
             )}
           </div>
         ) : (
-          <div className="mt-auto flex flex-col items-center gap-3 pt-6">
-            <p className="text-xs text-muted-foreground">{t("tapToFlip")}</p>
-            <Button onClick={onReveal} className="gap-2">
-              <Eye className="h-4 w-4" /> {t("showAnswer")}
-            </Button>
-          </div>
+          <p className="mt-auto pt-6 text-center text-xs text-muted-foreground">
+            {t("tapToFlip")}
+          </p>
         )}
       </div>
     </div>

@@ -3,19 +3,19 @@
 import { cn } from "@/lib/utils";
 
 interface Props {
-  /** 상단 슬롯 — 스트릭·오늘 목표 헤더 등 (기존 todayHeader) */
+  /** 상단 슬롯 — 세션 상단바 등 */
   header?: React.ReactNode;
-  /** 좌 패널 — 모바일 상단 / 데스크톱 좌측 (예: ChallengePanel) */
+  /** 좌 패널 — 모바일 본문 / 데스크톱 좌측 (예: ChallengePanel) */
   left: React.ReactNode;
-  /** 우 패널 — 모바일 하단 / 데스크톱 우측 (예: AnswerCard). 없으면 1열 유지. */
+  /** 우 패널 — 모바일 바텀시트 / 데스크톱 우측 (예: AnswerCard). 없으면 1열 유지. */
   right?: React.ReactNode;
 }
 
 /**
- * 학습 화면 공통 셸 — 헤더 슬롯 + 반응형 2패널(챌린지|정답) 레이아웃.
- * 모바일: 세로 1열(left → right). 데스크톱(md+): right 있으면 2열, 없으면 1열.
- * 순수 레이아웃 컴포넌트 — 카드 톤(rounded-2xl/border/bg-card)은 각 패널
- * (ChallengePanel/AnswerCard)이 자체적으로 적용한다.
+ * 학습 화면 공통 셸 — 반응형 2패널(챌린지|정답).
+ * 모바일: 정답 패널이 화면 아래(폴드 밖)에 쌓여 "정답을 보려면 스크롤" 이 필요했다
+ * (2026-09-08 실측). Duolingo 식 바텀시트로 띄워 스크롤 없이 정답·다음 버튼이 보이게 한다.
+ * 데스크톱(md+): 좌우 2열.
  */
 export function StudyShell({ header, left, right }: Props) {
   return (
@@ -28,7 +28,22 @@ export function StudyShell({ header, left, right }: Props) {
         )}
       >
         {left}
-        {right}
+        {right && (
+          <>
+            {/* 모바일 스크림 */}
+            <div
+              className="fixed inset-0 z-30 bg-black/50 duration-200 animate-in fade-in motion-reduce:animate-none md:hidden"
+              aria-hidden
+            />
+            <div
+              role="dialog"
+              aria-modal="true"
+              className="fixed inset-x-0 bottom-0 z-40 mx-auto flex max-h-[80dvh] w-full max-w-lg flex-col overflow-y-auto rounded-t-3xl border-t-2 border-border bg-background shadow-2xl duration-300 animate-in slide-in-from-bottom-8 motion-reduce:animate-none md:static md:z-auto md:max-h-none md:max-w-none md:overflow-visible md:rounded-none md:border-0 md:bg-transparent md:shadow-none md:animate-none"
+            >
+              {right}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

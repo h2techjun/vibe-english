@@ -73,13 +73,15 @@ export function DecksList() {
     <div className="flex flex-col gap-5">
       {/* 회화/단어 토글 (현재 코스에 단어 덱이 있을 때만 노출) */}
       {hasVocabDecks && (
-        <div className="flex gap-1 rounded-lg bg-muted p-1 text-sm">
+        <div role="tablist" className="flex gap-1 rounded-xl bg-muted p-1 text-sm">
           {(["conversation", "vocab"] as const).map((v) => (
             <button
               key={v}
+              role="tab"
+              aria-selected={view === v}
               onClick={() => setView(v)}
               className={cn(
-                "flex-1 rounded-md py-1.5 font-medium transition-colors",
+                "min-h-10 flex-1 rounded-lg font-bold transition-colors motion-reduce:transition-none",
                 view === v
                   ? "bg-background text-foreground shadow-sm"
                   : "text-muted-foreground hover:text-foreground",
@@ -95,7 +97,7 @@ export function DecksList() {
       {effectiveView === "vocab" && (
         <Button
           nativeButton={false}
-          className="gap-1.5"
+          className="btn-arcade min-h-12 gap-1.5 text-base font-black"
           render={<Link href="/study?vocab=1" prefetch={false} />}
         >
           <BookText className="h-4 w-4" />
@@ -121,9 +123,9 @@ export function DecksList() {
               const pct = s.total > 0 ? (s.learned / s.total) * 100 : 0;
 
               return (
-                <Card key={deck.id} className="border-border/60">
+                <Card key={deck.id} className="rounded-2xl border-border/60">
                   <CardContent className="flex items-center gap-4 p-4">
-                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-400">
+                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-primary/15 text-primary">
                       <Icon className="h-5 w-5" />
                     </span>
 
@@ -146,7 +148,7 @@ export function DecksList() {
                       </p>
                       <div className="mt-2 flex items-center gap-2">
                         <Progress value={pct} className="h-1.5" />
-                        <span className="shrink-0 text-[10px] tabular-nums text-muted-foreground">
+                        <span className="shrink-0 text-xs tabular-nums text-muted-foreground">
                           {t("progressLabel", {
                             learned: s.learned,
                             total: s.total,
@@ -156,8 +158,7 @@ export function DecksList() {
                     </div>
 
                     <Button
-                      size="sm"
-                      className="shrink-0"
+                      className="min-h-11 shrink-0 px-4 font-bold"
                       nativeButton={false}
                       render={
                         <Link href={`/study?deck=${deck.id}`} prefetch={false} />
