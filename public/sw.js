@@ -4,7 +4,7 @@
  *     (new Notification() 은 Android 에서 SW 의 showNotification 만 허용).
  * 역할: 같은 오리진·같은 scope 의 페이지/정적 자산 런타임 캐싱 + 알림 클릭 시 앱 포커스.
  * 외부 네트워크 호출 없음. 버전을 올리면 activate 에서 옛 캐시를 지운다. */
-const VERSION = "loopla-sw-v1";
+const VERSION = "loopla-sw-v2";
 const PAGE_CACHE = `${VERSION}-pages`;
 const ASSET_CACHE = `${VERSION}-assets`;
 
@@ -72,6 +72,27 @@ self.addEventListener("fetch", (event) => {
       ),
     );
   }
+});
+
+// Web Push(Workmate 크론, 매일 20:00 KST) → 앱이 닫혀 있어도 알림 표시
+self.addEventListener("push", (event) => {
+  let data = {};
+  try {
+    data = event.data ? event.data.json() : {};
+  } catch {
+    data = { body: event.data ? event.data.text() : "" };
+  }
+  const icon = self.registration.scope + "icons/icon-192.png";
+  event.waitUntil(
+    self.registration.showNotification(data.title || "Loopla", {
+      body: data.body || "",
+      icon,
+      badge: icon,
+      tag: data.tag || "loopla-review",
+      renotify: false,
+      data: { url: data.url || self.registration.scope },
+    }),
+  );
 });
 
 // 알림 클릭 → 이미 열린 앱 탭이 있으면 포커스, 없으면 scope 루트 열기

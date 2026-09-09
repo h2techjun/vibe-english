@@ -26,11 +26,20 @@ export function ReminderMount() {
       if (notificationPermission() !== "granted") return;
 
       const nowMs = Date.now();
+      // 배지는 알림 발송 여부와 무관하게 매 진입마다 갱신 (아래 due 계산 재사용)
       const today = dayKey(nowMs);
       if (s.lastNotifiedDay === today) return; // 오늘 이미 알림
 
       const due = await db.progress.where("due").belowOrEqual(nowMs).count();
-      if (cancelled || due <= 0) return;
+      if (cancelled) return;
+      // 설치형 PWA 아이콘 배지 — 복습 대기 수 (지원 브라우저만, 실패 무시)
+      try {
+        if (due > 0) await navigator.setAppBadge?.(due);
+        else await navigator.clearAppBadge?.();
+      } catch {
+        // 미지원
+      }
+      if (due <= 0) return;
 
       await showReviewNotification(t("notifTitle"), t("notifBody", { n: due }));
       await db.settings.update("main", { lastNotifiedDay: today });

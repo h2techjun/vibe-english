@@ -26,6 +26,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
+import { pushSupported, subscribePush, unsubscribePush } from "@/lib/push";
 import { Minus, Plus, Trash2 } from "lucide-react";
 
 const SPEEDS = [
@@ -158,7 +159,13 @@ export function SettingsView() {
           <NotificationToggle
             enabled={!!s.notificationsEnabled}
             onChange={(v) => update({ notificationsEnabled: v })}
-            deniedMsg={t("notifDenied")}
+            locale={locale}
+            messages={{
+              denied: t("notifDenied"),
+              pushOn: t("pushOn"),
+              pushUnsupported: t("pushUnsupported"),
+              pushFailed: t("pushFailed"),
+            }}
           />
         </Row>
       </Section>
@@ -173,24 +180,41 @@ export function SettingsView() {
   );
 }
 
+/**
+ * 알림 토글 — 켜면 ① 브라우저 권한 ② 로컬 리마인더(앱 열 때) ③ Web Push 구독(앱 닫혀도 매일 20:00 KST).
+ * 푸시는 SW·PushManager 가 있을 때만(iOS 는 홈 화면 추가 후). 실패해도 로컬 리마인더는 켜진다.
+ */
 function NotificationToggle({
   enabled,
   onChange,
-  deniedMsg,
+  locale,
+  messages,
 }: {
   enabled: boolean;
   onChange: (v: boolean) => void;
-  deniedMsg: string;
+  locale: string;
+  messages: { denied: string; pushOn: string; pushUnsupported: string; pushFailed: string };
 }) {
   async function handle(checked: boolean) {
     if (checked) {
       const granted = await requestNotificationPermission();
       if (!granted) {
-        if (notificationPermission() === "denied") toast.error(deniedMsg);
+        if (notificationPermission() === "denied") toast.error(messages.denied);
         return; // 권한 미허용 시 토글 유지 안 함
       }
+      onChange(true);
+      if (!pushSupported()) {
+        toast.message(messages.pushUnsupported);
+        return;
+      }
+      const outcome = await subscribePush(locale);
+      if (outcome === "subscribed") toast.success(messages.pushOn);
+      else if (outcome === "unsupported") toast.message(messages.pushUnsupported);
+      else toast.error(messages.pushFailed);
+      return;
     }
-    onChange(checked);
+    onChange(false);
+    void unsubscribePush();
   }
 
   return <Switch checked={enabled} onCheckedChange={handle} />;

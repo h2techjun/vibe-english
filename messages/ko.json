@@ -167,7 +167,7 @@
     "speedFast": "빠름",
     "notifications": "복습 알림",
     "notificationsLabel": "복습 알림 받기",
-    "notificationsDesc": "복습할 카드가 있을 때 알려드려요 (앱 사용·재방문 시 기준)",
+    "notificationsDesc": "앱을 닫아도 매일 저녁 8시에 복습 알림이 와요. 앱을 열 때도 복습할 카드가 있으면 알려드려요. iPhone 은 홈 화면에 추가한 뒤 켜 주세요.",
     "notifTitle": "복습 시간이에요! 📚",
     "notifBody": "복습할 카드 {n}장이 기다리고 있어요",
     "notifDenied": "브라우저에서 알림이 차단되어 있어요. 브라우저 설정에서 허용해주세요.",
@@ -181,7 +181,10 @@
     "saved": "저장했어요",
     "resetDone": "초기화했어요",
     "decrease": "줄이기",
-    "increase": "늘리기"
+    "increase": "늘리기",
+    "pushOn": "매일 저녁 8시 알림을 켰어요 🔔",
+    "pushUnsupported": "이 브라우저는 닫힌 상태 알림을 지원하지 않아요. 앱을 열 때만 알려드려요.",
+    "pushFailed": "알림 서버 등록에 실패했어요. 앱을 열 때만 알려드려요."
   },
   "study": {
     "rate": {

@@ -167,7 +167,7 @@
     "speedFast": "Fast",
     "notifications": "Review reminders",
     "notificationsLabel": "Get review reminders",
-    "notificationsDesc": "We'll let you know when cards are due (when you open or revisit the app)",
+    "notificationsDesc": "A review reminder every day at 8 PM (KST), even when the app is closed. You'll also be reminded when you open the app with cards due. On iPhone, add to Home Screen first.",
     "notifTitle": "Time to review! 📚",
     "notifBody": "{n} cards are waiting for review",
     "notifDenied": "Notifications are blocked. Please allow them in your browser settings.",
@@ -181,7 +181,10 @@
     "saved": "Saved",
     "resetDone": "Reset complete",
     "decrease": "Decrease",
-    "increase": "Increase"
+    "increase": "Increase",
+    "pushOn": "Daily 8 PM reminder is on 🔔",
+    "pushUnsupported": "This browser can't notify while closed. You'll only be reminded when you open the app.",
+    "pushFailed": "Couldn't register with the reminder server. You'll only be reminded when you open the app."
   },
   "study": {
     "rate": {

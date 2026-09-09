@@ -167,7 +167,7 @@
     "speedFast": "Nhanh",
     "notifications": "Nhắc ôn tập",
     "notificationsLabel": "Nhận nhắc ôn tập",
-    "notificationsDesc": "Chúng tôi sẽ báo khi có thẻ cần ôn (khi bạn mở hoặc quay lại ứng dụng)",
+    "notificationsDesc": "Nhắc ôn tập mỗi ngày lúc 8 giờ tối (giờ Hàn), kể cả khi đã đóng ứng dụng. Khi mở ứng dụng có thẻ đến hạn cũng sẽ được nhắc. Trên iPhone, hãy thêm vào Màn hình chính trước.",
     "notifTitle": "Đến giờ ôn tập rồi! 📚",
     "notifBody": "Có {n} thẻ đang chờ ôn tập",
     "notifDenied": "Thông báo đang bị chặn. Vui lòng cho phép trong cài đặt trình duyệt.",
@@ -181,7 +181,10 @@
     "saved": "Đã lưu",
     "resetDone": "Đặt lại xong",
     "decrease": "Giảm",
-    "increase": "Tăng"
+    "increase": "Tăng",
+    "pushOn": "Đã bật nhắc nhở 8 giờ tối hằng ngày 🔔",
+    "pushUnsupported": "Trình duyệt này không hỗ trợ thông báo khi đã đóng. Chỉ nhắc khi bạn mở ứng dụng.",
+    "pushFailed": "Không đăng ký được máy chủ nhắc nhở. Chỉ nhắc khi bạn mở ứng dụng."
   },
   "study": {
     "rate": {
