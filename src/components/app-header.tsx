@@ -4,6 +4,9 @@ import { useTranslations } from "next-intl";
 import { usePathname } from "@/i18n/navigation";
 import { LanguageToggle } from "@/components/language-toggle";
 import { BRAND } from "@/lib/brand";
+import { workmateUrl } from "@/lib/workmate";
+import { useLocale } from "next-intl";
+import { ExternalLink } from "lucide-react";
 
 const TITLE_KEYS: Record<string, string> = {
   "/home": "home",
@@ -19,6 +22,7 @@ export function isFocusRoute(pathname: string): boolean {
 
 export function AppHeader() {
   const t = useTranslations("nav");
+  const locale = useLocale();
   const pathname = usePathname();
   if (isFocusRoute(pathname)) return null;
 
@@ -42,7 +46,17 @@ export function AppHeader() {
             {t(TITLE_KEYS[matched])}
           </h1>
         )}
-        <LanguageToggle />
+        <div className="flex items-center gap-2">
+          {/* Workmate 허브로 — Loopla 는 정적 임베드라 Workmate 헤더가 없다 */}
+          <a
+            href={workmateUrl(locale, "learn")}
+            className="flex min-h-11 items-center gap-1 rounded-lg border border-border px-2.5 text-sm font-semibold text-muted-foreground transition-colors hover:border-primary hover:text-foreground motion-reduce:transition-none"
+          >
+            <ExternalLink className="h-4 w-4" aria-hidden />
+            {t("workmate")}
+          </a>
+          <LanguageToggle />
+        </div>
       </div>
     </header>
   );

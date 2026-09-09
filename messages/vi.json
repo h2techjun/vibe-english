@@ -12,7 +12,8 @@
     "settings": "Cài đặt",
     "signUp": "Đăng ký",
     "signOut": "Đăng xuất",
-    "label": "Menu chính"
+    "label": "Menu chính",
+    "workmate": "Workmate"
   },
   "landing": {
     "hero": {
@@ -95,7 +96,14 @@
     "greetingSub": "Ôn một vòng trước khi quên nhé?",
     "greetingDone": "Đạt mục tiêu hôm nay! Học tiếp hay nghỉ đều được.",
     "browseDecksSub": "Chào hỏi, du lịch, công việc… chọn theo tình huống",
-    "seeAll": "Xem tất cả"
+    "seeAll": "Xem tất cả",
+    "moreTools": "Công cụ học khác",
+    "typingTitle": "Luyện gõ tiếng Hàn",
+    "typingSub": "Xem jamo ghép lại khi bạn tăng tốc độ và độ chính xác",
+    "gamesTitle": "Trò chơi học tập",
+    "gamesSub": "K-Poker, thủ thành và nhiều trò miễn phí",
+    "workmateTitle": "Tất cả công cụ Workmate",
+    "workmateSub": "Máy tính, biểu mẫu, kiến thức Hàn Quốc và hơn nữa"
   },
   "common": {
     "loading": "Đang tải...",

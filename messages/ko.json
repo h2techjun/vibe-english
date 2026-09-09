@@ -12,7 +12,8 @@
     "settings": "설정",
     "signUp": "회원가입",
     "signOut": "로그아웃",
-    "label": "주 메뉴"
+    "label": "주 메뉴",
+    "workmate": "Workmate"
   },
   "landing": {
     "hero": {
@@ -95,7 +96,14 @@
     "greetingSub": "잊기 전에 오늘 한 바퀴 돌아볼까요?",
     "greetingDone": "오늘 목표 달성! 더 해도 좋고, 쉬어도 좋아요.",
     "browseDecksSub": "인사·여행·업무… 상황별로 골라 배워요",
-    "seeAll": "전체 보기"
+    "seeAll": "전체 보기",
+    "moreTools": "다른 학습 도구",
+    "typingTitle": "한글 타자 연습",
+    "typingSub": "자모 조립을 보며 속도·정확도 올리기",
+    "gamesTitle": "학습 게임",
+    "gamesSub": "K-Poker·디펜스 등 무료 게임",
+    "workmateTitle": "Workmate 전체 도구",
+    "workmateSub": "계산기·양식·상식 등 실무 도구 모음"
   },
   "common": {
     "loading": "불러오는 중...",

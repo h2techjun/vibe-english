@@ -12,7 +12,8 @@
     "settings": "Settings",
     "signUp": "Sign up",
     "signOut": "Sign out",
-    "label": "Main menu"
+    "label": "Main menu",
+    "workmate": "Workmate"
   },
   "landing": {
     "hero": {
@@ -95,7 +96,14 @@
     "greetingSub": "A quick round before you forget?",
     "greetingDone": "Goal reached! Keep going or take a break.",
     "browseDecksSub": "Greetings, travel, work… pick a situation",
-    "seeAll": "See all"
+    "seeAll": "See all",
+    "moreTools": "More learning tools",
+    "typingTitle": "Korean typing practice",
+    "typingSub": "Watch jamo assemble as you build speed and accuracy",
+    "gamesTitle": "Learning games",
+    "gamesSub": "K-Poker, tower defense and more — free",
+    "workmateTitle": "All Workmate tools",
+    "workmateSub": "Calculators, templates, Korea know-how and more"
   },
   "common": {
     "loading": "Loading...",

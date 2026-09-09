@@ -29,7 +29,8 @@ export function StudyTopbar({ value, right, streak }: Props) {
           href="/home"
           prefetch={false}
           aria-label={t("close")}
-          className="-ml-2 grid h-11 w-11 shrink-0 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+          title={t("close")}
+          className="grid h-11 w-11 shrink-0 place-items-center rounded-full border-2 border-border bg-card text-foreground transition-colors hover:border-primary hover:text-primary motion-reduce:transition-none"
         >
           <X className="h-5 w-5" aria-hidden />
         </Link>

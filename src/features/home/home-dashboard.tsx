@@ -10,6 +10,7 @@ import { getStudyStats } from "@/features/progress/stats";
 import { buildStudyQueue } from "@/features/srs/repository";
 import { CEFR_LABELS, isVocabDeck } from "@/types/card";
 import { LEVEL_TILE } from "@/features/onboarding/onboarding-config";
+import { workmateUrl } from "@/lib/workmate";
 import { Progress } from "@/components/ui/progress";
 import { GoalRing } from "./goal-ring";
 import { cn } from "@/lib/utils";
@@ -22,6 +23,10 @@ import {
   Repeat,
   ChevronRight,
   Sparkles,
+  Keyboard,
+  Gamepad2,
+  Wrench,
+  ExternalLink,
 } from "lucide-react";
 
 /** 시간대 인사 키 — 아침(5~11)·낮(11~18)·저녁(그 외) */
@@ -191,6 +196,37 @@ export function HomeDashboard() {
         />
       </div>
 
+      {/* 다른 학습 도구 — Workmate(타자연습·게임·전체). 정적 임베드라 여기가 유일한 출구 */}
+      <section className="flex flex-col gap-3">
+        <h3 className="flex items-center gap-1.5 text-sm font-bold text-muted-foreground">
+          <ExternalLink className="h-4 w-4" aria-hidden />
+          {t("moreTools")}
+        </h3>
+        <div className="flex flex-col gap-2">
+          <QuickLink
+            href={workmateUrl(locale, "typing")}
+            external
+            icon={<Keyboard className="h-5 w-5 text-emerald-400" aria-hidden />}
+            title={t("typingTitle")}
+            sub={t("typingSub")}
+          />
+          <QuickLink
+            href={workmateUrl(locale, "games")}
+            external
+            icon={<Gamepad2 className="h-5 w-5 text-rose-400" aria-hidden />}
+            title={t("gamesTitle")}
+            sub={t("gamesSub")}
+          />
+          <QuickLink
+            href={workmateUrl(locale, "hub")}
+            external
+            icon={<Wrench className="h-5 w-5 text-amber-400" aria-hidden />}
+            title={t("workmateTitle")}
+            sub={t("workmateSub")}
+          />
+        </div>
+      </section>
+
       {/* 레벨 진도 */}
       {stats.levels.length > 0 && (
         <section className="flex flex-col gap-3">
@@ -246,18 +282,19 @@ function QuickLink({
   icon,
   title,
   sub,
+  external,
 }: {
   href: string;
   icon: React.ReactNode;
   title: string;
   sub: string;
+  /** 앱 밖(Workmate) 링크 — next-intl Link 대신 일반 앵커 */
+  external?: boolean;
 }) {
-  return (
-    <Link
-      href={href}
-      prefetch={false}
-      className="flex min-h-14 items-center gap-3 rounded-2xl border border-border/60 bg-card px-4 py-3 transition-colors hover:border-primary/50 motion-reduce:transition-none"
-    >
+  const className =
+    "flex min-h-14 items-center gap-3 rounded-2xl border border-border/60 bg-card px-4 py-3 transition-colors hover:border-primary/50 motion-reduce:transition-none";
+  const body = (
+    <>
       <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-muted">
         {icon}
       </span>
@@ -265,7 +302,23 @@ function QuickLink({
         <span className="block font-bold leading-tight">{title}</span>
         <span className="block text-xs text-muted-foreground">{sub}</span>
       </span>
-      <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
+      {external ? (
+        <ExternalLink className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
+      ) : (
+        <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
+      )}
+    </>
+  );
+  if (external) {
+    return (
+      <a href={href} className={className}>
+        {body}
+      </a>
+    );
+  }
+  return (
+    <Link href={href} prefetch={false} className={className}>
+      {body}
     </Link>
   );
 }

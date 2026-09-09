@@ -12,7 +12,8 @@
     "settings": "设置",
     "signUp": "注册",
     "signOut": "退出登录",
-    "label": "主菜单"
+    "label": "主菜单",
+    "workmate": "Workmate"
   },
   "landing": {
     "hero": {
@@ -95,7 +96,14 @@
     "greetingSub": "趁还没忘，今天来一轮吧？",
     "greetingDone": "今日目标达成！继续也行，休息也行。",
     "browseDecksSub": "问候、旅行、工作…按场景挑选学习",
-    "seeAll": "查看全部"
+    "seeAll": "查看全部",
+    "moreTools": "更多学习工具",
+    "typingTitle": "韩文打字练习",
+    "typingSub": "边看字母组合边提升速度与准确率",
+    "gamesTitle": "学习游戏",
+    "gamesSub": "K-Poker、塔防等免费游戏",
+    "workmateTitle": "Workmate 全部工具",
+    "workmateSub": "计算器、模板、韩国常识等实用工具"
   },
   "common": {
     "loading": "加载中...",
