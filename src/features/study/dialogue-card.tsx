@@ -89,14 +89,11 @@ export function DialogueCard({ dialogue, isNew, busy, onGrade }: Props) {
       <CardMeta
         level={dialogue.level}
         isNew={isNew}
+        // 상황 라벨 — 학습 대상이 아니라 화면 메타이므로 모국어로 바로 보여준다
         right={
-        <span className="flex items-center gap-1 text-xs text-muted-foreground">
-          {learnText(dialogue.context, course)} ·
-          <RevealableMeaning
-            ko={meaningText(dialogue.context, course, src)}
-            className="text-xs"
-          />
-        </span>
+          <span className="truncate text-xs text-muted-foreground">
+            {meaningText(dialogue.context, course, src)}
+          </span>
         }
       />
 

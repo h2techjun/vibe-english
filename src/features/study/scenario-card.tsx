@@ -99,14 +99,11 @@ export function ScenarioCard({ scenario, isNew, busy, onGrade }: Props) {
       <CardMeta
         level={scenario.level}
         isNew={isNew}
+        // 상황 라벨 — 학습 대상이 아니라 화면 메타이므로 모국어로 바로 보여준다
         right={
-        <span className="flex items-center gap-1 text-xs text-muted-foreground">
-          {learnText(scenario.title, course)} ·
-          <RevealableMeaning
-            ko={meaningText(scenario.title, course, src)}
-            className="text-xs"
-          />
-        </span>
+          <span className="truncate text-xs text-muted-foreground">
+            {meaningText(scenario.title, course, src)}
+          </span>
         }
       />
 
