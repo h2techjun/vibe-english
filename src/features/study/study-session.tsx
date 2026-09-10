@@ -33,6 +33,7 @@ import { StudyTopbar } from "./ui/study-topbar";
 import { ModePicker, type StudyMode } from "./ui/mode-picker";
 import { ActionBar } from "./ui/action-bar";
 import { StudyDone, StudyEmpty } from "./study-done";
+import { reportDueNow } from "@/features/notifications/due-report";
 import { cn } from "@/lib/utils";
 
 type Status = "loading" | "studying" | "empty" | "done";
@@ -191,6 +192,8 @@ export function StudySession() {
     setStudied((s) => s + 1);
     if (next >= queue.length) {
       setStatus("done");
+      // 학습으로 due 가 뒤로 밀렸다 → 서버 푸시 예약을 최신 시각으로 갱신
+      void reportDueNow();
     } else {
       setRevealed(false);
       setIndex(next);

@@ -167,7 +167,7 @@
     "speedFast": "快",
     "notifications": "复习提醒",
     "notificationsLabel": "接收复习提醒",
-    "notificationsDesc": "即使关闭应用，每天晚上8点（韩国时间）也会收到复习提醒。打开应用时如有待复习卡片也会提醒。iPhone 请先添加到主屏幕。",
+    "notificationsDesc": "到复习时间就会提醒你，即使关闭应用也一样。晚上10点到早上8点不发送，会等到早上。iPhone 请先添加到主屏幕。",
     "notifTitle": "该复习啦！📚",
     "notifBody": "有 {n} 张卡片等待复习",
     "notifDenied": "浏览器已屏蔽通知。请在浏览器设置中允许。",
@@ -182,7 +182,7 @@
     "resetDone": "重置完成",
     "decrease": "减少",
     "increase": "增加",
-    "pushOn": "已开启每天晚上8点提醒 🔔",
+    "pushOn": "到复习时间会提醒你 🔔",
     "pushUnsupported": "此浏览器不支持关闭状态下的提醒，仅在打开应用时提醒。",
     "pushFailed": "提醒服务器注册失败，仅在打开应用时提醒。"
   },

@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { pushSupported, subscribePush, unsubscribePush } from "@/lib/push";
+import { computeDueReport } from "@/features/notifications/due-report";
 import { Minus, Plus, Trash2 } from "lucide-react";
 
 const SPEEDS = [
@@ -207,7 +208,7 @@ function NotificationToggle({
         toast.message(messages.pushUnsupported);
         return;
       }
-      const outcome = await subscribePush(locale);
+      const outcome = await subscribePush(locale, await computeDueReport());
       if (outcome === "subscribed") toast.success(messages.pushOn);
       else if (outcome === "unsupported") toast.message(messages.pushUnsupported);
       else toast.error(messages.pushFailed);

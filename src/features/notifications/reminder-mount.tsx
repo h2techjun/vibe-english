@@ -3,6 +3,8 @@
 import { useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { db } from "@/lib/db";
+import { reportDue } from "@/lib/push";
+import { computeDueReport } from "./due-report";
 import { notificationPermission, showReviewNotification } from "./reminder";
 
 /** epoch ms → 로컬 날짜 키 */
@@ -12,7 +14,10 @@ function dayKey(ms: number): string {
 }
 
 /**
- * 앱 진입 시 복습 대기 카드가 있으면 하루 1회 로컬 알림.
+ * 앱 진입 시 ① 앱 배지 갱신 ② 서버에 복습 상태 보고(푸시 예약) ③ 로컬 알림(하루 1회).
+ *
+ * 서버 푸시는 매시간 크론이 "보고된 다음 복습 시각"을 보고 보낸다 — 그래서 앱을 열 때마다
+ * 최신 시각을 보고해야 한다(학습을 하면 due 가 뒤로 밀리므로).
  * (app) 레이아웃의 시드 완료 후 마운트된다.
  */
 export function ReminderMount() {
@@ -21,27 +26,30 @@ export function ReminderMount() {
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      const s = await db.settings.get("main");
-      if (cancelled || !s?.notificationsEnabled) return;
-      if (notificationPermission() !== "granted") return;
-
       const nowMs = Date.now();
-      // 배지는 알림 발송 여부와 무관하게 매 진입마다 갱신 (아래 due 계산 재사용)
-      const today = dayKey(nowMs);
-      if (s.lastNotifiedDay === today) return; // 오늘 이미 알림
-
-      const due = await db.progress.where("due").belowOrEqual(nowMs).count();
+      const { dueCount, nextDueAt } = await computeDueReport(nowMs);
       if (cancelled) return;
-      // 설치형 PWA 아이콘 배지 — 복습 대기 수 (지원 브라우저만, 실패 무시)
+
+      // 설치형 PWA 아이콘 배지 — 알림 설정과 무관하게 갱신 (지원 브라우저만)
       try {
-        if (due > 0) await navigator.setAppBadge?.(due);
+        if (dueCount > 0) await navigator.setAppBadge?.(dueCount);
         else await navigator.clearAppBadge?.();
       } catch {
         // 미지원
       }
-      if (due <= 0) return;
 
-      await showReviewNotification(t("notifTitle"), t("notifBody", { n: due }));
+      const s = await db.settings.get("main");
+      if (cancelled || !s?.notificationsEnabled) return;
+
+      // 서버 푸시 예약 갱신 — 구독이 있을 때만 반영된다
+      void reportDue({ nextDueAt, dueCount });
+
+      if (notificationPermission() !== "granted") return;
+      if (dueCount <= 0) return;
+      const today = dayKey(nowMs);
+      if (s.lastNotifiedDay === today) return; // 오늘 이미 로컬 알림
+
+      await showReviewNotification(t("notifTitle"), t("notifBody", { n: dueCount }));
       await db.settings.update("main", { lastNotifiedDay: today });
     })();
     return () => {
